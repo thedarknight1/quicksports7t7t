@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>308180429807-4j54q93ranaqvr5n8mai5mq2229sdfjb.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.308180429807-4j54q93ranaqvr5n8mai5mq2229sdfjb</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAGk8Fbi0rIS8maUISU8sWikpT165FsKN4</string>
+	<key>GCM_SENDER_ID</key>
+	<string>308180429807</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.flutterflow.courts</string>
+	<key>PROJECT_ID</key>
+	<string>quicksports-d8457</string>
+	<key>STORAGE_BUCKET</key>
+	<string>quicksports-d8457.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:308180429807:ios:e79021c2dca4cf0148e41a</string>
+</dict>
+</plist>
