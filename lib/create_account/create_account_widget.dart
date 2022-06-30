@@ -62,11 +62,14 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Image.asset(
-                      'assets/images/QuickSports__10_-removebg-preview_(1).png',
-                      width: 200,
-                      height: 200,
-                      fit: BoxFit.fill,
+                    Align(
+                      alignment: AlignmentDirectional(-0.05, 0),
+                      child: Image.asset(
+                        'assets/images/QuickSports__10_-removebg-preview_(1).png',
+                        width: 100,
+                        height: 100,
+                        fit: BoxFit.fill,
+                      ),
                     ),
                   ],
                 ),
@@ -83,7 +86,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                     padding: EdgeInsetsDirectional.fromSTEB(0, 3, 0, 0),
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Padding(
                           padding:
@@ -350,32 +353,6 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                             ),
                           ),
                         ),
-                        FFButtonWidget(
-                          onPressed: () {
-                            print('Button pressed ...');
-                          },
-                          text: 'Sign in with Apple',
-                          icon: FaIcon(
-                            FontAwesomeIcons.apple,
-                            size: 20,
-                          ),
-                          options: FFButtonOptions(
-                            width: 230,
-                            height: 44,
-                            color: Colors.white,
-                            textStyle: GoogleFonts.getFont(
-                              'Roboto',
-                              color: Colors.black,
-                              fontSize: 17,
-                            ),
-                            elevation: 4,
-                            borderSide: BorderSide(
-                              color: Colors.transparent,
-                              width: 0,
-                            ),
-                            borderRadius: 12,
-                          ),
-                        ),
                         Align(
                           alignment: AlignmentDirectional(0, 0),
                           child: Container(
@@ -442,6 +419,32 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                                 ),
                               ],
                             ),
+                          ),
+                        ),
+                        FFButtonWidget(
+                          onPressed: () {
+                            print('Button pressed ...');
+                          },
+                          text: 'Sign in with Apple',
+                          icon: FaIcon(
+                            FontAwesomeIcons.apple,
+                            size: 20,
+                          ),
+                          options: FFButtonOptions(
+                            width: 230,
+                            height: 44,
+                            color: Colors.white,
+                            textStyle: GoogleFonts.getFont(
+                              'Roboto',
+                              color: Colors.black,
+                              fontSize: 17,
+                            ),
+                            elevation: 4,
+                            borderSide: BorderSide(
+                              color: Colors.transparent,
+                              width: 0,
+                            ),
+                            borderRadius: 12,
                           ),
                         ),
                       ],

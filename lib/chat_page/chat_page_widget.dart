@@ -146,7 +146,7 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
                     borderRadius: BorderRadius.circular(15),
                   ),
                   otherUsersBoxDecoration: BoxDecoration(
-                    color: Color(0xFFFF5757),
+                    color: Color(0xFF4B39EF),
                     border: Border.all(
                       color: Colors.transparent,
                     ),

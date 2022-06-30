@@ -64,9 +64,9 @@ class _LoginWidgetState extends State<LoginWidget> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Image.asset(
-                      'assets/images/QuickSports_(4).png',
-                      width: 210,
-                      height: 50,
+                      'assets/images/QuickSports__10_-removebg-preview_(1).png',
+                      width: 100,
+                      height: 100,
                       fit: BoxFit.fitHeight,
                     ),
                   ],
@@ -94,7 +94,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                             children: [
                               Expanded(
                                 child: AutoSizeText(
-                                  'Welcome Back',
+                                  'Welcome',
                                   style: FlutterFlowTheme.of(context).title1,
                                 ),
                               ),
@@ -350,32 +350,45 @@ class _LoginWidgetState extends State<LoginWidget> {
                             ],
                           ),
                         ),
-                        FFButtonWidget(
-                          onPressed: () {
-                            print('Button pressed ...');
-                          },
-                          text: 'Sign in with Apple',
-                          icon: FaIcon(
-                            FontAwesomeIcons.apple,
-                            size: 20,
-                          ),
-                          options: FFButtonOptions(
-                            width: 230,
-                            height: 44,
-                            color: Colors.white,
-                            textStyle: GoogleFonts.getFont(
-                              'Roboto',
-                              color: Colors.black,
-                              fontSize: 17,
-                            ),
-                            elevation: 4,
-                            borderSide: BorderSide(
-                              color: Colors.transparent,
-                              width: 0,
-                            ),
-                            borderRadius: 12,
-                          ),
-                        ),
+                        isAndroid
+                            ? Container()
+                            : FFButtonWidget(
+                                onPressed: () async {
+                                  final user = await signInWithApple(context);
+                                  if (user == null) {
+                                    return;
+                                  }
+                                  await Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => NavBarPage(
+                                          initialPage: 'nearbyCourts'),
+                                    ),
+                                    (r) => false,
+                                  );
+                                },
+                                text: 'Sign in with Apple',
+                                icon: FaIcon(
+                                  FontAwesomeIcons.apple,
+                                  size: 20,
+                                ),
+                                options: FFButtonOptions(
+                                  width: 230,
+                                  height: 44,
+                                  color: Colors.white,
+                                  textStyle: GoogleFonts.getFont(
+                                    'Roboto',
+                                    color: Colors.black,
+                                    fontSize: 17,
+                                  ),
+                                  elevation: 4,
+                                  borderSide: BorderSide(
+                                    color: Colors.transparent,
+                                    width: 0,
+                                  ),
+                                  borderRadius: 12,
+                                ),
+                              ),
                         Align(
                           alignment: AlignmentDirectional(0, 0),
                           child: Container(
@@ -386,8 +399,20 @@ class _LoginWidgetState extends State<LoginWidget> {
                                 Align(
                                   alignment: AlignmentDirectional(0, 0),
                                   child: FFButtonWidget(
-                                    onPressed: () {
-                                      print('Button pressed ...');
+                                    onPressed: () async {
+                                      final user =
+                                          await signInWithGoogle(context);
+                                      if (user == null) {
+                                        return;
+                                      }
+                                      await Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => NavBarPage(
+                                              initialPage: 'nearbyCourts'),
+                                        ),
+                                        (r) => false,
+                                      );
                                     },
                                     text: 'Sign in with Google',
                                     icon: Icon(

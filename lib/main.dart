@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'auth/firebase_user_provider.dart';
 import 'auth/auth_util.dart';
-
+import 'backend/push_notifications/push_notifications_util.dart';
 import 'flutter_flow/flutter_flow_theme.dart';
 import 'flutter_flow/flutter_flow_util.dart';
 import 'flutter_flow/internationalization.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'index.dart';
 
@@ -37,6 +38,7 @@ class _MyAppState extends State<MyApp> {
   bool displaySplashImage = true;
 
   final authUserSub = authenticatedUserStream.listen((_) {});
+  final fcmTokenSub = fcmTokenUserStream.listen((_) {});
 
   @override
   void initState() {
@@ -52,7 +54,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void dispose() {
     authUserSub.cancel();
-
+    fcmTokenSub.cancel();
     super.dispose();
   }
 
@@ -72,22 +74,23 @@ class _MyAppState extends State<MyApp> {
         GlobalCupertinoLocalizations.delegate,
       ],
       locale: _locale,
-      supportedLocales: const [Locale('en', '')],
+      supportedLocales: const [
+        Locale('en', ''),
+      ],
       theme: ThemeData(brightness: Brightness.light),
       themeMode: _themeMode,
       home: initialUser == null || displaySplashImage
-          ? Center(
-              child: SizedBox(
-                width: 50,
-                height: 50,
-                child: SpinKitFadingCircle(
-                  color: FlutterFlowTheme.of(context).primaryColor,
-                  size: 50,
+          ? Container(
+              color: Color(0xFFE23A3A),
+              child: Builder(
+                builder: (context) => Image.asset(
+                  'assets/images/QuickSports__10_-removebg-preview_(1).png',
+                  fit: BoxFit.contain,
                 ),
               ),
             )
           : currentUser.loggedIn
-              ? NavBarPage()
+              ? PushNotificationsHandler(child: NavBarPage())
               : LoginWidget(),
     );
   }
@@ -116,9 +119,10 @@ class _NavBarPageState extends State<NavBarPage> {
   Widget build(BuildContext context) {
     final tabs = {
       'findCourt': FindCourtWidget(),
-      'profilePage': ProfilePageWidget(),
       'nearbyCourts': NearbyCourtsWidget(),
+      'people': PeopleWidget(),
       'AllChats': AllChatsWidget(),
+      'profilePage': ProfilePageWidget(),
     };
     final currentIndex = tabs.keys.toList().indexOf(_currentPage);
     return Scaffold(
@@ -143,18 +147,6 @@ class _NavBarPageState extends State<NavBarPage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.person_outlined,
-              size: 24,
-            ),
-            activeIcon: Icon(
-              Icons.person,
-              size: 24,
-            ),
-            label: 'Home',
-            tooltip: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
               Icons.sports_basketball_outlined,
               size: 24,
             ),
@@ -166,8 +158,16 @@ class _NavBarPageState extends State<NavBarPage> {
             tooltip: '',
           ),
           BottomNavigationBarItem(
+            icon: FaIcon(
+              FontAwesomeIcons.userFriends,
+              size: 14,
+            ),
+            label: 'Home',
+            tooltip: '',
+          ),
+          BottomNavigationBarItem(
             icon: Icon(
-              Icons.chat_bubble_outline,
+              Icons.add_comment,
               size: 24,
             ),
             activeIcon: Icon(
@@ -175,6 +175,18 @@ class _NavBarPageState extends State<NavBarPage> {
               size: 24,
             ),
             label: '',
+            tooltip: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.person_outlined,
+              size: 24,
+            ),
+            activeIcon: Icon(
+              Icons.person,
+              size: 24,
+            ),
+            label: 'Home',
             tooltip: '',
           )
         ],

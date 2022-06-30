@@ -16,5 +16,4 @@ export 'rate_court_page/rate_court_page_widget.dart' show RateCourtPageWidget;
 export 'nearby_courts/nearby_courts_widget.dart' show NearbyCourtsWidget;
 export 'chat_page/chat_page_widget.dart' show ChatPageWidget;
 export 'all_chats/all_chats_widget.dart' show AllChatsWidget;
-export 'searchfriends/searchfriends_widget.dart' show SearchfriendsWidget;
-export 'createchat/createchat_widget.dart' show CreatechatWidget;
+export 'people/people_widget.dart' show PeopleWidget;

@@ -162,7 +162,7 @@ class _NearbyCourtsWidgetState extends State<NearbyCourtsWidget> {
                 child: Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(0, 12, 0, 8),
                   child: Text(
-                    'Nearby Courts',
+                    'Nearby Sports',
                     style: FlutterFlowTheme.of(context).title2,
                   ),
                 ),

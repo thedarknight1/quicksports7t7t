@@ -56,6 +56,37 @@ abstract class ChatsRecord implements Built<ChatsRecord, ChatsRecordBuilder> {
       .get()
       .then((s) => serializers.deserializeWith(serializer, serializedData(s)));
 
+  static ChatsRecord fromAlgolia(AlgoliaObjectSnapshot snapshot) => ChatsRecord(
+        (c) => c
+          ..users = safeGet(
+              () => ListBuilder(snapshot.data['users'].map((s) => toRef(s))))
+          ..userA = safeGet(() => toRef(snapshot.data['user_a']))
+          ..userB = safeGet(() => toRef(snapshot.data['user_b']))
+          ..lastMessage = snapshot.data['last_message']
+          ..lastMessageTime = safeGet(() => DateTime.fromMillisecondsSinceEpoch(
+              snapshot.data['last_message_time']))
+          ..lastMessageSentBy =
+              safeGet(() => toRef(snapshot.data['last_message_sent_by']))
+          ..lastMessageSeenBy = safeGet(() => ListBuilder(
+              snapshot.data['last_message_seen_by'].map((s) => toRef(s))))
+          ..reference = ChatsRecord.collection.doc(snapshot.objectID),
+      );
+
+  static Future<List<ChatsRecord>> search(
+          {String term,
+          FutureOr<LatLng> location,
+          int maxResults,
+          double searchRadiusMeters}) =>
+      FFAlgoliaManager.instance
+          .algoliaQuery(
+            index: 'chats',
+            term: term,
+            maxResults: maxResults,
+            location: location,
+            searchRadiusMeters: searchRadiusMeters,
+          )
+          .then((r) => r.map(fromAlgolia).toList());
+
   ChatsRecord._();
   factory ChatsRecord([void Function(ChatsRecordBuilder) updates]) =
       _$ChatsRecord;

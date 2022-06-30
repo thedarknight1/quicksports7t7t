@@ -45,6 +45,33 @@ abstract class ChatMessagesRecord
       ref.get().then(
           (s) => serializers.deserializeWith(serializer, serializedData(s)));
 
+  static ChatMessagesRecord fromAlgolia(AlgoliaObjectSnapshot snapshot) =>
+      ChatMessagesRecord(
+        (c) => c
+          ..user = safeGet(() => toRef(snapshot.data['user']))
+          ..chat = safeGet(() => toRef(snapshot.data['chat']))
+          ..text = snapshot.data['text']
+          ..image = snapshot.data['image']
+          ..timestamp = safeGet(() =>
+              DateTime.fromMillisecondsSinceEpoch(snapshot.data['timestamp']))
+          ..reference = ChatMessagesRecord.collection.doc(snapshot.objectID),
+      );
+
+  static Future<List<ChatMessagesRecord>> search(
+          {String term,
+          FutureOr<LatLng> location,
+          int maxResults,
+          double searchRadiusMeters}) =>
+      FFAlgoliaManager.instance
+          .algoliaQuery(
+            index: 'chat_messages',
+            term: term,
+            maxResults: maxResults,
+            location: location,
+            searchRadiusMeters: searchRadiusMeters,
+          )
+          .then((r) => r.map(fromAlgolia).toList());
+
   ChatMessagesRecord._();
   factory ChatMessagesRecord(
           [void Function(ChatMessagesRecordBuilder) updates]) =

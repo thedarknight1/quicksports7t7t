@@ -99,16 +99,6 @@ class _FindCourtWidgetState extends State<FindCourtWidget> {
             ),
           ),
           Align(
-            alignment: AlignmentDirectional(-0.28, -0.95),
-            child: Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 12, 0, 8),
-              child: Text(
-                'Find a Court',
-                style: FlutterFlowTheme.of(context).title2,
-              ),
-            ),
-          ),
-          Align(
             alignment: AlignmentDirectional(0, 0),
             child: FlutterFlowGoogleMap(
               controller: googleMapsController,
@@ -148,6 +138,16 @@ class _FindCourtWidgetState extends State<FindCourtWidget> {
               showMapToolbar: true,
               showTraffic: false,
               centerMapOnMarkerTap: true,
+            ),
+          ),
+          Align(
+            alignment: AlignmentDirectional(-0.28, -0.95),
+            child: Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(0, 12, 0, 8),
+              child: Text(
+                'Find a Court',
+                style: FlutterFlowTheme.of(context).title2,
+              ),
             ),
           ),
           Align(
@@ -196,7 +196,7 @@ class _FindCourtWidgetState extends State<FindCourtWidget> {
                       },
                       obscureText: false,
                       decoration: InputDecoration(
-                        hintText: 'Search for courts...',
+                        hintText: 'Search for sports locations...',
                         enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(
                             color: Color(0x00000000),
