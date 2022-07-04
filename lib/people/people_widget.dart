@@ -1,4 +1,3 @@
-import '../auth/auth_util.dart';
 import '../backend/backend.dart';
 import '../chat_page/chat_page_widget.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
@@ -7,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class PeopleWidget extends StatefulWidget {
   const PeopleWidget({Key key}) : super(key: key);
@@ -16,40 +16,107 @@ class PeopleWidget extends StatefulWidget {
 }
 
 class _PeopleWidgetState extends State<PeopleWidget> {
+  PagingController<DocumentSnapshot, UsersRecord> _pagingController;
+  Query _pagingQuery;
+  List<StreamSubscription> _streamSubscriptions = [];
+
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  void dispose() {
+    _streamSubscriptions.forEach((s) => s?.cancel());
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      appBar: AppBar(
-        backgroundColor: FlutterFlowTheme.of(context).primaryColor,
-        automaticallyImplyLeading: false,
-        title: Text(
-          'Users',
-          style: FlutterFlowTheme.of(context).title2.override(
-                fontFamily: 'Overpass',
-                color: Colors.white,
-                fontSize: 22,
-              ),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(50),
+        child: AppBar(
+          backgroundColor: FlutterFlowTheme.of(context).primaryColor,
+          automaticallyImplyLeading: false,
+          flexibleSpace: Align(
+            alignment: AlignmentDirectional(-0.8, 0.15),
+            child: Text(
+              'Users',
+              style: FlutterFlowTheme.of(context).title2.override(
+                    fontFamily: 'Overpass',
+                    color: Colors.white,
+                    fontSize: 28,
+                  ),
+            ),
+          ),
+          actions: [],
+          elevation: 2,
         ),
-        actions: [],
-        centerTitle: false,
-        elevation: 2,
       ),
       backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
       body: SafeArea(
         child: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              StreamBuilder<List<UsersRecord>>(
-                stream: queryUsersRecord(),
-                builder: (context, snapshot) {
-                  // Customize what your widget looks like when it's loading.
-                  if (!snapshot.hasData) {
-                    return Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                PagedListView<DocumentSnapshot<Object>, UsersRecord>(
+                  pagingController: () {
+                    final Query<Object> Function(Query<Object>) queryBuilder =
+                        (usersRecord) => usersRecord;
+                    if (_pagingController != null) {
+                      final query = queryBuilder(UsersRecord.collection);
+                      if (query != _pagingQuery) {
+                        // The query has changed
+                        _pagingQuery = query;
+                        _streamSubscriptions.forEach((s) => s?.cancel());
+                        _streamSubscriptions.clear();
+                        _pagingController.refresh();
+                      }
+                      return _pagingController;
+                    }
+
+                    _pagingController = PagingController(firstPageKey: null);
+                    _pagingQuery = queryBuilder(UsersRecord.collection);
+                    _pagingController.addPageRequestListener((nextPageMarker) {
+                      queryUsersRecordPage(
+                        queryBuilder: (usersRecord) => usersRecord,
+                        nextPageMarker: nextPageMarker,
+                        pageSize: 25,
+                        isStream: true,
+                      ).then((page) {
+                        _pagingController.appendPage(
+                          page.data,
+                          page.nextPageMarker,
+                        );
+                        final streamSubscription =
+                            page.dataStream?.listen((data) {
+                          final itemIndexes = _pagingController.itemList
+                              .asMap()
+                              .map((k, v) => MapEntry(v.reference.id, k));
+                          data.forEach((item) {
+                            final index = itemIndexes[item.reference.id];
+                            final items = _pagingController.itemList;
+                            if (index != null) {
+                              items.replaceRange(index, index + 1, [item]);
+                              _pagingController.itemList = {
+                                for (var item in items) item.reference: item
+                              }.values.toList();
+                            }
+                          });
+                          setState(() {});
+                        });
+                        _streamSubscriptions.add(streamSubscription);
+                      });
+                    });
+                    return _pagingController;
+                  }(),
+                  padding: EdgeInsets.zero,
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  builderDelegate: PagedChildBuilderDelegate<UsersRecord>(
+                    // Customize what your widget looks like when it's loading the first page.
+                    firstPageProgressIndicatorBuilder: (_) => Center(
                       child: SizedBox(
                         width: 50,
                         height: 50,
@@ -58,35 +125,44 @@ class _PeopleWidgetState extends State<PeopleWidget> {
                           size: 50,
                         ),
                       ),
-                    );
-                  }
-                  List<UsersRecord> listViewUsersRecordList = snapshot.data
-                      .where((u) => u.uid != currentUserUid)
-                      .toList();
-                  return ListView.builder(
-                    padding: EdgeInsets.zero,
-                    shrinkWrap: true,
-                    scrollDirection: Axis.vertical,
-                    itemCount: listViewUsersRecordList.length,
-                    itemBuilder: (context, listViewIndex) {
+                    ),
+
+                    itemBuilder: (context, _, listViewIndex) {
                       final listViewUsersRecord =
-                          listViewUsersRecordList[listViewIndex];
+                          _pagingController.itemList[listViewIndex];
                       return Card(
                         clipBehavior: Clip.antiAliasWithSaveLayer,
                         color: Color(0xFFF5F5F5),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Image.network(
-                              listViewUsersRecord.photoUrl,
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.cover,
+                            Container(
+                              width: 80,
+                              height: 80,
+                              clipBehavior: Clip.antiAlias,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                              ),
+                              child: Image.network(
+                                valueOrDefault<String>(
+                                  listViewUsersRecord.photoUrl,
+                                  'https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg',
+                                ),
+                                fit: BoxFit.contain,
+                              ),
                             ),
                             Text(
-                              listViewUsersRecord.displayName,
-                              style: FlutterFlowTheme.of(context).bodyText1,
+                              valueOrDefault<String>(
+                                listViewUsersRecord.displayName,
+                                'anonymous',
+                              ),
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyText1
+                                  .override(
+                                    fontFamily: 'Overpass',
+                                    fontSize: 18,
+                                  ),
                             ),
                             InkWell(
                               onTap: () async {
@@ -100,7 +176,7 @@ class _PeopleWidgetState extends State<PeopleWidget> {
                                 );
                               },
                               child: Icon(
-                                Icons.chat_bubble,
+                                Icons.chat,
                                 color: Colors.black,
                                 size: 24,
                               ),
@@ -109,10 +185,10 @@ class _PeopleWidgetState extends State<PeopleWidget> {
                         ),
                       );
                     },
-                  );
-                },
-              ),
-            ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

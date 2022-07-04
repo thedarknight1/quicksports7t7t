@@ -499,48 +499,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 12),
-                          child: FFButtonWidget(
-                            onPressed: () async {
-                              final user = await signInAnonymously(context);
-                              if (user == null) {
-                                return;
-                              }
-                              await Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      NavBarPage(initialPage: 'nearbyCourts'),
-                                ),
-                                (r) => false,
-                              );
-                            },
-                            text: 'Continue as Guest',
-                            icon: Icon(
-                              Icons.person_outline,
-                              size: 15,
-                            ),
-                            options: FFButtonOptions(
-                              width: 220,
-                              height: 40,
-                              color: FlutterFlowTheme.of(context).white,
-                              textStyle: FlutterFlowTheme.of(context)
-                                  .subtitle2
-                                  .override(
-                                    fontFamily: 'Overpass',
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryColor,
-                                  ),
-                              elevation: 0,
-                              borderSide: BorderSide(
-                                color: Colors.transparent,
-                                width: 1,
-                              ),
-                              borderRadius: 12,
-                            ),
-                          ),
-                        ),
                       ],
                     ),
                   ),

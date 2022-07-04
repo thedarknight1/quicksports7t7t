@@ -88,7 +88,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                   child: Image.network(
                                     valueOrDefault<String>(
                                       profilePageUsersRecord.photoUrl,
-                                      'https://images.unsplash.com/photo-1596831440741-238efd4619cc?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTQ1fHxiYXNrZXRiYWxsJTIwcGxheWVyfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+                                      'https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg',
                                     ),
                                     fit: BoxFit.fitHeight,
                                   ),
