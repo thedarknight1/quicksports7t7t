@@ -23,10 +23,10 @@ class NearbyCourtsWidget extends StatefulWidget {
 }
 
 class _NearbyCourtsWidgetState extends State<NearbyCourtsWidget> {
+  LatLng currentUserLocationValue;
+  final scaffoldKey = GlobalKey<ScaffoldState>();
   LatLng googleMapsCenter;
   final googleMapsController = Completer<GoogleMapController>();
-  final scaffoldKey = GlobalKey<ScaffoldState>();
-  LatLng currentUserLocationValue;
 
   @override
   void initState() {
@@ -108,7 +108,7 @@ class _NearbyCourtsWidgetState extends State<NearbyCourtsWidget> {
                 onCameraIdle: (latLng) => googleMapsCenter = latLng,
                 initialLocation: googleMapsCenter ??=
                     functions.getInitialMapLocation(currentUserLocationValue),
-                markers: (nearbyCourtsCourtsRecordList ?? [])
+                markers: nearbyCourtsCourtsRecordList
                     .map(
                       (nearbyCourtsCourtsRecord) => FlutterFlowMarker(
                         nearbyCourtsCourtsRecord.reference.path,

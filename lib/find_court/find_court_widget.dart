@@ -17,13 +17,13 @@ class FindCourtWidget extends StatefulWidget {
 }
 
 class _FindCourtWidgetState extends State<FindCourtWidget> {
+  LatLng currentUserLocationValue;
+  final scaffoldKey = GlobalKey<ScaffoldState>();
   LatLng googleMapsCenter;
   final googleMapsController = Completer<GoogleMapController>();
   List<CourtsRecord> algoliaSearchResults1 = [];
   TextEditingController courtSearchFieldController;
   List<CourtsRecord> algoliaSearchResults2 = [];
-  final scaffoldKey = GlobalKey<ScaffoldState>();
-  LatLng currentUserLocationValue;
 
   @override
   void initState() {
@@ -105,7 +105,7 @@ class _FindCourtWidgetState extends State<FindCourtWidget> {
               onCameraIdle: (latLng) =>
                   setState(() => googleMapsCenter = latLng),
               initialLocation: googleMapsCenter ??= currentUserLocationValue,
-              markers: (algoliaSearchResults1 ?? [])
+              markers: algoliaSearchResults1
                   .map(
                     (algoliaSearchResults1Item) => FlutterFlowMarker(
                       algoliaSearchResults1Item.reference.path,

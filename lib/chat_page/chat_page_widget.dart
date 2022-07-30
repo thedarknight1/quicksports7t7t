@@ -74,7 +74,7 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
         ),
         title: Stack(
           children: [
-            if (!(isGroupChat()) ?? true)
+            if (!isGroupChat())
               Text(
                 widget.chatUser.displayName,
                 style: FlutterFlowTheme.of(context).bodyText1.override(
@@ -84,7 +84,7 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
                       fontWeight: FontWeight.bold,
                     ),
               ),
-            if (isGroupChat() ?? true)
+            if (isGroupChat())
               Text(
                 'Group Chat',
                 style: FlutterFlowTheme.of(context).bodyText1.override(
@@ -98,7 +98,7 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
         ),
         actions: [
           Visibility(
-            visible: isGroupChat() ?? true,
+            visible: isGroupChat(),
             child: Padding(
               padding: EdgeInsetsDirectional.fromSTEB(0, 0, 20, 0),
               child: InkWell(

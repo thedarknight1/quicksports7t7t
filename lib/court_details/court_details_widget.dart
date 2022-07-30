@@ -197,8 +197,7 @@ class _CourtDetailsWidgetState extends State<CourtDetailsWidget> {
                           child: Builder(
                             builder: (context) {
                               final comments =
-                                  courtDetailsCommentsRecordList?.toList() ??
-                                      [];
+                                  courtDetailsCommentsRecordList.toList();
                               if (comments.isEmpty) {
                                 return Image.asset(
                                   'assets/images/emptyReviews@3x.png',
@@ -521,7 +520,7 @@ class _CourtDetailsWidgetState extends State<CourtDetailsWidget> {
                               color: Colors.transparent,
                               width: 1,
                             ),
-                            borderRadius: 12,
+                            borderRadius: BorderRadius.circular(12),
                           ),
                         ),
                         FFButtonWidget(
@@ -548,7 +547,7 @@ class _CourtDetailsWidgetState extends State<CourtDetailsWidget> {
                               color: Colors.transparent,
                               width: 1,
                             ),
-                            borderRadius: 12,
+                            borderRadius: BorderRadius.circular(12),
                           ),
                         ),
                       ],
