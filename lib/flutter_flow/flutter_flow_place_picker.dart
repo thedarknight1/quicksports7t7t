@@ -11,32 +11,32 @@ import 'place.dart';
 
 class FlutterFlowPlacePicker extends StatefulWidget {
   const FlutterFlowPlacePicker({
-    Key key,
-    @required this.iOSGoogleMapsApiKey,
-    @required this.androidGoogleMapsApiKey,
-    @required this.webGoogleMapsApiKey,
-    @required this.defaultText,
-    @required this.icon,
-    @required this.buttonOptions,
-    @required this.onSelect,
+    Key? key,
+    required this.iOSGoogleMapsApiKey,
+    required this.androidGoogleMapsApiKey,
+    required this.webGoogleMapsApiKey,
+    required this.defaultText,
+    this.icon,
+    required this.buttonOptions,
+    required this.onSelect,
     this.proxyBaseUrl,
   }) : super(key: key);
 
   final String iOSGoogleMapsApiKey;
   final String androidGoogleMapsApiKey;
   final String webGoogleMapsApiKey;
-  final String defaultText;
-  final Widget icon;
+  final String? defaultText;
+  final Widget? icon;
   final FFButtonOptions buttonOptions;
   final Function(FFPlace place) onSelect;
-  final String proxyBaseUrl;
+  final String? proxyBaseUrl;
 
   @override
   _FFPlacePickerState createState() => _FFPlacePickerState();
 }
 
 class _FFPlacePickerState extends State<FlutterFlowPlacePicker> {
-  String _selectedPlace;
+  String? _selectedPlace;
 
   String get googleMapsApiKey {
     if (kIsWeb) {
@@ -78,7 +78,7 @@ class _FFPlacePickerState extends State<FlutterFlowPlacePicker> {
         options: widget.buttonOptions,
       );
 
-  Future displayPrediction(Prediction p) async {
+  Future displayPrediction(Prediction? p) async {
     if (p == null) {
       return;
     }

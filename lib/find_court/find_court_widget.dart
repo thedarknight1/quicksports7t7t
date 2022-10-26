@@ -1,6 +1,5 @@
-import '../add_court/add_court_widget.dart';
+import '../auth/auth_util.dart';
 import '../backend/backend.dart';
-import '../court_details/court_details_widget.dart';
 import '../flutter_flow/flutter_flow_google_map.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
@@ -10,27 +9,29 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class FindCourtWidget extends StatefulWidget {
-  const FindCourtWidget({Key key}) : super(key: key);
+  const FindCourtWidget({
+    Key? key,
+    this.searchTerm,
+  }) : super(key: key);
+
+  final String? searchTerm;
 
   @override
   _FindCourtWidgetState createState() => _FindCourtWidgetState();
 }
 
 class _FindCourtWidgetState extends State<FindCourtWidget> {
-  LatLng currentUserLocationValue;
+  LatLng? currentUserLocationValue;
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  LatLng googleMapsCenter;
+  LatLng? googleMapsCenter;
   final googleMapsController = Completer<GoogleMapController>();
-  List<CourtsRecord> algoliaSearchResults1 = [];
-  TextEditingController courtSearchFieldController;
-  List<CourtsRecord> algoliaSearchResults2 = [];
 
   @override
   void initState() {
     super.initState();
-    courtSearchFieldController = TextEditingController();
     getCurrentUserLocation(defaultLocation: LatLng(0.0, 0.0), cached: true)
         .then((loc) => setState(() => currentUserLocationValue = loc));
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -40,219 +41,201 @@ class _FindCourtWidgetState extends State<FindCourtWidget> {
         child: SizedBox(
           width: 50,
           height: 50,
-          child: SpinKitFadingCircle(
-            color: FlutterFlowTheme.of(context).primaryColor,
+          child: SpinKitRotatingCircle(
+            color: Color(0xFFF25454),
             size: 50,
           ),
         ),
       );
     }
-    return Scaffold(
-      key: scaffoldKey,
-      resizeToAvoidBottomInset: false,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          print('FloatingActionButton pressed ...');
-        },
-        backgroundColor: FlutterFlowTheme.of(context).primaryColor,
-        elevation: 8,
-        child: FlutterFlowIconButton(
-          borderColor: Colors.transparent,
-          borderRadius: 30,
-          buttonSize: 48,
-          icon: Icon(
-            Icons.add,
-            color: Colors.white,
-            size: 30,
-          ),
-          onPressed: () async {
-            await Navigator.push(
-              context,
-              PageTransition(
-                type: PageTransitionType.bottomToTop,
-                duration: Duration(milliseconds: 250),
-                reverseDuration: Duration(milliseconds: 250),
-                child: AddCourtWidget(),
-              ),
-            );
-          },
-        ),
+    return FutureBuilder<List<CourtsRecord>>(
+      future: CourtsRecord.search(
+        term: '*',
+        location: getCurrentUserLocation(
+            defaultLocation: LatLng(37.4298229, -122.1735655)),
       ),
-      body: Stack(
-        children: [
-          Align(
-            alignment: AlignmentDirectional(-1, -1),
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: 140,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    FlutterFlowTheme.of(context).white,
-                    Color(0x00FFFFFF)
-                  ],
-                  stops: [0, 1],
-                  begin: AlignmentDirectional(0, -1),
-                  end: AlignmentDirectional(0, 1),
-                ),
+      builder: (context, snapshot) {
+        // Customize what your widget looks like when it's loading.
+        if (!snapshot.hasData) {
+          return Center(
+            child: SizedBox(
+              width: 50,
+              height: 50,
+              child: SpinKitRotatingCircle(
+                color: Color(0xFFF25454),
+                size: 50,
               ),
             ),
-          ),
-          Align(
-            alignment: AlignmentDirectional(0, 0),
-            child: FlutterFlowGoogleMap(
-              controller: googleMapsController,
-              onCameraIdle: (latLng) =>
-                  setState(() => googleMapsCenter = latLng),
-              initialLocation: googleMapsCenter ??= currentUserLocationValue,
-              markers: algoliaSearchResults1
-                  .map(
-                    (algoliaSearchResults1Item) => FlutterFlowMarker(
-                      algoliaSearchResults1Item.reference.path,
-                      algoliaSearchResults1Item.location,
-                      () async {
-                        await Navigator.push(
-                          context,
-                          PageTransition(
-                            type: PageTransitionType.fade,
-                            duration: Duration(milliseconds: 300),
-                            reverseDuration: Duration(milliseconds: 300),
-                            child: CourtDetailsWidget(
-                              court: algoliaSearchResults1Item,
+          );
+        }
+        List<CourtsRecord> findCourtCourtsRecordList = snapshot.data!;
+        return Title(
+            title: 'findCourt',
+            color: FlutterFlowTheme.of(context).primaryColor,
+            child: Scaffold(
+              key: scaffoldKey,
+              resizeToAvoidBottomInset: false,
+              floatingActionButton: FloatingActionButton(
+                onPressed: () {
+                  print('FloatingActionButton pressed ...');
+                },
+                backgroundColor: FlutterFlowTheme.of(context).primaryColor,
+                elevation: 8,
+                child: FlutterFlowIconButton(
+                  borderColor: Colors.transparent,
+                  borderRadius: 30,
+                  buttonSize: 48,
+                  icon: Icon(
+                    Icons.add,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+                  onPressed: () async {
+                    context.pushNamed(
+                      'addCourt',
+                      extra: <String, dynamic>{
+                        kTransitionInfoKey: TransitionInfo(
+                          hasTransition: true,
+                          transitionType: PageTransitionType.bottomToTop,
+                          duration: Duration(milliseconds: 250),
+                        ),
+                      },
+                    );
+                  },
+                ),
+              ),
+              body: Stack(
+                children: [
+                  Stack(
+                    children: [
+                      Align(
+                        alignment: AlignmentDirectional(0, 0),
+                        child: FlutterFlowGoogleMap(
+                          controller: googleMapsController,
+                          onCameraIdle: (latLng) =>
+                              setState(() => googleMapsCenter = latLng),
+                          initialLocation: googleMapsCenter ??=
+                              currentUserLocationValue!,
+                          markers: findCourtCourtsRecordList
+                              .map(
+                                (findCourtCourtsRecord) => FlutterFlowMarker(
+                                  findCourtCourtsRecord.reference.path,
+                                  findCourtCourtsRecord.location!,
+                                  () async {
+                                    if (Navigator.of(context).canPop()) {
+                                      context.pop();
+                                    }
+                                    context.pushNamed(
+                                      'courtDetails',
+                                      queryParams: {
+                                        'court': serializeParam(
+                                          findCourtCourtsRecord,
+                                          ParamType.Document,
+                                        ),
+                                      }.withoutNulls,
+                                      extra: <String, dynamic>{
+                                        'court': findCourtCourtsRecord,
+                                        kTransitionInfoKey: TransitionInfo(
+                                          hasTransition: true,
+                                          transitionType:
+                                              PageTransitionType.fade,
+                                        ),
+                                      },
+                                    );
+                                  },
+                                ),
+                              )
+                              .toList(),
+                          markerColor: GoogleMarkerColor.orange,
+                          mapType: MapType.normal,
+                          style: GoogleMapStyle.standard,
+                          initialZoom: 14,
+                          allowInteraction: true,
+                          allowZoom: true,
+                          showZoomControls: false,
+                          showLocation: true,
+                          showCompass: false,
+                          showMapToolbar: true,
+                          showTraffic: false,
+                          centerMapOnMarkerTap: true,
+                        ),
+                      ),
+                      Align(
+                        alignment: AlignmentDirectional(-1, -1),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 140,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                FlutterFlowTheme.of(context).white,
+                                Color(0x00FFFFFF)
+                              ],
+                              stops: [0, 1],
+                              begin: AlignmentDirectional(0, -1),
+                              end: AlignmentDirectional(0, 1),
                             ),
                           ),
-                        );
-                      },
-                    ),
-                  )
-                  .toList(),
-              markerColor: GoogleMarkerColor.violet,
-              mapType: MapType.normal,
-              style: GoogleMapStyle.standard,
-              initialZoom: 14,
-              allowInteraction: true,
-              allowZoom: true,
-              showZoomControls: false,
-              showLocation: true,
-              showCompass: false,
-              showMapToolbar: true,
-              showTraffic: false,
-              centerMapOnMarkerTap: true,
-            ),
-          ),
-          Align(
-            alignment: AlignmentDirectional(-0.28, -0.95),
-            child: Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 12, 0, 8),
-              child: Text(
-                'Find a Court',
-                style: FlutterFlowTheme.of(context).title2,
-              ),
-            ),
-          ),
-          Align(
-            alignment: AlignmentDirectional(0, -0.8),
-            child: Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(20, 16, 20, 0),
-              child: Container(
-                width: double.infinity,
-                height: 50,
-                decoration: BoxDecoration(
-                  color: FlutterFlowTheme.of(context).white,
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 3,
-                      color: Color(0x34000000),
-                      offset: Offset(0, 1),
-                    )
-                  ],
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    color: FlutterFlowTheme.of(context).grayLines,
-                  ),
-                ),
-                child: Align(
-                  alignment: AlignmentDirectional(0, -0.3),
-                  child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
-                    child: TextFormField(
-                      controller: courtSearchFieldController,
-                      onFieldSubmitted: (_) async {
-                        currentUserLocationValue = await getCurrentUserLocation(
-                            defaultLocation: LatLng(0.0, 0.0));
-                        setState(() => algoliaSearchResults1 = null);
-                        await CourtsRecord.search(
-                          term: valueOrDefault<String>(
-                            courtSearchFieldController.text,
-                            '*',
-                          ),
-                          location: getCurrentUserLocation(
-                              defaultLocation:
-                                  LatLng(37.4298229, -122.1735655)),
-                        )
-                            .then((r) => algoliaSearchResults1 = r)
-                            .onError((_, __) => algoliaSearchResults1 = [])
-                            .whenComplete(() => setState(() {}));
-                      },
-                      obscureText: false,
-                      decoration: InputDecoration(
-                        hintText: 'Search for sports locations...',
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0x00000000),
-                            width: 1,
-                          ),
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(4.0),
-                            topRight: Radius.circular(4.0),
-                          ),
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0x00000000),
-                            width: 1,
-                          ),
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(4.0),
-                            topRight: Radius.circular(4.0),
+                          child: Container(
+                            width: 100,
+                            height: 100,
+                            decoration: BoxDecoration(
+                              color: FlutterFlowTheme.of(context)
+                                  .secondaryBackground,
+                            ),
                           ),
                         ),
                       ),
-                      style: FlutterFlowTheme.of(context).subtitle2.override(
-                            fontFamily: 'Overpass',
-                            color: FlutterFlowTheme.of(context).iconGray,
+                      Align(
+                        alignment: AlignmentDirectional(-0.78, -0.89),
+                        child: Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(0, 12, 0, 8),
+                          child: Text(
+                            'Hello ',
+                            style: FlutterFlowTheme.of(context).title2.override(
+                                  fontFamily: 'Overpass',
+                                  fontSize: 30,
+                                ),
                           ),
-                    ),
+                        ),
+                      ),
+                      Align(
+                        alignment: AlignmentDirectional(0.38, -0.86),
+                        child: AuthUserStreamWidget(
+                          child: Text(
+                            currentUserDisplayName,
+                            textAlign: TextAlign.start,
+                            style: FlutterFlowTheme.of(context)
+                                .bodyText1
+                                .override(
+                                  fontFamily: 'Overpass',
+                                  color:
+                                      FlutterFlowTheme.of(context).primaryColor,
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                          ),
+                        ),
+                      ),
+                      Align(
+                        alignment: AlignmentDirectional(-0.21, -0.74),
+                        child: Text(
+                          'Find a great sport near you in 2 minutes',
+                          style:
+                              FlutterFlowTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Overpass',
+                                    color: Color(0xFF504848),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w300,
+                                  ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
+                ],
               ),
-            ),
-          ),
-          Align(
-            alignment: AlignmentDirectional(0.89, -0.77),
-            child: FlutterFlowIconButton(
-              borderColor: Colors.transparent,
-              borderRadius: 30,
-              borderWidth: 1,
-              buttonSize: 60,
-              icon: Icon(
-                Icons.search_outlined,
-                color: FlutterFlowTheme.of(context).primaryColor,
-                size: 30,
-              ),
-              onPressed: () async {
-                setState(() => algoliaSearchResults2 = null);
-                await CourtsRecord.search(
-                  term: courtSearchFieldController.text,
-                )
-                    .then((r) => algoliaSearchResults2 = r)
-                    .onError((_, __) => algoliaSearchResults2 = [])
-                    .whenComplete(() => setState(() {}));
-              },
-            ),
-          ),
-        ],
-      ),
+            ));
+      },
     );
   }
 }

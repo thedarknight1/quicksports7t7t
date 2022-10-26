@@ -17,17 +17,17 @@ class _$CommentsRecordSerializer
   final String wireName = 'CommentsRecord';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, CommentsRecord object,
+  Iterable<Object?> serialize(Serializers serializers, CommentsRecord object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[];
-    Object value;
+    final result = <Object?>[];
+    Object? value;
     value = object.user;
     if (value != null) {
       result
         ..add('user')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(
-                DocumentReference, const [const FullType(Object)])));
+                DocumentReference, const [const FullType.nullable(Object)])));
     }
     value = object.text;
     if (value != null) {
@@ -42,7 +42,7 @@ class _$CommentsRecordSerializer
         ..add('court')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(
-                DocumentReference, const [const FullType(Object)])));
+                DocumentReference, const [const FullType.nullable(Object)])));
     }
     value = object.courtQualityRating;
     if (value != null) {
@@ -58,58 +58,58 @@ class _$CommentsRecordSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    value = object.reference;
+    value = object.ffRef;
     if (value != null) {
       result
         ..add('Document__Reference__Field')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(
-                DocumentReference, const [const FullType(Object)])));
+                DocumentReference, const [const FullType.nullable(Object)])));
     }
     return result;
   }
 
   @override
   CommentsRecord deserialize(
-      Serializers serializers, Iterable<Object> serialized,
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new CommentsRecordBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
-      final key = iterator.current as String;
+      final key = iterator.current! as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case 'user':
           result.user = serializers.deserialize(value,
-                  specifiedType: const FullType(
-                      DocumentReference, const [const FullType(Object)]))
-              as DocumentReference<Object>;
+              specifiedType: const FullType(DocumentReference, const [
+                const FullType.nullable(Object)
+              ])) as DocumentReference<Object?>?;
           break;
         case 'text':
           result.text = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'court':
           result.court = serializers.deserialize(value,
-                  specifiedType: const FullType(
-                      DocumentReference, const [const FullType(Object)]))
-              as DocumentReference<Object>;
+              specifiedType: const FullType(DocumentReference, const [
+                const FullType.nullable(Object)
+              ])) as DocumentReference<Object?>?;
           break;
         case 'court_quality_rating':
           result.courtQualityRating = serializers.deserialize(value,
-              specifiedType: const FullType(double)) as double;
+              specifiedType: const FullType(double)) as double?;
           break;
         case 'title':
           result.title = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'Document__Reference__Field':
-          result.reference = serializers.deserialize(value,
-                  specifiedType: const FullType(
-                      DocumentReference, const [const FullType(Object)]))
-              as DocumentReference<Object>;
+          result.ffRef = serializers.deserialize(value,
+              specifiedType: const FullType(DocumentReference, const [
+                const FullType.nullable(Object)
+              ])) as DocumentReference<Object?>?;
           break;
       }
     }
@@ -120,20 +120,20 @@ class _$CommentsRecordSerializer
 
 class _$CommentsRecord extends CommentsRecord {
   @override
-  final DocumentReference<Object> user;
+  final DocumentReference<Object?>? user;
   @override
-  final String text;
+  final String? text;
   @override
-  final DocumentReference<Object> court;
+  final DocumentReference<Object?>? court;
   @override
-  final double courtQualityRating;
+  final double? courtQualityRating;
   @override
-  final String title;
+  final String? title;
   @override
-  final DocumentReference<Object> reference;
+  final DocumentReference<Object?>? ffRef;
 
-  factory _$CommentsRecord([void Function(CommentsRecordBuilder) updates]) =>
-      (new CommentsRecordBuilder()..update(updates)).build();
+  factory _$CommentsRecord([void Function(CommentsRecordBuilder)? updates]) =>
+      (new CommentsRecordBuilder()..update(updates))._build();
 
   _$CommentsRecord._(
       {this.user,
@@ -141,7 +141,7 @@ class _$CommentsRecord extends CommentsRecord {
       this.court,
       this.courtQualityRating,
       this.title,
-      this.reference})
+      this.ffRef})
       : super._();
 
   @override
@@ -161,7 +161,7 @@ class _$CommentsRecord extends CommentsRecord {
         court == other.court &&
         courtQualityRating == other.courtQualityRating &&
         title == other.title &&
-        reference == other.reference;
+        ffRef == other.ffRef;
   }
 
   @override
@@ -171,51 +171,50 @@ class _$CommentsRecord extends CommentsRecord {
             $jc($jc($jc($jc(0, user.hashCode), text.hashCode), court.hashCode),
                 courtQualityRating.hashCode),
             title.hashCode),
-        reference.hashCode));
+        ffRef.hashCode));
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('CommentsRecord')
+    return (newBuiltValueToStringHelper(r'CommentsRecord')
           ..add('user', user)
           ..add('text', text)
           ..add('court', court)
           ..add('courtQualityRating', courtQualityRating)
           ..add('title', title)
-          ..add('reference', reference))
+          ..add('ffRef', ffRef))
         .toString();
   }
 }
 
 class CommentsRecordBuilder
     implements Builder<CommentsRecord, CommentsRecordBuilder> {
-  _$CommentsRecord _$v;
+  _$CommentsRecord? _$v;
 
-  DocumentReference<Object> _user;
-  DocumentReference<Object> get user => _$this._user;
-  set user(DocumentReference<Object> user) => _$this._user = user;
+  DocumentReference<Object?>? _user;
+  DocumentReference<Object?>? get user => _$this._user;
+  set user(DocumentReference<Object?>? user) => _$this._user = user;
 
-  String _text;
-  String get text => _$this._text;
-  set text(String text) => _$this._text = text;
+  String? _text;
+  String? get text => _$this._text;
+  set text(String? text) => _$this._text = text;
 
-  DocumentReference<Object> _court;
-  DocumentReference<Object> get court => _$this._court;
-  set court(DocumentReference<Object> court) => _$this._court = court;
+  DocumentReference<Object?>? _court;
+  DocumentReference<Object?>? get court => _$this._court;
+  set court(DocumentReference<Object?>? court) => _$this._court = court;
 
-  double _courtQualityRating;
-  double get courtQualityRating => _$this._courtQualityRating;
-  set courtQualityRating(double courtQualityRating) =>
+  double? _courtQualityRating;
+  double? get courtQualityRating => _$this._courtQualityRating;
+  set courtQualityRating(double? courtQualityRating) =>
       _$this._courtQualityRating = courtQualityRating;
 
-  String _title;
-  String get title => _$this._title;
-  set title(String title) => _$this._title = title;
+  String? _title;
+  String? get title => _$this._title;
+  set title(String? title) => _$this._title = title;
 
-  DocumentReference<Object> _reference;
-  DocumentReference<Object> get reference => _$this._reference;
-  set reference(DocumentReference<Object> reference) =>
-      _$this._reference = reference;
+  DocumentReference<Object?>? _ffRef;
+  DocumentReference<Object?>? get ffRef => _$this._ffRef;
+  set ffRef(DocumentReference<Object?>? ffRef) => _$this._ffRef = ffRef;
 
   CommentsRecordBuilder() {
     CommentsRecord._initializeBuilder(this);
@@ -229,7 +228,7 @@ class CommentsRecordBuilder
       _court = $v.court;
       _courtQualityRating = $v.courtQualityRating;
       _title = $v.title;
-      _reference = $v.reference;
+      _ffRef = $v.ffRef;
       _$v = null;
     }
     return this;
@@ -242,12 +241,14 @@ class CommentsRecordBuilder
   }
 
   @override
-  void update(void Function(CommentsRecordBuilder) updates) {
+  void update(void Function(CommentsRecordBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
   @override
-  _$CommentsRecord build() {
+  CommentsRecord build() => _build();
+
+  _$CommentsRecord _build() {
     final _$result = _$v ??
         new _$CommentsRecord._(
             user: user,
@@ -255,10 +256,10 @@ class CommentsRecordBuilder
             court: court,
             courtQualityRating: courtQualityRating,
             title: title,
-            reference: reference);
+            ffRef: ffRef);
     replace(_$result);
     return _$result;
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new,unnecessary_lambdas

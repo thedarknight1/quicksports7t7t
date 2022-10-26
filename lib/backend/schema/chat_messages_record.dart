@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:from_css_color/from_css_color.dart';
+
 import 'index.dart';
 import 'serializers.dart';
 import 'package:built_value/built_value.dart';
@@ -11,24 +13,19 @@ abstract class ChatMessagesRecord
   static Serializer<ChatMessagesRecord> get serializer =>
       _$chatMessagesRecordSerializer;
 
-  @nullable
-  DocumentReference get user;
+  DocumentReference? get user;
 
-  @nullable
-  DocumentReference get chat;
+  DocumentReference? get chat;
 
-  @nullable
-  String get text;
+  String? get text;
 
-  @nullable
-  String get image;
+  String? get image;
 
-  @nullable
-  DateTime get timestamp;
+  DateTime? get timestamp;
 
-  @nullable
   @BuiltValueField(wireName: kDocumentReferenceField)
-  DocumentReference get reference;
+  DocumentReference? get ffRef;
+  DocumentReference get reference => ffRef!;
 
   static void _initializeBuilder(ChatMessagesRecordBuilder builder) => builder
     ..text = ''
@@ -39,11 +36,11 @@ abstract class ChatMessagesRecord
 
   static Stream<ChatMessagesRecord> getDocument(DocumentReference ref) => ref
       .snapshots()
-      .map((s) => serializers.deserializeWith(serializer, serializedData(s)));
+      .map((s) => serializers.deserializeWith(serializer, serializedData(s))!);
 
   static Future<ChatMessagesRecord> getDocumentOnce(DocumentReference ref) =>
       ref.get().then(
-          (s) => serializers.deserializeWith(serializer, serializedData(s)));
+          (s) => serializers.deserializeWith(serializer, serializedData(s))!);
 
   static ChatMessagesRecord fromAlgolia(AlgoliaObjectSnapshot snapshot) =>
       ChatMessagesRecord(
@@ -54,14 +51,14 @@ abstract class ChatMessagesRecord
           ..image = snapshot.data['image']
           ..timestamp = safeGet(() =>
               DateTime.fromMillisecondsSinceEpoch(snapshot.data['timestamp']))
-          ..reference = ChatMessagesRecord.collection.doc(snapshot.objectID),
+          ..ffRef = ChatMessagesRecord.collection.doc(snapshot.objectID),
       );
 
   static Future<List<ChatMessagesRecord>> search(
-          {String term,
-          FutureOr<LatLng> location,
-          int maxResults,
-          double searchRadiusMeters}) =>
+          {String? term,
+          FutureOr<LatLng>? location,
+          int? maxResults,
+          double? searchRadiusMeters}) =>
       FFAlgoliaManager.instance
           .algoliaQuery(
             index: 'chat_messages',
@@ -80,21 +77,27 @@ abstract class ChatMessagesRecord
   static ChatMessagesRecord getDocumentFromData(
           Map<String, dynamic> data, DocumentReference reference) =>
       serializers.deserializeWith(serializer,
-          {...mapFromFirestore(data), kDocumentReferenceField: reference});
+          {...mapFromFirestore(data), kDocumentReferenceField: reference})!;
 }
 
 Map<String, dynamic> createChatMessagesRecordData({
-  DocumentReference user,
-  DocumentReference chat,
-  String text,
-  String image,
-  DateTime timestamp,
-}) =>
-    serializers.toFirestore(
-        ChatMessagesRecord.serializer,
-        ChatMessagesRecord((c) => c
-          ..user = user
-          ..chat = chat
-          ..text = text
-          ..image = image
-          ..timestamp = timestamp));
+  DocumentReference? user,
+  DocumentReference? chat,
+  String? text,
+  String? image,
+  DateTime? timestamp,
+}) {
+  final firestoreData = serializers.toFirestore(
+    ChatMessagesRecord.serializer,
+    ChatMessagesRecord(
+      (c) => c
+        ..user = user
+        ..chat = chat
+        ..text = text
+        ..image = image
+        ..timestamp = timestamp,
+    ),
+  );
+
+  return firestoreData;
+}

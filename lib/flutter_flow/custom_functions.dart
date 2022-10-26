@@ -10,23 +10,23 @@ import '../backend/backend.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../auth/auth_util.dart';
 
-String getMapUrl(LatLng location) {
+String getMapUrl(LatLng? location) {
   return 'https://www.google.com/maps/search/?api=1&'
-      'query=${location.latitude},${location.longitude}';
+      'query=${location!.latitude},${location.longitude}';
 }
 
-String getAverageRating(List<CommentsRecord> comments) {
-  if (comments.isEmpty) {
+String getAverageRating(List<CommentsRecord>? comments) {
+  if (comments!.isEmpty) {
     return '-';
   }
   var ratingsSum = 0.0;
   for (final comment in comments) {
-    ratingsSum += comment.courtQualityRating;
+    ratingsSum += comment.courtQualityRating!;
   }
   return '${(ratingsSum / comments.length).toStringAsFixed(1)}';
 }
 
-LatLng getInitialMapLocation(LatLng userLocation) {
+LatLng getInitialMapLocation(LatLng? userLocation) {
   if (userLocation == null ||
       (userLocation.latitude == 0 && userLocation.longitude == 0)) {
     return LatLng(40.8295538, -73.9386429);

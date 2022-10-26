@@ -3,28 +3,55 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
+const kThemeModeKey = '__theme_mode__';
+SharedPreferences? _prefs;
+
 abstract class FlutterFlowTheme {
-  static FlutterFlowTheme of(BuildContext context) {
-    return LightModeTheme();
+  static Future initialize() async =>
+      _prefs = await SharedPreferences.getInstance();
+  static ThemeMode get themeMode {
+    final darkMode = _prefs?.getBool(kThemeModeKey);
+    return darkMode == null
+        ? ThemeMode.system
+        : darkMode
+            ? ThemeMode.dark
+            : ThemeMode.light;
   }
 
-  Color primaryColor;
-  Color secondaryColor;
-  Color tertiaryColor;
-  Color alternate;
-  Color primaryBackground;
-  Color secondaryBackground;
-  Color primaryText;
-  Color secondaryText;
+  static void saveThemeMode(ThemeMode mode) => mode == ThemeMode.system
+      ? _prefs?.remove(kThemeModeKey)
+      : _prefs?.setBool(kThemeModeKey, mode == ThemeMode.dark);
 
-  Color white;
-  Color iconGray;
-  Color grayDark;
-  Color darkBG;
-  Color background;
-  Color grayLines;
-  Color primaryBtnText;
-  Color lineColor;
+  static FlutterFlowTheme of(BuildContext context) =>
+      Theme.of(context).brightness == Brightness.dark
+          ? DarkModeTheme()
+          : LightModeTheme();
+
+  late Color primaryColor;
+  late Color secondaryColor;
+  late Color tertiaryColor;
+  late Color alternate;
+  late Color primaryBackground;
+  late Color secondaryBackground;
+  late Color primaryText;
+  late Color secondaryText;
+
+  late Color white;
+  late Color iconGray;
+  late Color grayDark;
+  late Color darkBG;
+  late Color background;
+  late Color grayLines;
+  late Color primaryBtnText;
+  late Color lineColor;
+  late Color grayIcon;
+  late Color gray200;
+  late Color gray600;
+  late Color black600;
+  late Color tertiary400;
+  late Color textColor;
 
   String get title1Family => typography.title1Family;
   TextStyle get title1 => typography.title1;
@@ -45,23 +72,29 @@ abstract class FlutterFlowTheme {
 }
 
 class LightModeTheme extends FlutterFlowTheme {
-  Color primaryColor = const Color(0xFFEE8B60);
-  Color secondaryColor = const Color(0xFF262D34);
-  Color tertiaryColor = const Color(0xFF39D2C0);
-  Color alternate = const Color(0xFF31BFAE);
-  Color primaryBackground = const Color(0xFFF1F4F8);
-  Color secondaryBackground = const Color(0xFFFFFFFF);
-  Color primaryText = const Color(0xFF1D2429);
-  Color secondaryText = const Color(0xFF57636C);
+  late Color primaryColor = const Color(0xFFEE8B60);
+  late Color secondaryColor = const Color(0xFF262D34);
+  late Color tertiaryColor = const Color(0xFF39D2C0);
+  late Color alternate = const Color(0xFF31BFAE);
+  late Color primaryBackground = const Color(0xFFF1F4F8);
+  late Color secondaryBackground = const Color(0xFFFFFFFF);
+  late Color primaryText = const Color(0xFF1D2429);
+  late Color secondaryText = const Color(0xFF57636C);
 
-  Color white = Color(0xFFFFFFFF);
-  Color iconGray = Color(0xFF8B97A2);
-  Color grayDark = Color(0xFF57636C);
-  Color darkBG = Color(0xFF111417);
-  Color background = Color(0xFFF1F4F8);
-  Color grayLines = Color(0xFFDBE2E7);
-  Color primaryBtnText = Color(0xFFFFFFFF);
-  Color lineColor = Color(0xFFE0E3E7);
+  late Color white = Color(0xFFFFFFFF);
+  late Color iconGray = Color(0xFF8B97A2);
+  late Color grayDark = Color(0xFF57636C);
+  late Color darkBG = Color(0xFF111417);
+  late Color background = Color(0xFFF1F4F8);
+  late Color grayLines = Color(0xFFDBE2E7);
+  late Color primaryBtnText = Color(0xFFFFFFFF);
+  late Color lineColor = Color(0xFFE0E3E7);
+  late Color grayIcon = Color(0xFF95A1AC);
+  late Color gray200 = Color(0xFFDBE2E7);
+  late Color gray600 = Color(0xFF262D34);
+  late Color black600 = Color(0xFF090F13);
+  late Color tertiary400 = Color(0xFF39D2C0);
+  late Color textColor = Color(0xFF1E2429);
 }
 
 abstract class Typography {
@@ -137,21 +170,47 @@ class ThemeTypography extends Typography {
       );
 }
 
+class DarkModeTheme extends FlutterFlowTheme {
+  late Color primaryColor = const Color(0xFFEE8B60);
+  late Color secondaryColor = const Color(0xFF262D34);
+  late Color tertiaryColor = const Color(0xFF39D2C0);
+  late Color alternate = const Color(0xFF31BFAE);
+  late Color primaryBackground = const Color(0xFF1D2429);
+  late Color secondaryBackground = const Color(0xFF14181B);
+  late Color primaryText = const Color(0xFFFFFFFF);
+  late Color secondaryText = const Color(0xFF95A1AC);
+
+  late Color white = Color(0xFFFFFFFF);
+  late Color iconGray = Color(0xFF8B97A2);
+  late Color grayDark = Color(0xFF57636C);
+  late Color darkBG = Color(0xFF111417);
+  late Color background = Color(0xFFF1F4F8);
+  late Color grayLines = Color(0xFFDBE2E7);
+  late Color primaryBtnText = Color(0xFFFFFFFF);
+  late Color lineColor = Color(0xFF22282F);
+  late Color grayIcon = Color(0xFF95A1AC);
+  late Color gray200 = Color(0xFFDBE2E7);
+  late Color gray600 = Color(0xFF262D34);
+  late Color black600 = Color(0xFF090F13);
+  late Color tertiary400 = Color(0xFF39D2C0);
+  late Color textColor = Color(0xFF1E2429);
+}
+
 extension TextStyleHelper on TextStyle {
   TextStyle override({
-    String fontFamily,
-    Color color,
-    double fontSize,
-    FontWeight fontWeight,
-    double letterSpacing,
-    FontStyle fontStyle,
+    String? fontFamily,
+    Color? color,
+    double? fontSize,
+    FontWeight? fontWeight,
+    double? letterSpacing,
+    FontStyle? fontStyle,
     bool useGoogleFonts = true,
-    TextDecoration decoration,
-    double lineHeight,
+    TextDecoration? decoration,
+    double? lineHeight,
   }) =>
       useGoogleFonts
           ? GoogleFonts.getFont(
-              fontFamily,
+              fontFamily!,
               color: color ?? this.color,
               fontSize: fontSize ?? this.fontSize,
               letterSpacing: letterSpacing ?? this.letterSpacing,

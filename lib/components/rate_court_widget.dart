@@ -11,26 +11,34 @@ import 'package:google_fonts/google_fonts.dart';
 
 class RateCourtWidget extends StatefulWidget {
   const RateCourtWidget({
-    Key key,
+    Key? key,
     this.court,
   }) : super(key: key);
 
-  final CourtsRecord court;
+  final CourtsRecord? court;
 
   @override
   _RateCourtWidgetState createState() => _RateCourtWidgetState();
 }
 
 class _RateCourtWidgetState extends State<RateCourtWidget> {
-  TextEditingController textController1;
-  double ratingBarValue;
-  TextEditingController textController2;
+  TextEditingController? textController1;
+  double? ratingBarValue;
+  TextEditingController? textController2;
 
   @override
   void initState() {
     super.initState();
     textController1 = TextEditingController();
     textController2 = TextEditingController();
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+  }
+
+  @override
+  void dispose() {
+    textController1?.dispose();
+    textController2?.dispose();
+    super.dispose();
   }
 
   @override
@@ -108,7 +116,7 @@ class _RateCourtWidgetState extends State<RateCourtWidget> {
                         fit: BoxFit.cover,
                         image: Image.network(
                           valueOrDefault<String>(
-                            widget.court.imageUrl,
+                            widget.court!.imageUrl,
                             'https://images.unsplash.com/photo-1602357280104-742c517a1d82?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80',
                           ),
                         ).image,
@@ -123,7 +131,7 @@ class _RateCourtWidgetState extends State<RateCourtWidget> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            widget.court.name,
+                            widget.court!.name!,
                             style: FlutterFlowTheme.of(context).title3.override(
                                   fontFamily: 'Overpass',
                                   color: FlutterFlowTheme.of(context).white,
@@ -205,6 +213,26 @@ class _RateCourtWidgetState extends State<RateCourtWidget> {
                     topRight: Radius.circular(4.0),
                   ),
                 ),
+                errorBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color(0x00000000),
+                    width: 1,
+                  ),
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(4.0),
+                    topRight: Radius.circular(4.0),
+                  ),
+                ),
+                focusedErrorBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color(0x00000000),
+                    width: 1,
+                  ),
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(4.0),
+                    topRight: Radius.circular(4.0),
+                  ),
+                ),
                 filled: true,
                 fillColor: FlutterFlowTheme.of(context).white,
                 contentPadding: EdgeInsetsDirectional.fromSTEB(20, 20, 0, 20),
@@ -248,6 +276,26 @@ class _RateCourtWidgetState extends State<RateCourtWidget> {
                     topRight: Radius.circular(4.0),
                   ),
                 ),
+                errorBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color(0x00000000),
+                    width: 1,
+                  ),
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(4.0),
+                    topRight: Radius.circular(4.0),
+                  ),
+                ),
+                focusedErrorBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color(0x00000000),
+                    width: 1,
+                  ),
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(4.0),
+                    topRight: Radius.circular(4.0),
+                  ),
+                ),
                 filled: true,
                 fillColor: FlutterFlowTheme.of(context).white,
                 contentPadding: EdgeInsetsDirectional.fromSTEB(20, 20, 0, 20),
@@ -260,13 +308,13 @@ class _RateCourtWidgetState extends State<RateCourtWidget> {
             onPressed: () async {
               final commentsCreateData = createCommentsRecordData(
                 user: currentUserReference,
-                text: textController2.text,
-                court: widget.court.reference,
+                text: textController2!.text,
+                court: widget.court!.reference,
                 courtQualityRating: ratingBarValue,
-                title: textController1.text,
+                title: textController1!.text,
               );
               await CommentsRecord.collection.doc().set(commentsCreateData);
-              Navigator.pop(context);
+              context.pop();
             },
             text: 'Submit Rating',
             icon: Icon(

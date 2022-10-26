@@ -16,10 +16,10 @@ class _$CourtsRecordSerializer implements StructuredSerializer<CourtsRecord> {
   final String wireName = 'CourtsRecord';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, CourtsRecord object,
+  Iterable<Object?> serialize(Serializers serializers, CourtsRecord object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[];
-    Object value;
+    final result = <Object?>[];
+    Object? value;
     value = object.name;
     if (value != null) {
       result
@@ -47,7 +47,7 @@ class _$CourtsRecordSerializer implements StructuredSerializer<CourtsRecord> {
         ..add('user')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(
-                DocumentReference, const [const FullType(Object)])));
+                DocumentReference, const [const FullType.nullable(Object)])));
     }
     value = object.description;
     if (value != null) {
@@ -90,75 +90,98 @@ class _$CourtsRecordSerializer implements StructuredSerializer<CourtsRecord> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    value = object.reference;
+    value = object.sportname;
+    if (value != null) {
+      result
+        ..add('sportname')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.bio;
+    if (value != null) {
+      result
+        ..add('bio')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.ffRef;
     if (value != null) {
       result
         ..add('Document__Reference__Field')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(
-                DocumentReference, const [const FullType(Object)])));
+                DocumentReference, const [const FullType.nullable(Object)])));
     }
     return result;
   }
 
   @override
-  CourtsRecord deserialize(Serializers serializers, Iterable<Object> serialized,
+  CourtsRecord deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new CourtsRecordBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
-      final key = iterator.current as String;
+      final key = iterator.current! as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case 'name':
           result.name = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'location':
           result.location = serializers.deserialize(value,
-              specifiedType: const FullType(LatLng)) as LatLng;
+              specifiedType: const FullType(LatLng)) as LatLng?;
           break;
         case 'created_at':
           result.createdAt = serializers.deserialize(value,
-              specifiedType: const FullType(DateTime)) as DateTime;
+              specifiedType: const FullType(DateTime)) as DateTime?;
           break;
         case 'user':
           result.user = serializers.deserialize(value,
-                  specifiedType: const FullType(
-                      DocumentReference, const [const FullType(Object)]))
-              as DocumentReference<Object>;
+              specifiedType: const FullType(DocumentReference, const [
+                const FullType.nullable(Object)
+              ])) as DocumentReference<Object?>?;
           break;
         case 'description':
           result.description = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'likes':
           result.likes = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'value':
           result.value = serializers.deserialize(value,
-              specifiedType: const FullType(double)) as double;
+              specifiedType: const FullType(double)) as double?;
           break;
         case 'image_url':
           result.imageUrl = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'is_indoor':
           result.isIndoor = serializers.deserialize(value,
-              specifiedType: const FullType(bool)) as bool;
+              specifiedType: const FullType(bool)) as bool?;
           break;
         case 'video_url':
           result.videoUrl = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'sportname':
+          result.sportname = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'bio':
+          result.bio = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'Document__Reference__Field':
-          result.reference = serializers.deserialize(value,
-                  specifiedType: const FullType(
-                      DocumentReference, const [const FullType(Object)]))
-              as DocumentReference<Object>;
+          result.ffRef = serializers.deserialize(value,
+              specifiedType: const FullType(DocumentReference, const [
+                const FullType.nullable(Object)
+              ])) as DocumentReference<Object?>?;
           break;
       }
     }
@@ -169,30 +192,34 @@ class _$CourtsRecordSerializer implements StructuredSerializer<CourtsRecord> {
 
 class _$CourtsRecord extends CourtsRecord {
   @override
-  final String name;
+  final String? name;
   @override
-  final LatLng location;
+  final LatLng? location;
   @override
-  final DateTime createdAt;
+  final DateTime? createdAt;
   @override
-  final DocumentReference<Object> user;
+  final DocumentReference<Object?>? user;
   @override
-  final String description;
+  final String? description;
   @override
-  final int likes;
+  final int? likes;
   @override
-  final double value;
+  final double? value;
   @override
-  final String imageUrl;
+  final String? imageUrl;
   @override
-  final bool isIndoor;
+  final bool? isIndoor;
   @override
-  final String videoUrl;
+  final String? videoUrl;
   @override
-  final DocumentReference<Object> reference;
+  final String? sportname;
+  @override
+  final String? bio;
+  @override
+  final DocumentReference<Object?>? ffRef;
 
-  factory _$CourtsRecord([void Function(CourtsRecordBuilder) updates]) =>
-      (new CourtsRecordBuilder()..update(updates)).build();
+  factory _$CourtsRecord([void Function(CourtsRecordBuilder)? updates]) =>
+      (new CourtsRecordBuilder()..update(updates))._build();
 
   _$CourtsRecord._(
       {this.name,
@@ -205,7 +232,9 @@ class _$CourtsRecord extends CourtsRecord {
       this.imageUrl,
       this.isIndoor,
       this.videoUrl,
-      this.reference})
+      this.sportname,
+      this.bio,
+      this.ffRef})
       : super._();
 
   @override
@@ -229,7 +258,9 @@ class _$CourtsRecord extends CourtsRecord {
         imageUrl == other.imageUrl &&
         isIndoor == other.isIndoor &&
         videoUrl == other.videoUrl &&
-        reference == other.reference;
+        sportname == other.sportname &&
+        bio == other.bio &&
+        ffRef == other.ffRef;
   }
 
   @override
@@ -243,22 +274,26 @@ class _$CourtsRecord extends CourtsRecord {
                             $jc(
                                 $jc(
                                     $jc(
-                                        $jc($jc(0, name.hashCode),
-                                            location.hashCode),
-                                        createdAt.hashCode),
-                                    user.hashCode),
-                                description.hashCode),
-                            likes.hashCode),
-                        value.hashCode),
-                    imageUrl.hashCode),
-                isIndoor.hashCode),
-            videoUrl.hashCode),
-        reference.hashCode));
+                                        $jc(
+                                            $jc(
+                                                $jc($jc(0, name.hashCode),
+                                                    location.hashCode),
+                                                createdAt.hashCode),
+                                            user.hashCode),
+                                        description.hashCode),
+                                    likes.hashCode),
+                                value.hashCode),
+                            imageUrl.hashCode),
+                        isIndoor.hashCode),
+                    videoUrl.hashCode),
+                sportname.hashCode),
+            bio.hashCode),
+        ffRef.hashCode));
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('CourtsRecord')
+    return (newBuiltValueToStringHelper(r'CourtsRecord')
           ..add('name', name)
           ..add('location', location)
           ..add('createdAt', createdAt)
@@ -269,59 +304,68 @@ class _$CourtsRecord extends CourtsRecord {
           ..add('imageUrl', imageUrl)
           ..add('isIndoor', isIndoor)
           ..add('videoUrl', videoUrl)
-          ..add('reference', reference))
+          ..add('sportname', sportname)
+          ..add('bio', bio)
+          ..add('ffRef', ffRef))
         .toString();
   }
 }
 
 class CourtsRecordBuilder
     implements Builder<CourtsRecord, CourtsRecordBuilder> {
-  _$CourtsRecord _$v;
+  _$CourtsRecord? _$v;
 
-  String _name;
-  String get name => _$this._name;
-  set name(String name) => _$this._name = name;
+  String? _name;
+  String? get name => _$this._name;
+  set name(String? name) => _$this._name = name;
 
-  LatLng _location;
-  LatLng get location => _$this._location;
-  set location(LatLng location) => _$this._location = location;
+  LatLng? _location;
+  LatLng? get location => _$this._location;
+  set location(LatLng? location) => _$this._location = location;
 
-  DateTime _createdAt;
-  DateTime get createdAt => _$this._createdAt;
-  set createdAt(DateTime createdAt) => _$this._createdAt = createdAt;
+  DateTime? _createdAt;
+  DateTime? get createdAt => _$this._createdAt;
+  set createdAt(DateTime? createdAt) => _$this._createdAt = createdAt;
 
-  DocumentReference<Object> _user;
-  DocumentReference<Object> get user => _$this._user;
-  set user(DocumentReference<Object> user) => _$this._user = user;
+  DocumentReference<Object?>? _user;
+  DocumentReference<Object?>? get user => _$this._user;
+  set user(DocumentReference<Object?>? user) => _$this._user = user;
 
-  String _description;
-  String get description => _$this._description;
-  set description(String description) => _$this._description = description;
+  String? _description;
+  String? get description => _$this._description;
+  set description(String? description) => _$this._description = description;
 
-  int _likes;
-  int get likes => _$this._likes;
-  set likes(int likes) => _$this._likes = likes;
+  int? _likes;
+  int? get likes => _$this._likes;
+  set likes(int? likes) => _$this._likes = likes;
 
-  double _value;
-  double get value => _$this._value;
-  set value(double value) => _$this._value = value;
+  double? _value;
+  double? get value => _$this._value;
+  set value(double? value) => _$this._value = value;
 
-  String _imageUrl;
-  String get imageUrl => _$this._imageUrl;
-  set imageUrl(String imageUrl) => _$this._imageUrl = imageUrl;
+  String? _imageUrl;
+  String? get imageUrl => _$this._imageUrl;
+  set imageUrl(String? imageUrl) => _$this._imageUrl = imageUrl;
 
-  bool _isIndoor;
-  bool get isIndoor => _$this._isIndoor;
-  set isIndoor(bool isIndoor) => _$this._isIndoor = isIndoor;
+  bool? _isIndoor;
+  bool? get isIndoor => _$this._isIndoor;
+  set isIndoor(bool? isIndoor) => _$this._isIndoor = isIndoor;
 
-  String _videoUrl;
-  String get videoUrl => _$this._videoUrl;
-  set videoUrl(String videoUrl) => _$this._videoUrl = videoUrl;
+  String? _videoUrl;
+  String? get videoUrl => _$this._videoUrl;
+  set videoUrl(String? videoUrl) => _$this._videoUrl = videoUrl;
 
-  DocumentReference<Object> _reference;
-  DocumentReference<Object> get reference => _$this._reference;
-  set reference(DocumentReference<Object> reference) =>
-      _$this._reference = reference;
+  String? _sportname;
+  String? get sportname => _$this._sportname;
+  set sportname(String? sportname) => _$this._sportname = sportname;
+
+  String? _bio;
+  String? get bio => _$this._bio;
+  set bio(String? bio) => _$this._bio = bio;
+
+  DocumentReference<Object?>? _ffRef;
+  DocumentReference<Object?>? get ffRef => _$this._ffRef;
+  set ffRef(DocumentReference<Object?>? ffRef) => _$this._ffRef = ffRef;
 
   CourtsRecordBuilder() {
     CourtsRecord._initializeBuilder(this);
@@ -340,7 +384,9 @@ class CourtsRecordBuilder
       _imageUrl = $v.imageUrl;
       _isIndoor = $v.isIndoor;
       _videoUrl = $v.videoUrl;
-      _reference = $v.reference;
+      _sportname = $v.sportname;
+      _bio = $v.bio;
+      _ffRef = $v.ffRef;
       _$v = null;
     }
     return this;
@@ -353,12 +399,14 @@ class CourtsRecordBuilder
   }
 
   @override
-  void update(void Function(CourtsRecordBuilder) updates) {
+  void update(void Function(CourtsRecordBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
   @override
-  _$CourtsRecord build() {
+  CourtsRecord build() => _build();
+
+  _$CourtsRecord _build() {
     final _$result = _$v ??
         new _$CourtsRecord._(
             name: name,
@@ -371,10 +419,12 @@ class CourtsRecordBuilder
             imageUrl: imageUrl,
             isIndoor: isIndoor,
             videoUrl: videoUrl,
-            reference: reference);
+            sportname: sportname,
+            bio: bio,
+            ffRef: ffRef);
     replace(_$result);
     return _$result;
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new,unnecessary_lambdas
