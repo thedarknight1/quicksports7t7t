@@ -6,8 +6,6 @@ import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart'
-    as smooth_page_indicator;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -18,19 +16,16 @@ class CourtDetailsWidget extends StatefulWidget {
   const CourtDetailsWidget({
     Key? key,
     this.court,
-    this.eventGroupChat,
   }) : super(key: key);
 
   final CourtsRecord? court;
-  final DocumentReference? eventGroupChat;
 
   @override
   _CourtDetailsWidgetState createState() => _CourtDetailsWidgetState();
 }
 
 class _CourtDetailsWidgetState extends State<CourtDetailsWidget> {
-  ChatsRecord? groupChatPersonAdded;
-  PageController? pageViewController;
+  ChatsRecord? groupChat3;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -135,325 +130,321 @@ class _CourtDetailsWidgetState extends State<CourtDetailsWidget> {
                           Padding(
                             padding:
                                 EdgeInsetsDirectional.fromSTEB(15, 16, 15, 0),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      widget.court!.name!,
-                                      style:
-                                          FlutterFlowTheme.of(context).title2,
-                                    ),
-                                    Column(
-                                      mainAxisSize: MainAxisSize.max,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: [
-                                        Text(
-                                          'Overall',
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyText1,
-                                        ),
-                                        Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: [
-                                            Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(0, 0, 4, 0),
-                                              child: Text(
-                                                '5',
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .title3,
-                                              ),
-                                            ),
-                                            Icon(
-                                              Icons.sports_basketball_outlined,
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primaryColor,
-                                              size: 24,
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0, 0, 0, 12),
-                                  child: Row(
+                            child: SingleChildScrollView(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
                                     mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Expanded(
-                                        child: Text(
-                                          widget.court!.sportname!,
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyText1,
-                                        ),
+                                      Text(
+                                        widget.court!.name!,
+                                        style:
+                                            FlutterFlowTheme.of(context).title2,
                                       ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0, 12, 0, 44),
-                                  child: StreamBuilder<List<EventsRecord>>(
-                                    stream: queryEventsRecord(
-                                      queryBuilder: (eventsRecord) =>
-                                          eventsRecord
-                                              .where('locationname',
-                                                  isEqualTo: widget.court!.name)
-                                              .orderBy('date'),
-                                    ),
-                                    builder: (context, snapshot) {
-                                      // Customize what your widget looks like when it's loading.
-                                      if (!snapshot.hasData) {
-                                        return Center(
-                                          child: SizedBox(
-                                            width: 50,
-                                            height: 50,
-                                            child: SpinKitRotatingCircle(
-                                              color: Color(0xFFF25454),
-                                              size: 50,
-                                            ),
+                                      Column(
+                                        mainAxisSize: MainAxisSize.max,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            'Overall',
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyText1,
                                           ),
-                                        );
-                                      }
-                                      List<EventsRecord>
-                                          listViewEventsRecordList =
-                                          snapshot.data!;
-                                      return ListView.builder(
-                                        padding: EdgeInsets.zero,
-                                        shrinkWrap: true,
-                                        scrollDirection: Axis.vertical,
-                                        itemCount:
-                                            listViewEventsRecordList.length,
-                                        itemBuilder: (context, listViewIndex) {
-                                          final listViewEventsRecord =
-                                              listViewEventsRecordList[
-                                                  listViewIndex];
-                                          return Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    16, 4, 16, 8),
-                                            child: Container(
-                                              width: double.infinity,
-                                              height: 150,
-                                              decoration: BoxDecoration(
+                                          Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(0, 0, 4, 0),
+                                                child: Text(
+                                                  '5',
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .title3,
+                                                ),
+                                              ),
+                                              Icon(
+                                                Icons
+                                                    .sports_basketball_outlined,
                                                 color:
                                                     FlutterFlowTheme.of(context)
                                                         .primaryColor,
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    blurRadius: 4,
-                                                    color: Color(0x32000000),
-                                                    offset: Offset(0, 2),
-                                                  )
-                                                ],
-                                                borderRadius:
-                                                    BorderRadius.circular(14),
+                                                size: 24,
                                               ),
-                                              child: Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(8, 0, 8, 0),
-                                                child: Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Expanded(
-                                                      child: Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(12, 0,
-                                                                    0, 0),
-                                                        child: Column(
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Row(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .max,
-                                                              children: [
-                                                                Text(
-                                                                  listViewEventsRecord
-                                                                      .time!,
-                                                                  style: FlutterFlowTheme.of(
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0, 0, 0, 12),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            widget.court!.sportname!,
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyText1,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0, 12, 0, 44),
+                                    child: StreamBuilder<List<EventsRecord>>(
+                                      stream: queryEventsRecord(
+                                        queryBuilder: (eventsRecord) =>
+                                            eventsRecord
+                                                .where('locationname',
+                                                    isEqualTo:
+                                                        widget.court!.name)
+                                                .orderBy('date'),
+                                      ),
+                                      builder: (context, snapshot) {
+                                        // Customize what your widget looks like when it's loading.
+                                        if (!snapshot.hasData) {
+                                          return Center(
+                                            child: SizedBox(
+                                              width: 50,
+                                              height: 50,
+                                              child: SpinKitRotatingCircle(
+                                                color: Color(0xFFF25454),
+                                                size: 50,
+                                              ),
+                                            ),
+                                          );
+                                        }
+                                        List<EventsRecord>
+                                            listViewEventsRecordList =
+                                            snapshot.data!;
+                                        return ListView.builder(
+                                          padding: EdgeInsets.zero,
+                                          shrinkWrap: true,
+                                          scrollDirection: Axis.vertical,
+                                          itemCount:
+                                              listViewEventsRecordList.length,
+                                          itemBuilder:
+                                              (context, listViewIndex) {
+                                            final listViewEventsRecord =
+                                                listViewEventsRecordList[
+                                                    listViewIndex];
+                                            return Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(16, 4, 16, 8),
+                                              child: StreamBuilder<ChatsRecord>(
+                                                stream: ChatsRecord.getDocument(
+                                                    listViewEventsRecord
+                                                        .groupchat!),
+                                                builder: (context, snapshot) {
+                                                  // Customize what your widget looks like when it's loading.
+                                                  if (!snapshot.hasData) {
+                                                    return Center(
+                                                      child: SizedBox(
+                                                        width: 50,
+                                                        height: 50,
+                                                        child:
+                                                            SpinKitRotatingCircle(
+                                                          color:
+                                                              Color(0xFFF25454),
+                                                          size: 50,
+                                                        ),
+                                                      ),
+                                                    );
+                                                  }
+                                                  final userList5ChatsRecord =
+                                                      snapshot.data!;
+                                                  return Container(
+                                                    width: double.infinity,
+                                                    height: 150,
+                                                    decoration: BoxDecoration(
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primaryColor,
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                          blurRadius: 4,
+                                                          color:
+                                                              Color(0x32000000),
+                                                          offset: Offset(0, 2),
+                                                        )
+                                                      ],
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              14),
+                                                    ),
+                                                    child: Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  8, 0, 8, 0),
+                                                      child: Row(
+                                                        mainAxisSize:
+                                                            MainAxisSize.max,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Expanded(
+                                                            child: Padding(
+                                                              padding:
+                                                                  EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          12,
+                                                                          0,
+                                                                          0,
+                                                                          0),
+                                                              child: Column(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .max,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Row(
+                                                                    mainAxisSize:
+                                                                        MainAxisSize
+                                                                            .max,
+                                                                    children: [
+                                                                      Text(
+                                                                        listViewEventsRecord
+                                                                            .time!,
+                                                                        style: FlutterFlowTheme.of(context)
+                                                                            .bodyText1
+                                                                            .override(
+                                                                              fontFamily: 'Overpass',
+                                                                              color: Colors.white,
+                                                                              fontSize: 25,
+                                                                            ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                  Text(
+                                                                    listViewEventsRecord
+                                                                        .date!,
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyText2
+                                                                        .override(
+                                                                          fontFamily:
+                                                                              'Overpass',
+                                                                          color:
+                                                                              Color(0xFF616A6D),
+                                                                        ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          FFButtonWidget(
+                                                            onPressed:
+                                                                () async {
+                                                              final chatsUpdateData =
+                                                                  {
+                                                                'users': FieldValue
+                                                                    .arrayUnion([
+                                                                  currentUserReference
+                                                                ]),
+                                                              };
+                                                              await listViewEventsRecord
+                                                                  .groupchat!
+                                                                  .update(
+                                                                      chatsUpdateData);
+                                                              groupChat3 =
+                                                                  await FFChatManager
+                                                                      .instance
+                                                                      .addGroupMembers(
+                                                                userList5ChatsRecord,
+                                                                [
+                                                                  currentUserReference!
+                                                                ],
+                                                              );
+
+                                                              context.pushNamed(
+                                                                'ChatPage',
+                                                                queryParams: {
+                                                                  'eventGroupChat':
+                                                                      serializeParam(
+                                                                    groupChat3,
+                                                                    ParamType
+                                                                        .Document,
+                                                                  ),
+                                                                  'chatRef':
+                                                                      serializeParam(
+                                                                    listViewEventsRecord
+                                                                        .groupchat,
+                                                                    ParamType
+                                                                        .DocumentReference,
+                                                                  ),
+                                                                }.withoutNulls,
+                                                                extra: <String,
+                                                                    dynamic>{
+                                                                  'eventGroupChat':
+                                                                      groupChat3,
+                                                                },
+                                                              );
+
+                                                              setState(() {});
+                                                            },
+                                                            text: 'Join Event',
+                                                            options:
+                                                                FFButtonOptions(
+                                                              width: 100,
+                                                              height: 36,
+                                                              color: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .primaryColor,
+                                                              textStyle:
+                                                                  FlutterFlowTheme.of(
                                                                           context)
                                                                       .bodyText1
                                                                       .override(
                                                                         fontFamily:
-                                                                            'Overpass',
+                                                                            'Outfit',
                                                                         color: Colors
                                                                             .white,
                                                                         fontSize:
-                                                                            25,
+                                                                            14,
+                                                                        fontWeight:
+                                                                            FontWeight.normal,
                                                                       ),
-                                                                ),
-                                                              ],
+                                                              borderSide:
+                                                                  BorderSide(
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .white,
+                                                                width: 1,
+                                                              ),
                                                             ),
-                                                            Text(
-                                                              listViewEventsRecord
-                                                                  .date!,
-                                                              style: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .bodyText2
-                                                                  .override(
-                                                                    fontFamily:
-                                                                        'Overpass',
-                                                                    color: Color(
-                                                                        0xFF616A6D),
-                                                                  ),
-                                                            ),
-                                                          ],
-                                                        ),
+                                                          ),
+                                                        ],
                                                       ),
                                                     ),
-                                                    FFButtonWidget(
-                                                      onPressed: () async {
-                                                        groupChatPersonAdded =
-                                                            await FFChatManager
-                                                                .instance
-                                                                .addGroupMembers(
-                                                          groupChatPersonAdded!,
-                                                          [
-                                                            currentUserReference!
-                                                          ],
-                                                        );
-
-                                                        context.pushNamed(
-                                                          'ChatPage',
-                                                          queryParams: {
-                                                            'eventGroupChat':
-                                                                serializeParam(
-                                                              listViewEventsRecord
-                                                                  .groupchat,
-                                                              ParamType
-                                                                  .DocumentReference,
-                                                            ),
-                                                          }.withoutNulls,
-                                                        );
-
-                                                        setState(() {});
-                                                      },
-                                                      text: 'Join Event',
-                                                      options: FFButtonOptions(
-                                                        width: 100,
-                                                        height: 36,
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .primaryColor,
-                                                        textStyle:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodyText1
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Outfit',
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontSize: 14,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .normal,
-                                                                ),
-                                                        borderSide: BorderSide(
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .white,
-                                                          width: 1,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
+                                                  );
+                                                },
                                               ),
-                                            ),
-                                          );
-                                        },
-                                      );
-                                    },
+                                            );
+                                          },
+                                        );
+                                      },
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(0, 0, 0, 20),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * 0.96,
-                              height: 200,
-                              decoration: BoxDecoration(),
-                              child: Container(
-                                width: double.infinity,
-                                height: MediaQuery.of(context).size.height * 1,
-                                child: Stack(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0, 0, 0, 20),
-                                      child: PageView(
-                                        controller: pageViewController ??=
-                                            PageController(initialPage: 0),
-                                        scrollDirection: Axis.horizontal,
-                                        children: [
-                                          Container(),
-                                        ],
-                                      ),
-                                    ),
-                                    Align(
-                                      alignment: AlignmentDirectional(0, 1),
-                                      child: smooth_page_indicator
-                                          .SmoothPageIndicator(
-                                        controller: pageViewController ??=
-                                            PageController(initialPage: 0),
-                                        count: 1,
-                                        axisDirection: Axis.horizontal,
-                                        onDotClicked: (i) {
-                                          pageViewController!.animateToPage(
-                                            i,
-                                            duration:
-                                                Duration(milliseconds: 500),
-                                            curve: Curves.ease,
-                                          );
-                                        },
-                                        effect: smooth_page_indicator
-                                            .ExpandingDotsEffect(
-                                          expansionFactor: 2,
-                                          spacing: 8,
-                                          radius: 16,
-                                          dotWidth: 16,
-                                          dotHeight: 4,
-                                          dotColor: FlutterFlowTheme.of(context)
-                                              .grayLines,
-                                          activeDotColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .grayDark,
-                                          paintStyle: PaintingStyle.fill,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                ],
                               ),
                             ),
                           ),

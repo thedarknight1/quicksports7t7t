@@ -185,8 +185,8 @@ class _UsersettingsWidgetState extends State<UsersettingsWidget> {
                                         .secondaryText,
                                     size: 20,
                                   ),
-                                  onPressed: () {
-                                    print('IconButton pressed ...');
+                                  onPressed: () async {
+                                    context.pushNamed('editProfile');
                                   },
                                 ),
                               ],
@@ -248,8 +248,8 @@ class _UsersettingsWidgetState extends State<UsersettingsWidget> {
                                         .secondaryText,
                                     size: 20,
                                   ),
-                                  onPressed: () {
-                                    print('IconButton pressed ...');
+                                  onPressed: () async {
+                                    context.pushNamed('changePassword');
                                   },
                                 ),
                               ],
@@ -295,20 +295,6 @@ class _UsersettingsWidgetState extends State<UsersettingsWidget> {
                               Text(
                                 'Notification Settings',
                                 style: FlutterFlowTheme.of(context).subtitle2,
-                              ),
-                              FlutterFlowIconButton(
-                                borderColor: Colors.transparent,
-                                borderRadius: 30,
-                                buttonSize: 46,
-                                icon: Icon(
-                                  Icons.chevron_right_rounded,
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryText,
-                                  size: 20,
-                                ),
-                                onPressed: () {
-                                  print('IconButton pressed ...');
-                                },
                               ),
                             ],
                           ),
@@ -359,20 +345,6 @@ class _UsersettingsWidgetState extends State<UsersettingsWidget> {
                                       fontSize: 16,
                                     ),
                               ),
-                              FlutterFlowIconButton(
-                                borderColor: Colors.transparent,
-                                borderRadius: 30,
-                                buttonSize: 46,
-                                icon: Icon(
-                                  Icons.chevron_right_rounded,
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryText,
-                                  size: 20,
-                                ),
-                                onPressed: () {
-                                  print('IconButton pressed ...');
-                                },
-                              ),
                             ],
                           ),
                         ),
@@ -388,7 +360,7 @@ class _UsersettingsWidgetState extends State<UsersettingsWidget> {
                     GoRouter.of(context).prepareAuthEvent();
                     await signOut();
 
-                    context.goNamedAuth('login', mounted);
+                    context.goNamedAuth('loginCopy', mounted);
                   },
                   text: 'Log Out',
                   options: FFButtonOptions(

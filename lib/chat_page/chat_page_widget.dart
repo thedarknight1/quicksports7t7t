@@ -17,10 +17,12 @@ class ChatPageWidget extends StatefulWidget {
     Key? key,
     this.chatUser,
     this.eventGroupChat,
+    this.chatRef,
   }) : super(key: key);
 
   final UsersRecord? chatUser;
-  final DocumentReference? eventGroupChat;
+  final ChatsRecord? eventGroupChat;
+  final DocumentReference? chatRef;
 
   @override
   _ChatPageWidgetState createState() => _ChatPageWidgetState();
@@ -33,7 +35,7 @@ class _ChatPageWidgetState extends State<ChatPageWidget>
     if (widget.chatUser == null) {
       return true;
     }
-    if (widget.eventGroupChat == null) {
+    if (widget.chatRef == null) {
       return false;
     }
     return _chatInfo?.isGroupChat ?? false;
@@ -47,7 +49,7 @@ class _ChatPageWidgetState extends State<ChatPageWidget>
     FFChatManager.instance
         .getChatInfo(
       otherUserRecord: widget.chatUser,
-      chatReference: widget.eventGroupChat,
+      chatReference: widget.chatRef,
     )
         .listen((info) {
       if (mounted) {
@@ -80,7 +82,7 @@ class _ChatPageWidgetState extends State<ChatPageWidget>
                 size: 24,
               ),
               onPressed: () async {
-                context.pop();
+                context.pushNamed('AllChats');
               },
             ),
             title: Stack(
@@ -153,7 +155,7 @@ class _ChatPageWidgetState extends State<ChatPageWidget>
             child: StreamBuilder<FFChatInfo>(
               stream: FFChatManager.instance.getChatInfo(
                 otherUserRecord: widget.chatUser,
-                chatReference: widget.eventGroupChat,
+                chatReference: widget.chatRef,
               ),
               builder: (context, snapshot) => snapshot.hasData
                   ? FFChatPage(

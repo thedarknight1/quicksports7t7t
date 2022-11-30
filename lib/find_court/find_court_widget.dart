@@ -122,9 +122,6 @@ class _FindCourtWidgetState extends State<FindCourtWidget> {
                                   findCourtCourtsRecord.reference.path,
                                   findCourtCourtsRecord.location!,
                                   () async {
-                                    if (Navigator.of(context).canPop()) {
-                                      context.pop();
-                                    }
                                     context.pushNamed(
                                       'courtDetails',
                                       queryParams: {
@@ -135,18 +132,13 @@ class _FindCourtWidgetState extends State<FindCourtWidget> {
                                       }.withoutNulls,
                                       extra: <String, dynamic>{
                                         'court': findCourtCourtsRecord,
-                                        kTransitionInfoKey: TransitionInfo(
-                                          hasTransition: true,
-                                          transitionType:
-                                              PageTransitionType.fade,
-                                        ),
                                       },
                                     );
                                   },
                                 ),
                               )
                               .toList(),
-                          markerColor: GoogleMarkerColor.orange,
+                          markerColor: GoogleMarkerColor.red,
                           mapType: MapType.normal,
                           style: GoogleMapStyle.standard,
                           initialZoom: 14,

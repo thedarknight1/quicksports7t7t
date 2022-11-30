@@ -115,7 +115,7 @@ class _InterestscreateprofileWidgetState
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
-                FlutterFlowDropDown(
+                FlutterFlowDropDown<String>(
                   options: [
                     'Soccer',
                     'Basketball',
@@ -154,7 +154,7 @@ class _InterestscreateprofileWidgetState
                   margin: EdgeInsetsDirectional.fromSTEB(12, 4, 12, 4),
                   hidesUnderline: true,
                 ),
-                FlutterFlowDropDown(
+                FlutterFlowDropDown<String>(
                   options: [
                     'Soccer',
                     'Basketball',
@@ -193,7 +193,7 @@ class _InterestscreateprofileWidgetState
                   margin: EdgeInsetsDirectional.fromSTEB(12, 4, 12, 4),
                   hidesUnderline: true,
                 ),
-                FlutterFlowDropDown(
+                FlutterFlowDropDown<String>(
                   options: [
                     'Soccer',
                     'Basketball',

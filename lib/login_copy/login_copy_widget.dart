@@ -8,14 +8,14 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class LoginWidget extends StatefulWidget {
-  const LoginWidget({Key? key}) : super(key: key);
+class LoginCopyWidget extends StatefulWidget {
+  const LoginCopyWidget({Key? key}) : super(key: key);
 
   @override
-  _LoginWidgetState createState() => _LoginWidgetState();
+  _LoginCopyWidgetState createState() => _LoginCopyWidgetState();
 }
 
-class _LoginWidgetState extends State<LoginWidget> {
+class _LoginCopyWidgetState extends State<LoginCopyWidget> {
   TextEditingController? emailAddressController;
   TextEditingController? passwordController;
 
@@ -41,7 +41,7 @@ class _LoginWidgetState extends State<LoginWidget> {
   @override
   Widget build(BuildContext context) {
     return Title(
-        title: 'login',
+        title: 'loginCopy',
         color: FlutterFlowTheme.of(context).primaryColor,
         child: Scaffold(
           key: scaffoldKey,
@@ -378,7 +378,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                                       ),
                                       elevation: 4,
                                       borderSide: BorderSide(
-                                        color: Color(0xFF5A5656),
+                                        color: FlutterFlowTheme.of(context)
+                                            .background,
                                         width: 0,
                                       ),
                                       borderRadius: BorderRadius.circular(12),
@@ -423,7 +424,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                                           ),
                                           elevation: 4,
                                           borderSide: BorderSide(
-                                            color: Color(0xFF5A5656),
+                                            color: FlutterFlowTheme.of(context)
+                                                .background,
                                             width: 0,
                                           ),
                                           borderRadius:

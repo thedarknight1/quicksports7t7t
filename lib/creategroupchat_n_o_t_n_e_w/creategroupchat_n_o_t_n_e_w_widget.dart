@@ -1,3 +1,4 @@
+import '../auth/auth_util.dart';
 import '../backend/backend.dart';
 import '../chat_page/chat_page_widget.dart';
 import '../flutter_flow/chat/index.dart';
@@ -5,12 +6,20 @@ import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CreategroupchatNOTNEWWidget extends StatefulWidget {
-  const CreategroupchatNOTNEWWidget({Key? key}) : super(key: key);
+  const CreategroupchatNOTNEWWidget({
+    Key? key,
+    this.groupChatForEventCreate,
+    this.specificChat2,
+  }) : super(key: key);
+
+  final EventsRecord? groupChatForEventCreate;
+  final ChatsRecord? specificChat2;
 
   @override
   _CreategroupchatNOTNEWWidgetState createState() =>
@@ -27,7 +36,7 @@ class _CreategroupchatNOTNEWWidgetState
           .toList();
 
   TextEditingController? textController;
-  ChatsRecord? groupChat;
+  ChatsRecord? groupChatfromCreateGroupPage;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -327,7 +336,8 @@ class _CreategroupchatNOTNEWWidgetState
                   padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 34),
                   child: FFButtonWidget(
                     onPressed: () async {
-                      groupChat = await FFChatManager.instance.createChat(
+                      groupChatfromCreateGroupPage =
+                          await FFChatManager.instance.createChat(
                         checkboxListTileCheckedItems
                             .where((e) => e != null)
                             .toList()
@@ -337,12 +347,51 @@ class _CreategroupchatNOTNEWWidgetState
                       context.pushNamed(
                         'ChatPage',
                         queryParams: {
-                          'eventGroupChat': serializeParam(
-                            groupChat?.reference,
+                          'chatRef': serializeParam(
+                            groupChatfromCreateGroupPage?.reference,
                             ParamType.DocumentReference,
                           ),
                         }.withoutNulls,
                       );
+
+                      final chatsUpdateData = {
+                        ...createChatsRecordData(
+                          userA: groupChatfromCreateGroupPage!.userA,
+                          userB: groupChatfromCreateGroupPage!.userB,
+                          lastMessage:
+                              groupChatfromCreateGroupPage!.lastMessage,
+                          lastMessageTime:
+                              groupChatfromCreateGroupPage!.lastMessageTime,
+                          lastMessageSentBy:
+                              groupChatfromCreateGroupPage!.lastMessageSentBy,
+                        ),
+                        'users': groupChatfromCreateGroupPage!.users!.toList(),
+                        'last_message_seen_by': groupChatfromCreateGroupPage!
+                            .lastMessageSeenBy!
+                            .toList(),
+                      };
+                      await widget.groupChatForEventCreate!.groupchat!
+                          .update(chatsUpdateData);
+
+                      final eventsUpdateData = createEventsRecordData(
+                        description:
+                            widget.groupChatForEventCreate!.description,
+                        date: widget.groupChatForEventCreate!.date,
+                        time: widget.groupChatForEventCreate!.time,
+                        activity: widget.groupChatForEventCreate!.activity,
+                        playerage: widget.groupChatForEventCreate!.playerage,
+                        playercount:
+                            widget.groupChatForEventCreate!.playercount,
+                        locationname:
+                            widget.groupChatForEventCreate!.locationname,
+                        locationarea:
+                            widget.groupChatForEventCreate!.locationarea,
+                        eventsportname:
+                            widget.groupChatForEventCreate!.eventsportname,
+                        groupchat: groupChatfromCreateGroupPage!.reference,
+                      );
+                      await groupChatfromCreateGroupPage!.event!
+                          .update(eventsUpdateData);
 
                       setState(() {});
                     },

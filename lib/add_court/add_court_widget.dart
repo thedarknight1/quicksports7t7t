@@ -186,7 +186,7 @@ class _AddCourtWidgetState extends State<AddCourtWidget> {
                                 dropDownCourtsRecordList.isNotEmpty
                                     ? dropDownCourtsRecordList.first
                                     : null;
-                            return FlutterFlowDropDown(
+                            return FlutterFlowDropDown<String>(
                               options: [
                                 'Soccer',
                                 'Baskteball',

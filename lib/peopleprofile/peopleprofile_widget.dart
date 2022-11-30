@@ -7,7 +7,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:share_plus/share_plus.dart';
 
 class PeopleprofileWidget extends StatefulWidget {
   const PeopleprofileWidget({
@@ -120,46 +119,13 @@ class _PeopleprofileWidgetState extends State<PeopleprofileWidget> {
                                         },
                                       ),
                                     ),
-                                    Container(
-                                      width: 40,
-                                      height: 40,
-                                      decoration: BoxDecoration(
-                                        color: FlutterFlowTheme.of(context)
-                                            .secondaryBackground,
-                                        boxShadow: [
-                                          BoxShadow(
-                                            blurRadius: 4,
-                                            color: Color(0x520E151B),
-                                            offset: Offset(0, 2),
-                                          )
-                                        ],
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      child: FlutterFlowIconButton(
-                                        borderColor: Colors.transparent,
-                                        borderRadius: 8,
-                                        borderWidth: 1,
-                                        buttonSize: 40,
-                                        fillColor: FlutterFlowTheme.of(context)
-                                            .secondaryBackground,
-                                        icon: Icon(
-                                          Icons.ios_share,
-                                          color: FlutterFlowTheme.of(context)
-                                              .secondaryText,
-                                          size: 20,
-                                        ),
-                                        onPressed: () async {
-                                          await Share.share('');
-                                        },
-                                      ),
-                                    ),
                                   ],
                                 ),
                               ),
                             ),
                             Align(
                               alignment: AlignmentDirectional(0, 1),
-                              child: ClipRect(
+                              child: ClipRRect(
                                 child: BackdropFilter(
                                   filter: ImageFilter.blur(
                                     sigmaX: 4,

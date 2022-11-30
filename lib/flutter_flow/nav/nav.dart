@@ -69,23 +69,48 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
       errorBuilder: (context, _) =>
-          appStateNotifier.loggedIn ? NavBarPage() : LoginWidget(),
+          appStateNotifier.loggedIn ? NavBarPage() : LoginCopyWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
           builder: (context, _) =>
-              appStateNotifier.loggedIn ? NavBarPage() : LoginWidget(),
+              appStateNotifier.loggedIn ? NavBarPage() : LoginCopyWidget(),
           routes: [
-            FFRoute(
-              name: 'login',
-              path: 'login',
-              builder: (context, params) => LoginWidget(),
-            ),
             FFRoute(
               name: 'createAccount',
               path: 'createAccount',
               builder: (context, params) => CreateAccountWidget(),
+            ),
+            FFRoute(
+              name: 'loginCopy',
+              path: 'loginCopy',
+              builder: (context, params) => LoginCopyWidget(),
+            ),
+            FFRoute(
+              name: 'Locationprofile',
+              path: 'locationprofile',
+              builder: (context, params) => LocationprofileWidget(),
+            ),
+            FFRoute(
+              name: 'interestscreateprofile',
+              path: 'interestscreateprofile',
+              builder: (context, params) => InterestscreateprofileWidget(),
+            ),
+            FFRoute(
+              name: 'courtAddedSuccess',
+              path: 'courtAddedSuccess',
+              builder: (context, params) => CourtAddedSuccessWidget(),
+            ),
+            FFRoute(
+              name: 'addCourt',
+              path: 'addCourt',
+              builder: (context, params) => AddCourtWidget(),
+            ),
+            FFRoute(
+              name: 'createprofilefirst',
+              path: 'createprofilefirst',
+              builder: (context, params) => CreateprofilefirstWidget(),
             ),
             FFRoute(
               name: 'findCourt',
@@ -98,14 +123,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                     ),
             ),
             FFRoute(
-              name: 'courtAddedSuccess',
-              path: 'courtAddedSuccess',
-              builder: (context, params) => CourtAddedSuccessWidget(),
-            ),
-            FFRoute(
-              name: 'addCourt',
-              path: 'addCourt',
-              builder: (context, params) => AddCourtWidget(),
+              name: 'profilePage',
+              path: 'profilePage',
+              builder: (context, params) => params.isEmpty
+                  ? NavBarPage(initialPage: 'profilePage')
+                  : ProfilePageWidget(),
             ),
             FFRoute(
               name: 'createeventpage',
@@ -119,11 +141,9 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               ),
             ),
             FFRoute(
-              name: 'profilePage',
-              path: 'profilePage',
-              builder: (context, params) => params.isEmpty
-                  ? NavBarPage(initialPage: 'profilePage')
-                  : ProfilePageWidget(),
+              name: 'editProfile',
+              path: 'editProfile',
+              builder: (context, params) => EditProfileWidget(),
             ),
             FFRoute(
               name: 'courtDetails',
@@ -133,14 +153,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               },
               builder: (context, params) => CourtDetailsWidget(
                 court: params.getParam('court', ParamType.Document),
-                eventGroupChat: params.getParam('eventGroupChat',
-                    ParamType.DocumentReference, false, 'chats'),
               ),
-            ),
-            FFRoute(
-              name: 'editProfile',
-              path: 'editProfile',
-              builder: (context, params) => EditProfileWidget(),
             ),
             FFRoute(
               name: 'changePassword',
@@ -177,19 +190,15 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               path: 'chatPage',
               asyncParams: {
                 'chatUser': getDoc('users', UsersRecord.serializer),
+                'eventGroupChat': getDoc('chats', ChatsRecord.serializer),
               },
               builder: (context, params) => ChatPageWidget(
                 chatUser: params.getParam('chatUser', ParamType.Document),
-                eventGroupChat: params.getParam('eventGroupChat',
-                    ParamType.DocumentReference, false, 'chats'),
+                eventGroupChat:
+                    params.getParam('eventGroupChat', ParamType.Document),
+                chatRef: params.getParam(
+                    'chatRef', ParamType.DocumentReference, false, 'chats'),
               ),
-            ),
-            FFRoute(
-              name: 'AllChats',
-              path: 'allChats',
-              builder: (context, params) => params.isEmpty
-                  ? NavBarPage(initialPage: 'AllChats')
-                  : AllChatsWidget(),
             ),
             FFRoute(
               name: 'people',
@@ -197,6 +206,13 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               builder: (context, params) => params.isEmpty
                   ? NavBarPage(initialPage: 'people')
                   : PeopleWidget(),
+            ),
+            FFRoute(
+              name: 'AllChats',
+              path: 'allChats',
+              builder: (context, params) => params.isEmpty
+                  ? NavBarPage(initialPage: 'AllChats')
+                  : AllChatsWidget(),
             ),
             FFRoute(
               name: 'usersearcher',
@@ -217,21 +233,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               ),
             ),
             FFRoute(
-              name: 'firstcreateprofile',
-              path: 'firstcreateprofile',
-              builder: (context, params) => FirstcreateprofileWidget(),
-            ),
-            FFRoute(
-              name: 'interestscreateprofile',
-              path: 'interestscreateprofile',
-              builder: (context, params) => InterestscreateprofileWidget(),
-            ),
-            FFRoute(
-              name: 'Locationprofile',
-              path: 'locationprofile',
-              builder: (context, params) => LocationprofileWidget(),
-            ),
-            FFRoute(
               name: 'usersettings',
               path: 'usersettings',
               builder: (context, params) => UsersettingsWidget(),
@@ -247,17 +248,33 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               builder: (context, params) => CourtAddedSuccessCopyWidget(),
             ),
             FFRoute(
-              name: 'yesornogroupchat',
-              path: 'yesornogroupchat',
-              builder: (context, params) => YesornogroupchatWidget(
-                eventGroupChat: params.getParam('eventGroupChat',
-                    ParamType.DocumentReference, false, 'events'),
+              name: 'creategroupchatNOTNEW',
+              path: 'creategroupchatNOTNEW',
+              asyncParams: {
+                'groupChatForEventCreate':
+                    getDoc('events', EventsRecord.serializer),
+                'specificChat2': getDoc('chats', ChatsRecord.serializer),
+              },
+              builder: (context, params) => CreategroupchatNOTNEWWidget(
+                groupChatForEventCreate: params.getParam(
+                    'groupChatForEventCreate', ParamType.Document),
+                specificChat2:
+                    params.getParam('specificChat2', ParamType.Document),
               ),
             ),
             FFRoute(
-              name: 'creategroupchatNOTNEW',
-              path: 'creategroupchatNOTNEW',
-              builder: (context, params) => CreategroupchatNOTNEWWidget(),
+              name: 'yesornogroupchat',
+              path: 'yesornogroupchat',
+              asyncParams: {
+                'eventGroupChat': getDoc('events', EventsRecord.serializer),
+                'specificChat': getDoc('chats', ChatsRecord.serializer),
+              },
+              builder: (context, params) => YesornogroupchatWidget(
+                eventGroupChat:
+                    params.getParam('eventGroupChat', ParamType.Document),
+                specificChat:
+                    params.getParam('specificChat', ParamType.Document),
+              ),
             )
           ].map((r) => r.toRoute(appStateNotifier)).toList(),
         ).toRoute(appStateNotifier),
@@ -417,7 +434,7 @@ class FFRoute {
 
           if (requireAuth && !appStateNotifier.loggedIn) {
             appStateNotifier.setRedirectLocationIfUnset(state.location);
-            return '/login';
+            return '/loginCopy';
           }
           return null;
         },

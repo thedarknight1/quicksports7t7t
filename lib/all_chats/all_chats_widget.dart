@@ -110,7 +110,7 @@ class _AllChatsWidgetState extends State<AllChatsWidget> {
                                       : null,
                                   ParamType.Document,
                                 ),
-                                'eventGroupChat': serializeParam(
+                                'chatRef': serializeParam(
                                   chatInfo.chatRecord.reference,
                                   ParamType.DocumentReference,
                                 ),

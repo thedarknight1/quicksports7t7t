@@ -16,25 +16,31 @@ class CreateAccountWidget extends StatefulWidget {
 }
 
 class _CreateAccountWidgetState extends State<CreateAccountWidget> {
-  TextEditingController? emailAddressController;
-  TextEditingController? passwordController;
+  TextEditingController? confirmPasswordTextController;
 
-  late bool passwordVisibility;
+  late bool passwordVisibility2;
+  TextEditingController? inputNormalController;
+  TextEditingController? passwordTextController;
+
+  late bool passwordVisibility1;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    emailAddressController = TextEditingController();
-    passwordController = TextEditingController();
-    passwordVisibility = false;
+    confirmPasswordTextController = TextEditingController();
+    passwordVisibility2 = false;
+    inputNormalController = TextEditingController();
+    passwordTextController = TextEditingController();
+    passwordVisibility1 = false;
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
   void dispose() {
-    emailAddressController?.dispose();
-    passwordController?.dispose();
+    confirmPasswordTextController?.dispose();
+    inputNormalController?.dispose();
+    passwordTextController?.dispose();
     super.dispose();
   }
 
@@ -117,73 +123,83 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                               padding:
                                   EdgeInsetsDirectional.fromSTEB(20, 16, 20, 0),
                               child: Row(
-                                mainAxisSize: MainAxisSize.max,
+                                mainAxisSize: MainAxisSize.min,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Expanded(
-                                    child: TextFormField(
-                                      controller: emailAddressController,
-                                      obscureText: false,
-                                      decoration: InputDecoration(
-                                        labelText: 'Email Address',
-                                        labelStyle: FlutterFlowTheme.of(context)
+                                    child: Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          16, 8, 16, 8),
+                                      child: TextFormField(
+                                        controller: inputNormalController,
+                                        obscureText: false,
+                                        decoration: InputDecoration(
+                                          labelText: 'Email Address',
+                                          labelStyle: FlutterFlowTheme.of(
+                                                  context)
+                                              .bodyText1
+                                              .override(
+                                                fontFamily: 'Overpass',
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .secondaryColor,
+                                              ),
+                                          hintText:
+                                              'Enter your email address...',
+                                          hintStyle: FlutterFlowTheme.of(
+                                                  context)
+                                              .bodyText1
+                                              .override(
+                                                fontFamily: 'Overpass',
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .secondaryColor,
+                                              ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Color(0xFFDBE2E7),
+                                              width: 2,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Color(0xFFDBE2E7),
+                                              width: 2,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                          errorBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Color(0x00000000),
+                                              width: 2,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                          focusedErrorBorder:
+                                              OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Color(0x00000000),
+                                              width: 2,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                        ),
+                                        style: FlutterFlowTheme.of(context)
                                             .bodyText1
                                             .override(
                                               fontFamily: 'Overpass',
-                                              color: Color(0xFF95A1AC),
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryColor,
                                             ),
-                                        hintText: 'Enter your email here...',
-                                        hintStyle: FlutterFlowTheme.of(context)
-                                            .bodyText1
-                                            .override(
-                                              fontFamily: 'Overpass',
-                                              color: Color(0xFF95A1AC),
-                                            ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Color(0xFFDBE2E7),
-                                            width: 2,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Color(0xFFDBE2E7),
-                                            width: 2,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        errorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Color(0x00000000),
-                                            width: 2,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        focusedErrorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Color(0x00000000),
-                                            width: 2,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        filled: true,
-                                        fillColor:
-                                            FlutterFlowTheme.of(context).white,
-                                        contentPadding:
-                                            EdgeInsetsDirectional.fromSTEB(
-                                                16, 24, 0, 24),
+                                        keyboardType:
+                                            TextInputType.emailAddress,
                                       ),
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyText1
-                                          .override(
-                                            fontFamily: 'Overpass',
-                                            color: Color(0xFF2B343A),
-                                          ),
                                     ),
                                   ),
                                 ],
@@ -191,90 +207,200 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                             ),
                             Padding(
                               padding:
-                                  EdgeInsetsDirectional.fromSTEB(20, 16, 20, 0),
+                                  EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
                               child: Row(
-                                mainAxisSize: MainAxisSize.max,
+                                mainAxisSize: MainAxisSize.min,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Expanded(
-                                    child: TextFormField(
-                                      controller: passwordController,
-                                      obscureText: !passwordVisibility,
-                                      decoration: InputDecoration(
-                                        labelText: 'Password',
-                                        labelStyle: FlutterFlowTheme.of(context)
+                                    child: Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          16, 8, 16, 8),
+                                      child: TextFormField(
+                                        controller: passwordTextController,
+                                        obscureText: !passwordVisibility1,
+                                        decoration: InputDecoration(
+                                          labelText: 'Password',
+                                          labelStyle: FlutterFlowTheme.of(
+                                                  context)
+                                              .bodyText1
+                                              .override(
+                                                fontFamily: 'Overpass',
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .secondaryColor,
+                                              ),
+                                          hintText: 'Enter Password',
+                                          hintStyle: FlutterFlowTheme.of(
+                                                  context)
+                                              .bodyText1
+                                              .override(
+                                                fontFamily: 'Overpass',
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .secondaryColor,
+                                              ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Color(0xFFDBE2E7),
+                                              width: 2,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Color(0xFFDBE2E7),
+                                              width: 2,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                          errorBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Color(0x00000000),
+                                              width: 2,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                          focusedErrorBorder:
+                                              OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Color(0x00000000),
+                                              width: 2,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                          suffixIcon: InkWell(
+                                            onTap: () => setState(
+                                              () => passwordVisibility1 =
+                                                  !passwordVisibility1,
+                                            ),
+                                            focusNode:
+                                                FocusNode(skipTraversal: true),
+                                            child: Icon(
+                                              passwordVisibility1
+                                                  ? Icons.visibility_outlined
+                                                  : Icons
+                                                      .visibility_off_outlined,
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondaryColor,
+                                              size: 20,
+                                            ),
+                                          ),
+                                        ),
+                                        style: FlutterFlowTheme.of(context)
                                             .bodyText1
                                             .override(
                                               fontFamily: 'Overpass',
-                                              color: Color(0xFF95A1AC),
+                                              color: Color(0xFF14181B),
                                             ),
-                                        hintText: 'Enter your password here...',
-                                        hintStyle: FlutterFlowTheme.of(context)
-                                            .bodyText1
-                                            .override(
-                                              fontFamily: 'Overpass',
-                                              color: Color(0xFF95A1AC),
-                                            ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Color(0xFFDBE2E7),
-                                            width: 2,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Color(0xFFDBE2E7),
-                                            width: 2,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        errorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Color(0x00000000),
-                                            width: 2,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        focusedErrorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Color(0x00000000),
-                                            width: 2,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        filled: true,
-                                        fillColor:
-                                            FlutterFlowTheme.of(context).white,
-                                        contentPadding:
-                                            EdgeInsetsDirectional.fromSTEB(
-                                                16, 24, 0, 24),
-                                        suffixIcon: InkWell(
-                                          onTap: () => setState(
-                                            () => passwordVisibility =
-                                                !passwordVisibility,
-                                          ),
-                                          focusNode:
-                                              FocusNode(skipTraversal: true),
-                                          child: Icon(
-                                            passwordVisibility
-                                                ? Icons.visibility_outlined
-                                                : Icons.visibility_off_outlined,
-                                            color: Color(0xFF95A1AC),
-                                            size: 22,
-                                          ),
-                                        ),
                                       ),
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyText1
-                                          .override(
-                                            fontFamily: 'Overpass',
-                                            color: Color(0xFF2B343A),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    child: Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          16, 8, 16, 8),
+                                      child: TextFormField(
+                                        controller:
+                                            confirmPasswordTextController,
+                                        obscureText: !passwordVisibility2,
+                                        decoration: InputDecoration(
+                                          labelText: 'Confirm Password',
+                                          labelStyle: FlutterFlowTheme.of(
+                                                  context)
+                                              .bodyText1
+                                              .override(
+                                                fontFamily: 'Overpass',
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .secondaryColor,
+                                              ),
+                                          hintText: 'Confirm Password',
+                                          hintStyle: FlutterFlowTheme.of(
+                                                  context)
+                                              .bodyText1
+                                              .override(
+                                                fontFamily: 'Overpass',
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .secondaryColor,
+                                              ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Color(0xFFDBE2E7),
+                                              width: 2,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8),
                                           ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Color(0xFFDBE2E7),
+                                              width: 2,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                          errorBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Color(0x00000000),
+                                              width: 2,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                          focusedErrorBorder:
+                                              OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Color(0x00000000),
+                                              width: 2,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                          suffixIcon: InkWell(
+                                            onTap: () => setState(
+                                              () => passwordVisibility2 =
+                                                  !passwordVisibility2,
+                                            ),
+                                            focusNode:
+                                                FocusNode(skipTraversal: true),
+                                            child: Icon(
+                                              passwordVisibility2
+                                                  ? Icons.visibility_outlined
+                                                  : Icons
+                                                      .visibility_off_outlined,
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondaryColor,
+                                              size: 20,
+                                            ),
+                                          ),
+                                        ),
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyText1
+                                            .override(
+                                              fontFamily: 'Overpass',
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryColor,
+                                            ),
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -287,51 +413,76 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  FFButtonWidget(
-                                    onPressed: () async {
-                                      GoRouter.of(context).prepareAuthEvent();
+                                  Expanded(
+                                    child: Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          10, 10, 10, 10),
+                                      child: FFButtonWidget(
+                                        onPressed: () async {
+                                          GoRouter.of(context)
+                                              .prepareAuthEvent();
+                                          if (passwordTextController?.text !=
+                                              confirmPasswordTextController
+                                                  ?.text) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                  'Passwords don\'t match!',
+                                                ),
+                                              ),
+                                            );
+                                            return;
+                                          }
 
-                                      final user = await createAccountWithEmail(
-                                        context,
-                                        emailAddressController!.text,
-                                        passwordController!.text,
-                                      );
-                                      if (user == null) {
-                                        return;
-                                      }
+                                          final user =
+                                              await createAccountWithEmail(
+                                            context,
+                                            inputNormalController!.text,
+                                            passwordTextController!.text,
+                                          );
+                                          if (user == null) {
+                                            return;
+                                          }
 
-                                      context.pushNamedAuth(
-                                        'firstcreateprofile',
-                                        mounted,
-                                        extra: <String, dynamic>{
-                                          kTransitionInfoKey: TransitionInfo(
-                                            hasTransition: true,
-                                            transitionType:
-                                                PageTransitionType.rightToLeft,
-                                          ),
+                                          context.pushNamedAuth(
+                                            'createprofilefirst',
+                                            mounted,
+                                            extra: <String, dynamic>{
+                                              kTransitionInfoKey:
+                                                  TransitionInfo(
+                                                hasTransition: true,
+                                                transitionType:
+                                                    PageTransitionType
+                                                        .rightToLeft,
+                                              ),
+                                            },
+                                          );
                                         },
-                                      );
-                                    },
-                                    text: 'Create Account',
-                                    options: FFButtonOptions(
-                                      width: 170,
-                                      height: 50,
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryColor,
-                                      textStyle: FlutterFlowTheme.of(context)
-                                          .subtitle2
-                                          .override(
-                                            fontFamily: 'Overpass',
-                                            color: Colors.white,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
+                                        text: 'Create Account',
+                                        options: FFButtonOptions(
+                                          width: 170,
+                                          height: 50,
+                                          color: FlutterFlowTheme.of(context)
+                                              .primaryColor,
+                                          textStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .subtitle2
+                                                  .override(
+                                                    fontFamily: 'Overpass',
+                                                    color: Colors.white,
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                          elevation: 2,
+                                          borderSide: BorderSide(
+                                            color: Colors.transparent,
+                                            width: 1,
                                           ),
-                                      elevation: 2,
-                                      borderSide: BorderSide(
-                                        color: Colors.transparent,
-                                        width: 1,
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
                                       ),
-                                      borderRadius: BorderRadius.circular(8),
                                     ),
                                   ),
                                 ],
@@ -378,10 +529,10 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                                             return;
                                           }
 
-                                          context.goNamedAuth(
-                                              'findCourt', mounted);
+                                          context.pushNamedAuth(
+                                              'createprofilefirst', mounted);
                                         },
-                                        text: 'Sign in with Google',
+                                        text: 'Create account with Google',
                                         icon: FaIcon(
                                           FontAwesomeIcons.google,
                                           color: Color(0xFFC37575),
@@ -398,7 +549,8 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                                           ),
                                           elevation: 4,
                                           borderSide: BorderSide(
-                                            color: Colors.transparent,
+                                            color: FlutterFlowTheme.of(context)
+                                                .background,
                                             width: 0,
                                           ),
                                           borderRadius:
@@ -414,7 +566,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                               onPressed: () {
                                 print('Button pressed ...');
                               },
-                              text: 'Sign in with Apple',
+                              text: 'Create account with Appple',
                               icon: FaIcon(
                                 FontAwesomeIcons.apple,
                                 size: 20,
@@ -430,7 +582,8 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                                 ),
                                 elevation: 4,
                                 borderSide: BorderSide(
-                                  color: Colors.transparent,
+                                  color:
+                                      FlutterFlowTheme.of(context).background,
                                   width: 0,
                                 ),
                                 borderRadius: BorderRadius.circular(12),
@@ -442,7 +595,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                               child: FFButtonWidget(
                                 onPressed: () async {
                                   context.pushNamed(
-                                    'login',
+                                    'loginCopy',
                                     extra: <String, dynamic>{
                                       kTransitionInfoKey: TransitionInfo(
                                         hasTransition: true,
