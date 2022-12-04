@@ -90,7 +90,7 @@ class _CreategroupchatNOTNEWWidgetState
                       ),
                 ),
                 Text(
-                  'Select the friends to add to chat.',
+                  'Select the friends to add to chat.\n(You must select atleast 2)',
                   style: FlutterFlowTheme.of(context).bodyText2.override(
                         fontFamily: 'Lexend Deca',
                         color: Color(0xFF1A1F24),
@@ -207,7 +207,9 @@ class _CreategroupchatNOTNEWWidgetState
                         ),
                       );
                     }
-                    List<UsersRecord> listViewUsersRecordList = snapshot.data!;
+                    List<UsersRecord> listViewUsersRecordList = snapshot.data!
+                        .where((u) => u.uid != currentUserUid)
+                        .toList();
                     return ListView.builder(
                       padding: EdgeInsets.zero,
                       shrinkWrap: true,
@@ -332,83 +334,87 @@ class _CreategroupchatNOTNEWWidgetState
                     topRight: Radius.circular(16),
                   ),
                 ),
-                child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 34),
-                  child: FFButtonWidget(
-                    onPressed: () async {
-                      groupChatfromCreateGroupPage =
-                          await FFChatManager.instance.createChat(
-                        checkboxListTileCheckedItems
-                            .where((e) => e != null)
-                            .toList()
-                            .map((e) => e.reference)
-                            .toList(),
-                      );
-                      context.pushNamed(
-                        'ChatPage',
-                        queryParams: {
-                          'chatRef': serializeParam(
-                            groupChatfromCreateGroupPage?.reference,
-                            ParamType.DocumentReference,
-                          ),
-                        }.withoutNulls,
-                      );
+                child: Visibility(
+                  visible: checkboxListTileCheckedItems.length == 2,
+                  child: Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 34),
+                    child: FFButtonWidget(
+                      onPressed: () async {
+                        groupChatfromCreateGroupPage =
+                            await FFChatManager.instance.createChat(
+                          checkboxListTileCheckedItems
+                              .where((e) => e != null)
+                              .toList()
+                              .map((e) => e.reference)
+                              .toList(),
+                        );
+                        context.pushNamed(
+                          'ChatPage',
+                          queryParams: {
+                            'chatRef': serializeParam(
+                              groupChatfromCreateGroupPage?.reference,
+                              ParamType.DocumentReference,
+                            ),
+                          }.withoutNulls,
+                        );
 
-                      final chatsUpdateData = {
-                        ...createChatsRecordData(
-                          userA: groupChatfromCreateGroupPage!.userA,
-                          userB: groupChatfromCreateGroupPage!.userB,
-                          lastMessage:
-                              groupChatfromCreateGroupPage!.lastMessage,
-                          lastMessageTime:
-                              groupChatfromCreateGroupPage!.lastMessageTime,
-                          lastMessageSentBy:
-                              groupChatfromCreateGroupPage!.lastMessageSentBy,
+                        final chatsUpdateData = {
+                          ...createChatsRecordData(
+                            userA: groupChatfromCreateGroupPage!.userA,
+                            userB: groupChatfromCreateGroupPage!.userB,
+                            lastMessage:
+                                groupChatfromCreateGroupPage!.lastMessage,
+                            lastMessageTime:
+                                groupChatfromCreateGroupPage!.lastMessageTime,
+                            lastMessageSentBy:
+                                groupChatfromCreateGroupPage!.lastMessageSentBy,
+                          ),
+                          'users':
+                              groupChatfromCreateGroupPage!.users!.toList(),
+                          'last_message_seen_by': groupChatfromCreateGroupPage!
+                              .lastMessageSeenBy!
+                              .toList(),
+                        };
+                        await widget.groupChatForEventCreate!.groupchat!
+                            .update(chatsUpdateData);
+
+                        final eventsUpdateData = createEventsRecordData(
+                          description:
+                              widget.groupChatForEventCreate!.description,
+                          date: widget.groupChatForEventCreate!.date,
+                          time: widget.groupChatForEventCreate!.time,
+                          activity: widget.groupChatForEventCreate!.activity,
+                          playerage: widget.groupChatForEventCreate!.playerage,
+                          playercount:
+                              widget.groupChatForEventCreate!.playercount,
+                          locationname:
+                              widget.groupChatForEventCreate!.locationname,
+                          locationarea:
+                              widget.groupChatForEventCreate!.locationarea,
+                          eventsportname:
+                              widget.groupChatForEventCreate!.eventsportname,
+                          groupchat: groupChatfromCreateGroupPage!.reference,
+                        );
+                        await groupChatfromCreateGroupPage!.event!
+                            .update(eventsUpdateData);
+
+                        setState(() {});
+                      },
+                      text: 'Create Chat',
+                      options: FFButtonOptions(
+                        width: 130,
+                        height: 40,
+                        color: Color(0xFF4E39F9),
+                        textStyle: FlutterFlowTheme.of(context).title3.override(
+                              fontFamily: 'Lexend Deca',
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500,
+                            ),
+                        borderSide: BorderSide(
+                          color: Colors.transparent,
+                          width: 1,
                         ),
-                        'users': groupChatfromCreateGroupPage!.users!.toList(),
-                        'last_message_seen_by': groupChatfromCreateGroupPage!
-                            .lastMessageSeenBy!
-                            .toList(),
-                      };
-                      await widget.groupChatForEventCreate!.groupchat!
-                          .update(chatsUpdateData);
-
-                      final eventsUpdateData = createEventsRecordData(
-                        description:
-                            widget.groupChatForEventCreate!.description,
-                        date: widget.groupChatForEventCreate!.date,
-                        time: widget.groupChatForEventCreate!.time,
-                        activity: widget.groupChatForEventCreate!.activity,
-                        playerage: widget.groupChatForEventCreate!.playerage,
-                        playercount:
-                            widget.groupChatForEventCreate!.playercount,
-                        locationname:
-                            widget.groupChatForEventCreate!.locationname,
-                        locationarea:
-                            widget.groupChatForEventCreate!.locationarea,
-                        eventsportname:
-                            widget.groupChatForEventCreate!.eventsportname,
-                        groupchat: groupChatfromCreateGroupPage!.reference,
-                      );
-                      await groupChatfromCreateGroupPage!.event!
-                          .update(eventsUpdateData);
-
-                      setState(() {});
-                    },
-                    text: 'Create Chat',
-                    options: FFButtonOptions(
-                      width: 130,
-                      height: 40,
-                      color: Color(0xFF4E39F9),
-                      textStyle: FlutterFlowTheme.of(context).title3.override(
-                            fontFamily: 'Lexend Deca',
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
-                          ),
-                      borderSide: BorderSide(
-                        color: Colors.transparent,
-                        width: 1,
                       ),
                     ),
                   ),

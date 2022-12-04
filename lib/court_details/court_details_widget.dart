@@ -1,7 +1,6 @@
 import '../auth/auth_util.dart';
 import '../backend/backend.dart';
 import '../components/rate_court_widget.dart';
-import '../flutter_flow/chat/index.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
@@ -24,7 +23,6 @@ class CourtDetailsWidget extends StatefulWidget {
 }
 
 class _CourtDetailsWidgetState extends State<CourtDetailsWidget> {
-  ChatsRecord? groupChat3;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -237,201 +235,138 @@ class _CourtDetailsWidgetState extends State<CourtDetailsWidget> {
                                             return Padding(
                                               padding: EdgeInsetsDirectional
                                                   .fromSTEB(16, 4, 16, 8),
-                                              child: StreamBuilder<ChatsRecord>(
-                                                stream: ChatsRecord.getDocument(
-                                                    listViewEventsRecord
-                                                        .groupchat!),
-                                                builder: (context, snapshot) {
-                                                  // Customize what your widget looks like when it's loading.
-                                                  if (!snapshot.hasData) {
-                                                    return Center(
-                                                      child: SizedBox(
-                                                        width: 50,
-                                                        height: 50,
-                                                        child:
-                                                            SpinKitRotatingCircle(
-                                                          color:
-                                                              Color(0xFFF25454),
-                                                          size: 50,
-                                                        ),
-                                                      ),
-                                                    );
-                                                  }
-                                                  final userList5ChatsRecord =
-                                                      snapshot.data!;
-                                                  return Container(
-                                                    width: double.infinity,
-                                                    height: 150,
-                                                    decoration: BoxDecoration(
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .primaryColor,
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          blurRadius: 4,
-                                                          color:
-                                                              Color(0x32000000),
-                                                          offset: Offset(0, 2),
-                                                        )
-                                                      ],
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              14),
-                                                    ),
-                                                    child: Padding(
-                                                      padding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  8, 0, 8, 0),
-                                                      child: Row(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: [
-                                                          Expanded(
-                                                            child: Padding(
-                                                              padding:
-                                                                  EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          12,
-                                                                          0,
-                                                                          0,
-                                                                          0),
-                                                              child: Column(
+                                              child: Container(
+                                                width: double.infinity,
+                                                height: 150,
+                                                decoration: BoxDecoration(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primaryColor,
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      blurRadius: 4,
+                                                      color: Color(0x32000000),
+                                                      offset: Offset(0, 2),
+                                                    )
+                                                  ],
+                                                  borderRadius:
+                                                      BorderRadius.circular(14),
+                                                ),
+                                                child: Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(8, 0, 8, 0),
+                                                  child: Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Expanded(
+                                                        child: Padding(
+                                                          padding:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(12,
+                                                                      0, 0, 0),
+                                                          child: Column(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .max,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Row(
                                                                 mainAxisSize:
                                                                     MainAxisSize
                                                                         .max,
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .center,
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
                                                                 children: [
-                                                                  Row(
-                                                                    mainAxisSize:
-                                                                        MainAxisSize
-                                                                            .max,
-                                                                    children: [
-                                                                      Text(
-                                                                        listViewEventsRecord
-                                                                            .time!,
-                                                                        style: FlutterFlowTheme.of(context)
-                                                                            .bodyText1
-                                                                            .override(
-                                                                              fontFamily: 'Overpass',
-                                                                              color: Colors.white,
-                                                                              fontSize: 25,
-                                                                            ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
                                                                   Text(
                                                                     listViewEventsRecord
-                                                                        .date!,
+                                                                        .time!,
                                                                     style: FlutterFlowTheme.of(
                                                                             context)
-                                                                        .bodyText2
+                                                                        .bodyText1
                                                                         .override(
                                                                           fontFamily:
                                                                               'Overpass',
                                                                           color:
-                                                                              Color(0xFF616A6D),
+                                                                              Colors.white,
+                                                                          fontSize:
+                                                                              25,
                                                                         ),
                                                                   ),
                                                                 ],
                                                               ),
-                                                            ),
-                                                          ),
-                                                          FFButtonWidget(
-                                                            onPressed:
-                                                                () async {
-                                                              final chatsUpdateData =
-                                                                  {
-                                                                'users': FieldValue
-                                                                    .arrayUnion([
-                                                                  currentUserReference
-                                                                ]),
-                                                              };
-                                                              await listViewEventsRecord
-                                                                  .groupchat!
-                                                                  .update(
-                                                                      chatsUpdateData);
-                                                              groupChat3 =
-                                                                  await FFChatManager
-                                                                      .instance
-                                                                      .addGroupMembers(
-                                                                userList5ChatsRecord,
-                                                                [
-                                                                  currentUserReference!
-                                                                ],
-                                                              );
-
-                                                              context.pushNamed(
-                                                                'ChatPage',
-                                                                queryParams: {
-                                                                  'eventGroupChat':
-                                                                      serializeParam(
-                                                                    groupChat3,
-                                                                    ParamType
-                                                                        .Document,
-                                                                  ),
-                                                                  'chatRef':
-                                                                      serializeParam(
-                                                                    listViewEventsRecord
-                                                                        .groupchat,
-                                                                    ParamType
-                                                                        .DocumentReference,
-                                                                  ),
-                                                                }.withoutNulls,
-                                                                extra: <String,
-                                                                    dynamic>{
-                                                                  'eventGroupChat':
-                                                                      groupChat3,
-                                                                },
-                                                              );
-
-                                                              setState(() {});
-                                                            },
-                                                            text: 'Join Event',
-                                                            options:
-                                                                FFButtonOptions(
-                                                              width: 100,
-                                                              height: 36,
-                                                              color: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .primaryColor,
-                                                              textStyle:
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyText1
-                                                                      .override(
-                                                                        fontFamily:
-                                                                            'Outfit',
-                                                                        color: Colors
-                                                                            .white,
-                                                                        fontSize:
-                                                                            14,
-                                                                        fontWeight:
-                                                                            FontWeight.normal,
-                                                                      ),
-                                                              borderSide:
-                                                                  BorderSide(
-                                                                color: FlutterFlowTheme.of(
+                                                              Text(
+                                                                listViewEventsRecord
+                                                                    .date!,
+                                                                style: FlutterFlowTheme.of(
                                                                         context)
-                                                                    .white,
-                                                                width: 1,
+                                                                    .bodyText2
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Overpass',
+                                                                      color: Color(
+                                                                          0xFF616A6D),
+                                                                    ),
                                                               ),
-                                                            ),
+                                                            ],
                                                           ),
-                                                        ],
+                                                        ),
                                                       ),
-                                                    ),
-                                                  );
-                                                },
+                                                      FFButtonWidget(
+                                                        onPressed: () async {
+                                                          final chatsUpdateData =
+                                                              {
+                                                            'users': FieldValue
+                                                                .arrayUnion([
+                                                              currentUserReference
+                                                            ]),
+                                                          };
+                                                          await listViewEventsRecord
+                                                              .groupchat!
+                                                              .update(
+                                                                  chatsUpdateData);
+                                                        },
+                                                        text: 'Join Event',
+                                                        options:
+                                                            FFButtonOptions(
+                                                          width: 100,
+                                                          height: 36,
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primaryColor,
+                                                          textStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyText1
+                                                                  .override(
+                                                                    fontFamily:
+                                                                        'Outfit',
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontSize:
+                                                                        14,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .normal,
+                                                                  ),
+                                                          borderSide:
+                                                              BorderSide(
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .white,
+                                                            width: 1,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
                                               ),
                                             );
                                           },

@@ -88,24 +88,24 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               builder: (context, params) => LoginCopyWidget(),
             ),
             FFRoute(
-              name: 'Locationprofile',
-              path: 'locationprofile',
-              builder: (context, params) => LocationprofileWidget(),
-            ),
-            FFRoute(
               name: 'interestscreateprofile',
               path: 'interestscreateprofile',
               builder: (context, params) => InterestscreateprofileWidget(),
             ),
             FFRoute(
-              name: 'courtAddedSuccess',
-              path: 'courtAddedSuccess',
-              builder: (context, params) => CourtAddedSuccessWidget(),
+              name: 'Locationprofile',
+              path: 'locationprofile',
+              builder: (context, params) => LocationprofileWidget(),
             ),
             FFRoute(
               name: 'addCourt',
               path: 'addCourt',
               builder: (context, params) => AddCourtWidget(),
+            ),
+            FFRoute(
+              name: 'courtAddedSuccess',
+              path: 'courtAddedSuccess',
+              builder: (context, params) => CourtAddedSuccessWidget(),
             ),
             FFRoute(
               name: 'createprofilefirst',
@@ -215,13 +215,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                   : AllChatsWidget(),
             ),
             FFRoute(
-              name: 'usersearcher',
-              path: 'usersearcher',
-              builder: (context, params) => params.isEmpty
-                  ? NavBarPage(initialPage: 'usersearcher')
-                  : UsersearcherWidget(),
-            ),
-            FFRoute(
               name: 'peopleprofile',
               path: 'peopleprofile',
               builder: (context, params) => PeopleprofileWidget(
@@ -231,6 +224,13 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                     false,
                     'users'),
               ),
+            ),
+            FFRoute(
+              name: 'usersearcher',
+              path: 'usersearcher',
+              builder: (context, params) => params.isEmpty
+                  ? NavBarPage(initialPage: 'usersearcher')
+                  : UsersearcherWidget(),
             ),
             FFRoute(
               name: 'usersettings',
@@ -248,6 +248,20 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               builder: (context, params) => CourtAddedSuccessCopyWidget(),
             ),
             FFRoute(
+              name: 'yesornogroupchat',
+              path: 'yesornogroupchat',
+              asyncParams: {
+                'eventGroupChat': getDoc('events', EventsRecord.serializer),
+                'specificChat': getDoc('chats', ChatsRecord.serializer),
+              },
+              builder: (context, params) => YesornogroupchatWidget(
+                eventGroupChat:
+                    params.getParam('eventGroupChat', ParamType.Document),
+                specificChat:
+                    params.getParam('specificChat', ParamType.Document),
+              ),
+            ),
+            FFRoute(
               name: 'creategroupchatNOTNEW',
               path: 'creategroupchatNOTNEW',
               asyncParams: {
@@ -260,20 +274,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                     'groupChatForEventCreate', ParamType.Document),
                 specificChat2:
                     params.getParam('specificChat2', ParamType.Document),
-              ),
-            ),
-            FFRoute(
-              name: 'yesornogroupchat',
-              path: 'yesornogroupchat',
-              asyncParams: {
-                'eventGroupChat': getDoc('events', EventsRecord.serializer),
-                'specificChat': getDoc('chats', ChatsRecord.serializer),
-              },
-              builder: (context, params) => YesornogroupchatWidget(
-                eventGroupChat:
-                    params.getParam('eventGroupChat', ParamType.Document),
-                specificChat:
-                    params.getParam('specificChat', ParamType.Document),
               ),
             )
           ].map((r) => r.toRoute(appStateNotifier)).toList(),

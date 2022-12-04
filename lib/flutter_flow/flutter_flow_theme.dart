@@ -193,7 +193,7 @@ class DarkModeTheme extends FlutterFlowTheme {
   late Color gray600 = Color(0xFF262D34);
   late Color black600 = Color(0xFF090F13);
   late Color tertiary400 = Color(0xFF39D2C0);
-  late Color textColor = Color(0xFF1E2429);
+  late Color textColor = Color(0xFFFFFFFF);
 }
 
 extension TextStyleHelper on TextStyle {
