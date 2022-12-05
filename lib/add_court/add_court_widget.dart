@@ -189,7 +189,7 @@ class _AddCourtWidgetState extends State<AddCourtWidget> {
                             return FlutterFlowDropDown<String>(
                               options: [
                                 'Soccer',
-                                'Baskteball',
+                                'Basketball',
                                 'Football',
                                 'Running',
                                 'Weightlifting',
@@ -405,7 +405,7 @@ class _AddCourtWidgetState extends State<AddCourtWidget> {
                                     size: 24,
                                   ),
                                   buttonOptions: FFButtonOptions(
-                                    width: 240,
+                                    width: 200,
                                     height: 50,
                                     color:
                                         FlutterFlowTheme.of(context).background,
@@ -421,7 +421,7 @@ class _AddCourtWidgetState extends State<AddCourtWidget> {
                                       color: Colors.transparent,
                                       width: 1,
                                     ),
-                                    borderRadius: BorderRadius.circular(12),
+                                    borderRadius: BorderRadius.circular(50),
                                   ),
                                 ),
                               ),
@@ -468,7 +468,7 @@ class _AddCourtWidgetState extends State<AddCourtWidget> {
                                 color: Colors.transparent,
                                 width: 1,
                               ),
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(50),
                             ),
                           ),
                         ),

@@ -1,11 +1,11 @@
 import '../auth/auth_util.dart';
 import '../backend/backend.dart';
+import '../flutter_flow/flutter_flow_autocomplete_options_list.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,10 +18,13 @@ class LocationprofileWidget extends StatefulWidget {
 }
 
 class _LocationprofileWidgetState extends State<LocationprofileWidget> {
-  List<CitiesRecord>? algoliaSearchResults = [];
   TextEditingController? cityController;
+  final stateKey = GlobalKey();
   TextEditingController? stateController;
+  String? stateSelectedOption;
+  final zipcodeKey = GlobalKey();
   TextEditingController? zipcodeController;
+  String? zipcodeSelectedOption;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -36,8 +39,6 @@ class _LocationprofileWidgetState extends State<LocationprofileWidget> {
   @override
   void dispose() {
     cityController?.dispose();
-    stateController?.dispose();
-    zipcodeController?.dispose();
     super.dispose();
   }
 
@@ -116,44 +117,151 @@ class _LocationprofileWidgetState extends State<LocationprofileWidget> {
               children: [
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 16),
-                  child: FutureBuilder<List<CitiesRecord>>(
-                    future: CitiesRecord.search(
-                      term: cityController!.text,
-                    ),
-                    builder: (context, snapshot) {
-                      // Customize what your widget looks like when it's loading.
-                      if (!snapshot.hasData) {
-                        return Center(
-                          child: SizedBox(
-                            width: 50,
-                            height: 50,
-                            child: SpinKitRotatingCircle(
-                              color: Color(0xFFF25454),
-                              size: 50,
-                            ),
-                          ),
-                        );
-                      }
-                      List<CitiesRecord> cityCitiesRecordList = snapshot.data!;
-                      return TextFormField(
-                        controller: cityController,
-                        onChanged: (_) => EasyDebounce.debounce(
-                          'cityController',
-                          Duration(milliseconds: 2000),
-                          () async {
-                            setState(() => algoliaSearchResults = null);
-                            await CitiesRecord.search(
-                              term: cityController!.text,
-                            )
-                                .then((r) => algoliaSearchResults = r)
-                                .onError((_, __) => algoliaSearchResults = [])
-                                .whenComplete(() => setState(() {}));
-                          },
+                  child: TextFormField(
+                    controller: cityController,
+                    obscureText: false,
+                    decoration: InputDecoration(
+                      labelStyle: FlutterFlowTheme.of(context).bodyText2,
+                      hintText: 'City...',
+                      hintStyle: FlutterFlowTheme.of(context).bodyText2,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: FlutterFlowTheme.of(context).primaryBackground,
+                          width: 2,
                         ),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: FlutterFlowTheme.of(context).primaryBackground,
+                          width: 2,
+                        ),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0x00000000),
+                          width: 2,
+                        ),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0x00000000),
+                          width: 2,
+                        ),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      filled: true,
+                      fillColor:
+                          FlutterFlowTheme.of(context).secondaryBackground,
+                      contentPadding:
+                          EdgeInsetsDirectional.fromSTEB(20, 24, 0, 24),
+                    ),
+                    style: FlutterFlowTheme.of(context).bodyText1,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 12),
+                  child: Autocomplete<String>(
+                    initialValue: TextEditingValue(),
+                    optionsBuilder: (textEditingValue) {
+                      if (textEditingValue.text == '') {
+                        return const Iterable<String>.empty();
+                      }
+                      return [
+                        'Alabama',
+                        'Alaska',
+                        'Arizona',
+                        'Arkansas',
+                        'California',
+                        'Clorado',
+                        'Conneticut',
+                        'Delaware',
+                        'Florida',
+                        'Georgia',
+                        'Hawaii',
+                        'Idaho',
+                        'Illinois',
+                        'Indiana',
+                        'Iowa',
+                        'Kansas',
+                        'Kentucky',
+                        'Louisiana',
+                        'Maine',
+                        'Maryland',
+                        'Massachusetts',
+                        'Michigan',
+                        'Minnesota',
+                        'Mississippi',
+                        'Missouri',
+                        'Montana',
+                        'Nebraska',
+                        'Nevada',
+                        'New Hampshire',
+                        'New Jersey',
+                        'New Mexico',
+                        'New York',
+                        'North Carolina',
+                        'North Dakota',
+                        'Ohio',
+                        'Oklahoma',
+                        'Oregon',
+                        'Pennsylvania',
+                        'Rhode Island',
+                        'South Carolina',
+                        'South Dakota',
+                        'Tennessee',
+                        'Texas',
+                        'Utah',
+                        'Vermont',
+                        'Virginia',
+                        'Washington',
+                        'West Virginia',
+                        'Wisconsin',
+                        'Wyoming'
+                      ].where((option) {
+                        final lowercaseOption = option.toLowerCase();
+                        return lowercaseOption
+                            .contains(textEditingValue.text.toLowerCase());
+                      });
+                    },
+                    optionsViewBuilder: (context, onSelected, options) {
+                      return AutocompleteOptionsList(
+                        textFieldKey: stateKey,
+                        textController: stateController!,
+                        options: options.toList(),
+                        onSelected: onSelected,
+                        textStyle: FlutterFlowTheme.of(context).bodyText1,
+                        textHighlightStyle: TextStyle(),
+                        elevation: 4,
+                        optionBackgroundColor:
+                            FlutterFlowTheme.of(context).primaryBackground,
+                        optionHighlightColor:
+                            FlutterFlowTheme.of(context).secondaryBackground,
+                        maxHeight: 200,
+                      );
+                    },
+                    onSelected: (String selection) {
+                      setState(() => stateSelectedOption = selection);
+                      FocusScope.of(context).unfocus();
+                    },
+                    fieldViewBuilder: (
+                      context,
+                      textEditingController,
+                      focusNode,
+                      onEditingComplete,
+                    ) {
+                      stateController = textEditingController;
+                      return TextFormField(
+                        key: stateKey,
+                        controller: textEditingController,
+                        focusNode: focusNode,
+                        onEditingComplete: onEditingComplete,
                         obscureText: false,
                         decoration: InputDecoration(
                           labelStyle: FlutterFlowTheme.of(context).bodyText2,
-                          hintText: 'City...',
+                          hintText: 'State...',
                           hintStyle: FlutterFlowTheme.of(context).bodyText2,
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
@@ -198,94 +306,94 @@ class _LocationprofileWidgetState extends State<LocationprofileWidget> {
                 ),
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 12),
-                  child: TextFormField(
-                    controller: stateController,
-                    obscureText: false,
-                    decoration: InputDecoration(
-                      labelStyle: FlutterFlowTheme.of(context).bodyText2,
-                      hintText: 'State...',
-                      hintStyle: FlutterFlowTheme.of(context).bodyText2,
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: FlutterFlowTheme.of(context).primaryBackground,
-                          width: 2,
+                  child: Autocomplete<String>(
+                    initialValue: TextEditingValue(),
+                    optionsBuilder: (textEditingValue) {
+                      if (textEditingValue.text == '') {
+                        return const Iterable<String>.empty();
+                      }
+                      return ['Option 1'].where((option) {
+                        final lowercaseOption = option.toLowerCase();
+                        return lowercaseOption
+                            .contains(textEditingValue.text.toLowerCase());
+                      });
+                    },
+                    optionsViewBuilder: (context, onSelected, options) {
+                      return AutocompleteOptionsList(
+                        textFieldKey: zipcodeKey,
+                        textController: zipcodeController!,
+                        options: options.toList(),
+                        onSelected: onSelected,
+                        textStyle: FlutterFlowTheme.of(context).bodyText1,
+                        textHighlightStyle: TextStyle(),
+                        elevation: 4,
+                        optionBackgroundColor:
+                            FlutterFlowTheme.of(context).primaryBackground,
+                        optionHighlightColor:
+                            FlutterFlowTheme.of(context).secondaryBackground,
+                        maxHeight: 200,
+                      );
+                    },
+                    onSelected: (String selection) {
+                      setState(() => zipcodeSelectedOption = selection);
+                      FocusScope.of(context).unfocus();
+                    },
+                    fieldViewBuilder: (
+                      context,
+                      textEditingController,
+                      focusNode,
+                      onEditingComplete,
+                    ) {
+                      zipcodeController = textEditingController;
+                      return TextFormField(
+                        key: zipcodeKey,
+                        controller: textEditingController,
+                        focusNode: focusNode,
+                        onEditingComplete: onEditingComplete,
+                        obscureText: false,
+                        decoration: InputDecoration(
+                          labelStyle: FlutterFlowTheme.of(context).bodyText2,
+                          hintText: 'Zip Code...',
+                          hintStyle: FlutterFlowTheme.of(context).bodyText2,
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: FlutterFlowTheme.of(context)
+                                  .primaryBackground,
+                              width: 2,
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: FlutterFlowTheme.of(context)
+                                  .primaryBackground,
+                              width: 2,
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color(0x00000000),
+                              width: 2,
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color(0x00000000),
+                              width: 2,
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          filled: true,
+                          fillColor:
+                              FlutterFlowTheme.of(context).secondaryBackground,
+                          contentPadding:
+                              EdgeInsetsDirectional.fromSTEB(20, 24, 0, 24),
                         ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: FlutterFlowTheme.of(context).primaryBackground,
-                          width: 2,
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color(0x00000000),
-                          width: 2,
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color(0x00000000),
-                          width: 2,
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      filled: true,
-                      fillColor:
-                          FlutterFlowTheme.of(context).secondaryBackground,
-                      contentPadding:
-                          EdgeInsetsDirectional.fromSTEB(20, 24, 0, 24),
-                    ),
-                    style: FlutterFlowTheme.of(context).bodyText1,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 12),
-                  child: TextFormField(
-                    controller: zipcodeController,
-                    obscureText: false,
-                    decoration: InputDecoration(
-                      labelStyle: FlutterFlowTheme.of(context).bodyText2,
-                      hintText: 'Zip Code...',
-                      hintStyle: FlutterFlowTheme.of(context).bodyText2,
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: FlutterFlowTheme.of(context).primaryBackground,
-                          width: 2,
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: FlutterFlowTheme.of(context).primaryBackground,
-                          width: 2,
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color(0x00000000),
-                          width: 2,
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color(0x00000000),
-                          width: 2,
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      filled: true,
-                      fillColor:
-                          FlutterFlowTheme.of(context).secondaryBackground,
-                      contentPadding:
-                          EdgeInsetsDirectional.fromSTEB(20, 24, 0, 24),
-                    ),
-                    style: FlutterFlowTheme.of(context).bodyText1,
+                        style: FlutterFlowTheme.of(context).bodyText1,
+                      );
+                    },
                   ),
                 ),
                 Align(
@@ -294,26 +402,52 @@ class _LocationprofileWidgetState extends State<LocationprofileWidget> {
                     padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 0),
                     child: FFButtonWidget(
                       onPressed: () async {
-                        final usersUpdateData = createUsersRecordData(
-                          city: cityController!.text,
-                          stateName: stateController!.text,
-                          zips: zipcodeController!.text,
-                        );
-                        await currentUserReference!.update(usersUpdateData);
+                        if ((cityController!.text != null &&
+                                cityController!.text != '') &&
+                            (stateController!.text != null &&
+                                stateController!.text != '') &&
+                            (zipcodeController!.text != null &&
+                                zipcodeController!.text != '')) {
+                          final usersUpdateData = createUsersRecordData(
+                            city: cityController!.text,
+                            stateName: stateController!.text,
+                            zips: zipcodeController!.text,
+                          );
+                          await currentUserReference!.update(usersUpdateData);
 
-                        context.pushNamed(
-                          'interestscreateprofile',
-                          extra: <String, dynamic>{
-                            kTransitionInfoKey: TransitionInfo(
-                              hasTransition: true,
-                              transitionType: PageTransitionType.rightToLeft,
-                            ),
-                          },
-                        );
+                          context.pushNamed(
+                            'interestscreateprofile',
+                            extra: <String, dynamic>{
+                              kTransitionInfoKey: TransitionInfo(
+                                hasTransition: true,
+                                transitionType: PageTransitionType.rightToLeft,
+                              ),
+                            },
+                          );
+                        } else {
+                          await showDialog(
+                            context: context,
+                            builder: (alertDialogContext) {
+                              return AlertDialog(
+                                title: Text(
+                                    'Please fill in all fields to continue'),
+                                content: Text(
+                                    'Please fill in all fields to continue'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.pop(alertDialogContext),
+                                    child: Text('Ok'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        }
                       },
                       text: 'Continue',
                       options: FFButtonOptions(
-                        width: 340,
+                        width: 200,
                         height: 60,
                         color: FlutterFlowTheme.of(context).primaryColor,
                         textStyle:
@@ -328,6 +462,7 @@ class _LocationprofileWidgetState extends State<LocationprofileWidget> {
                           color: Colors.transparent,
                           width: 1,
                         ),
+                        borderRadius: BorderRadius.circular(50),
                       ),
                     ),
                   ),

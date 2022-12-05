@@ -86,7 +86,7 @@ class _LoginCopyWidgetState extends State<LoginCopyWidget> {
                       width: MediaQuery.of(context).size.width * 0.9,
                       decoration: BoxDecoration(
                         color: FlutterFlowTheme.of(context).white,
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(20),
                       ),
                       child: Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(0, 3, 0, 0),
@@ -122,7 +122,7 @@ class _LoginCopyWidgetState extends State<LoginCopyWidget> {
                                       controller: emailAddressController,
                                       obscureText: false,
                                       decoration: InputDecoration(
-                                        labelText: 'Email Address',
+                                        labelText: 'Enter your email here...',
                                         labelStyle: FlutterFlowTheme.of(context)
                                             .bodyText1
                                             .override(
@@ -142,7 +142,7 @@ class _LoginCopyWidgetState extends State<LoginCopyWidget> {
                                             width: 2,
                                           ),
                                           borderRadius:
-                                              BorderRadius.circular(8),
+                                              BorderRadius.circular(50),
                                         ),
                                         focusedBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
@@ -150,7 +150,7 @@ class _LoginCopyWidgetState extends State<LoginCopyWidget> {
                                             width: 2,
                                           ),
                                           borderRadius:
-                                              BorderRadius.circular(8),
+                                              BorderRadius.circular(50),
                                         ),
                                         errorBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
@@ -158,7 +158,7 @@ class _LoginCopyWidgetState extends State<LoginCopyWidget> {
                                             width: 2,
                                           ),
                                           borderRadius:
-                                              BorderRadius.circular(8),
+                                              BorderRadius.circular(50),
                                         ),
                                         focusedErrorBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
@@ -166,14 +166,14 @@ class _LoginCopyWidgetState extends State<LoginCopyWidget> {
                                             width: 2,
                                           ),
                                           borderRadius:
-                                              BorderRadius.circular(8),
+                                              BorderRadius.circular(50),
                                         ),
                                         filled: true,
                                         fillColor:
                                             FlutterFlowTheme.of(context).white,
                                         contentPadding:
                                             EdgeInsetsDirectional.fromSTEB(
-                                                16, 24, 0, 24),
+                                                25, 24, 0, 24),
                                       ),
                                       style: FlutterFlowTheme.of(context)
                                           .bodyText1
@@ -198,7 +198,8 @@ class _LoginCopyWidgetState extends State<LoginCopyWidget> {
                                       controller: passwordController,
                                       obscureText: !passwordVisibility,
                                       decoration: InputDecoration(
-                                        labelText: 'Password',
+                                        labelText:
+                                            'Enter your password here...',
                                         labelStyle: FlutterFlowTheme.of(context)
                                             .bodyText1
                                             .override(
@@ -218,7 +219,7 @@ class _LoginCopyWidgetState extends State<LoginCopyWidget> {
                                             width: 2,
                                           ),
                                           borderRadius:
-                                              BorderRadius.circular(8),
+                                              BorderRadius.circular(50),
                                         ),
                                         focusedBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
@@ -226,7 +227,7 @@ class _LoginCopyWidgetState extends State<LoginCopyWidget> {
                                             width: 2,
                                           ),
                                           borderRadius:
-                                              BorderRadius.circular(8),
+                                              BorderRadius.circular(50),
                                         ),
                                         errorBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
@@ -234,7 +235,7 @@ class _LoginCopyWidgetState extends State<LoginCopyWidget> {
                                             width: 2,
                                           ),
                                           borderRadius:
-                                              BorderRadius.circular(8),
+                                              BorderRadius.circular(50),
                                         ),
                                         focusedErrorBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
@@ -242,14 +243,14 @@ class _LoginCopyWidgetState extends State<LoginCopyWidget> {
                                             width: 2,
                                           ),
                                           borderRadius:
-                                              BorderRadius.circular(8),
+                                              BorderRadius.circular(50),
                                         ),
                                         filled: true,
                                         fillColor:
                                             FlutterFlowTheme.of(context).white,
                                         contentPadding:
                                             EdgeInsetsDirectional.fromSTEB(
-                                                16, 24, 0, 24),
+                                                25, 24, 0, 24),
                                         suffixIcon: InkWell(
                                           onTap: () => setState(
                                             () => passwordVisibility =
@@ -326,7 +327,7 @@ class _LoginCopyWidgetState extends State<LoginCopyWidget> {
                                     },
                                     text: 'Login',
                                     options: FFButtonOptions(
-                                      width: 130,
+                                      width: 100,
                                       height: 50,
                                       color: FlutterFlowTheme.of(context)
                                           .primaryColor,
@@ -343,7 +344,7 @@ class _LoginCopyWidgetState extends State<LoginCopyWidget> {
                                         color: Colors.transparent,
                                         width: 1,
                                       ),
-                                      borderRadius: BorderRadius.circular(8),
+                                      borderRadius: BorderRadius.circular(50),
                                     ),
                                   ),
                                 ],
@@ -382,7 +383,7 @@ class _LoginCopyWidgetState extends State<LoginCopyWidget> {
                                             .background,
                                         width: 0,
                                       ),
-                                      borderRadius: BorderRadius.circular(12),
+                                      borderRadius: BorderRadius.circular(50),
                                     ),
                                   ),
                             Align(
@@ -429,7 +430,7 @@ class _LoginCopyWidgetState extends State<LoginCopyWidget> {
                                             width: 0,
                                           ),
                                           borderRadius:
-                                              BorderRadius.circular(12),
+                                              BorderRadius.circular(50),
                                         ),
                                       ),
                                     ),
@@ -486,7 +487,7 @@ class _LoginCopyWidgetState extends State<LoginCopyWidget> {
                                     color: Colors.transparent,
                                     width: 1,
                                   ),
-                                  borderRadius: BorderRadius.circular(12),
+                                  borderRadius: BorderRadius.circular(50),
                                 ),
                               ),
                             ),

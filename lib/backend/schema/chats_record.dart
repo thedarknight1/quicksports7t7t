@@ -31,8 +31,7 @@ abstract class ChatsRecord implements Built<ChatsRecord, ChatsRecordBuilder> {
   @BuiltValueField(wireName: 'last_message_seen_by')
   BuiltList<DocumentReference>? get lastMessageSeenBy;
 
-  @BuiltValueField(wireName: 'Event')
-  DocumentReference? get event;
+  int? get numUsers;
 
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
@@ -41,7 +40,8 @@ abstract class ChatsRecord implements Built<ChatsRecord, ChatsRecordBuilder> {
   static void _initializeBuilder(ChatsRecordBuilder builder) => builder
     ..users = ListBuilder()
     ..lastMessage = ''
-    ..lastMessageSeenBy = ListBuilder();
+    ..lastMessageSeenBy = ListBuilder()
+    ..numUsers = 0;
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('chats');
@@ -67,7 +67,7 @@ abstract class ChatsRecord implements Built<ChatsRecord, ChatsRecordBuilder> {
               safeGet(() => toRef(snapshot.data['last_message_sent_by']))
           ..lastMessageSeenBy = safeGet(() => ListBuilder(
               snapshot.data['last_message_seen_by'].map((s) => toRef(s))))
-          ..event = safeGet(() => toRef(snapshot.data['Event']))
+          ..numUsers = snapshot.data['numUsers']?.round()
           ..ffRef = ChatsRecord.collection.doc(snapshot.objectID),
       );
 
@@ -102,7 +102,7 @@ Map<String, dynamic> createChatsRecordData({
   String? lastMessage,
   DateTime? lastMessageTime,
   DocumentReference? lastMessageSentBy,
-  DocumentReference? event,
+  int? numUsers,
 }) {
   final firestoreData = serializers.toFirestore(
     ChatsRecord.serializer,
@@ -115,7 +115,7 @@ Map<String, dynamic> createChatsRecordData({
         ..lastMessageTime = lastMessageTime
         ..lastMessageSentBy = lastMessageSentBy
         ..lastMessageSeenBy = null
-        ..event = event,
+        ..numUsers = numUsers,
     ),
   );
 

@@ -25,6 +25,7 @@ class _InterestscreateprofileWidgetState
   String? dropDownValue3;
   TextEditingController? favAthleteController;
   TextEditingController? favSportsTeamController;
+  bool? checkboxValue;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -154,83 +155,89 @@ class _InterestscreateprofileWidgetState
                   margin: EdgeInsetsDirectional.fromSTEB(12, 4, 12, 4),
                   hidesUnderline: true,
                 ),
-                FlutterFlowDropDown<String>(
-                  options: [
-                    'Soccer',
-                    'Basketball',
-                    'American Football',
-                    'Baseball',
-                    'Cricket',
-                    'Volleyball',
-                    'Rugby',
-                    'Softball',
-                    'Field Hockey',
-                    'Tennis',
-                    'Badminton',
-                    'Table Tennis',
-                    'Running',
-                    'Golf',
-                    'Ultimate Frisbee',
-                    'Flag Football',
-                    'Biking',
-                    'Swimming',
-                    'Cheer',
-                    'Ice Hockey'
-                  ],
-                  onChanged: (val) => setState(() => dropDownValue2 = val),
-                  width: 180,
-                  height: 50,
-                  textStyle: FlutterFlowTheme.of(context).bodyText1.override(
-                        fontFamily: 'Overpass',
-                        color: Colors.black,
-                      ),
-                  hintText: '#2 Favorite Sport',
-                  fillColor: Colors.white,
-                  elevation: 2,
-                  borderColor: Colors.transparent,
-                  borderWidth: 0,
-                  borderRadius: 0,
-                  margin: EdgeInsetsDirectional.fromSTEB(12, 4, 12, 4),
-                  hidesUnderline: true,
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 10),
+                  child: FlutterFlowDropDown<String>(
+                    options: [
+                      'Soccer',
+                      'Basketball',
+                      'American Football',
+                      'Baseball',
+                      'Cricket',
+                      'Volleyball',
+                      'Rugby',
+                      'Softball',
+                      'Field Hockey',
+                      'Tennis',
+                      'Badminton',
+                      'Table Tennis',
+                      'Running',
+                      'Golf',
+                      'Ultimate Frisbee',
+                      'Flag Football',
+                      'Biking',
+                      'Swimming',
+                      'Cheer',
+                      'Ice Hockey'
+                    ],
+                    onChanged: (val) => setState(() => dropDownValue2 = val),
+                    width: 180,
+                    height: 50,
+                    textStyle: FlutterFlowTheme.of(context).bodyText1.override(
+                          fontFamily: 'Overpass',
+                          color: Colors.black,
+                        ),
+                    hintText: '#2 Favorite Sport',
+                    fillColor: Colors.white,
+                    elevation: 2,
+                    borderColor: Colors.transparent,
+                    borderWidth: 0,
+                    borderRadius: 0,
+                    margin: EdgeInsetsDirectional.fromSTEB(12, 4, 12, 4),
+                    hidesUnderline: true,
+                  ),
                 ),
-                FlutterFlowDropDown<String>(
-                  options: [
-                    'Soccer',
-                    'Basketball',
-                    'American Football',
-                    'Baseball',
-                    'Cricket',
-                    'Volleyball',
-                    'Rugby',
-                    'Softball',
-                    'Field Hockey',
-                    'Tennis',
-                    'Badminton',
-                    'Table Tennis',
-                    'Running',
-                    'Golf',
-                    'Ultimate Frisbee',
-                    'Flag Football',
-                    'Biking',
-                    'Swimming',
-                    'Cheer',
-                    'Ice Hockey'
-                  ],
-                  onChanged: (val) => setState(() => dropDownValue3 = val),
-                  width: 180,
-                  height: 50,
-                  textStyle: FlutterFlowTheme.of(context).bodyText1.override(
-                        fontFamily: 'Overpass',
-                        color: Colors.black,
-                      ),
-                  hintText: '#3 Favorite Sport',
-                  fillColor: Colors.white,
-                  elevation: 2,
-                  borderColor: Colors.transparent,
-                  borderWidth: 0,
-                  borderRadius: 0,
-                  margin: EdgeInsetsDirectional.fromSTEB(12, 4, 12, 4),
-                  hidesUnderline: true,
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
+                  child: FlutterFlowDropDown<String>(
+                    options: [
+                      'Soccer',
+                      'Basketball',
+                      'American Football',
+                      'Baseball',
+                      'Cricket',
+                      'Volleyball',
+                      'Rugby',
+                      'Softball',
+                      'Field Hockey',
+                      'Tennis',
+                      'Badminton',
+                      'Table Tennis',
+                      'Running',
+                      'Golf',
+                      'Ultimate Frisbee',
+                      'Flag Football',
+                      'Biking',
+                      'Swimming',
+                      'Cheer',
+                      'Ice Hockey'
+                    ],
+                    onChanged: (val) => setState(() => dropDownValue3 = val),
+                    width: 180,
+                    height: 50,
+                    textStyle: FlutterFlowTheme.of(context).bodyText1.override(
+                          fontFamily: 'Overpass',
+                          color: Colors.black,
+                        ),
+                    hintText: '#3 Favorite Sport',
+                    fillColor: Colors.white,
+                    elevation: 2,
+                    borderColor: Colors.transparent,
+                    borderWidth: 0,
+                    borderRadius: 0,
+                    margin: EdgeInsetsDirectional.fromSTEB(12, 4, 12, 4),
+                    hidesUnderline: true,
+                  ),
                 ),
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 16),
@@ -324,34 +331,99 @@ class _InterestscreateprofileWidgetState
                     style: FlutterFlowTheme.of(context).bodyText1,
                   ),
                 ),
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(30, 0, 0, 0),
+                      child: Text(
+                        'By clicking this box you confirm that you have\nread and agreed to the Terms and Conditions',
+                        textAlign: TextAlign.start,
+                        style: FlutterFlowTheme.of(context).bodyText1,
+                      ),
+                    ),
+                    Theme(
+                      data: ThemeData(
+                        checkboxTheme: CheckboxThemeData(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(0),
+                          ),
+                        ),
+                        unselectedWidgetColor: Color(0xFFCD7B7B),
+                      ),
+                      child: Checkbox(
+                        value: checkboxValue ??= false,
+                        onChanged: (newValue) async {
+                          setState(() => checkboxValue = newValue!);
+                        },
+                        activeColor: FlutterFlowTheme.of(context).primaryColor,
+                      ),
+                    ),
+                  ],
+                ),
+                InkWell(
+                  onTap: () async {
+                    context.pushNamed('termsandconditions');
+                  },
+                  child: Text(
+                    'Terms and Conditions',
+                    style: FlutterFlowTheme.of(context).bodyText1.override(
+                          fontFamily: 'Overpass',
+                          color: Color(0xFFFF5757),
+                          fontStyle: FontStyle.italic,
+                        ),
+                  ),
+                ),
                 Align(
                   alignment: AlignmentDirectional(0, 0.05),
                   child: Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 0),
                     child: FFButtonWidget(
                       onPressed: () async {
-                        final usersUpdateData = createUsersRecordData(
-                          favsport: dropDownValue1,
-                          favsport2: dropDownValue2,
-                          favsport3: dropDownValue3,
-                          favteam: favSportsTeamController!.text,
-                          favplayer: favAthleteController!.text,
-                        );
-                        await currentUserReference!.update(usersUpdateData);
+                        if (checkboxValue == true) {
+                          final usersUpdateData = createUsersRecordData(
+                            favsport: dropDownValue1,
+                            favsport2: dropDownValue2,
+                            favsport3: dropDownValue3,
+                            favteam: favSportsTeamController!.text,
+                            favplayer: favAthleteController!.text,
+                          );
+                          await currentUserReference!.update(usersUpdateData);
 
-                        context.pushNamed(
-                          'findCourt',
-                          extra: <String, dynamic>{
-                            kTransitionInfoKey: TransitionInfo(
-                              hasTransition: true,
-                              transitionType: PageTransitionType.fade,
-                            ),
-                          },
-                        );
+                          context.pushNamed(
+                            'findCourt',
+                            extra: <String, dynamic>{
+                              kTransitionInfoKey: TransitionInfo(
+                                hasTransition: true,
+                                transitionType: PageTransitionType.fade,
+                              ),
+                            },
+                          );
+                        } else {
+                          await showDialog(
+                            context: context,
+                            builder: (alertDialogContext) {
+                              return AlertDialog(
+                                title: Text(
+                                    'Please check the box for terms and conditions to continue'),
+                                content: Text(
+                                    'Please check the box for terms and conditions to continue'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.pop(alertDialogContext),
+                                    child: Text('Ok'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        }
                       },
                       text: 'Finish',
                       options: FFButtonOptions(
-                        width: 340,
+                        width: 200,
                         height: 60,
                         color: FlutterFlowTheme.of(context).primaryColor,
                         textStyle:
@@ -366,6 +438,7 @@ class _InterestscreateprofileWidgetState
                           color: Colors.transparent,
                           width: 1,
                         ),
+                        borderRadius: BorderRadius.circular(50),
                       ),
                     ),
                   ),

@@ -1,4 +1,3 @@
-import '../auth/auth_util.dart';
 import '../backend/backend.dart';
 import '../chat_page/chat_page_widget.dart';
 import '../flutter_flow/chat/index.dart';
@@ -6,7 +5,6 @@ import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -118,36 +116,6 @@ class _YesornogroupchatWidgetState extends State<YesornogroupchatWidget> {
                               ),
                             }.withoutNulls,
                           );
-
-                          final chatsUpdateData = {
-                            ...createChatsRecordData(
-                              userA: groupChat!.userA,
-                              userB: groupChat!.userB,
-                              lastMessage: groupChat!.lastMessage,
-                              lastMessageTime: groupChat!.lastMessageTime,
-                              lastMessageSentBy: groupChat!.lastMessageSentBy,
-                            ),
-                            'users': groupChat!.users!.toList(),
-                            'last_message_seen_by':
-                                groupChat!.lastMessageSeenBy!.toList(),
-                          };
-                          await widget.eventGroupChat!.groupchat!
-                              .update(chatsUpdateData);
-
-                          final eventsUpdateData = createEventsRecordData(
-                            description: widget.eventGroupChat!.description,
-                            date: widget.eventGroupChat!.date,
-                            time: widget.eventGroupChat!.time,
-                            activity: widget.eventGroupChat!.activity,
-                            playerage: widget.eventGroupChat!.playerage,
-                            playercount: widget.eventGroupChat!.playercount,
-                            locationname: widget.eventGroupChat!.locationname,
-                            locationarea: widget.eventGroupChat!.locationarea,
-                            eventsportname:
-                                widget.eventGroupChat!.eventsportname,
-                            groupchat: groupChat!.reference,
-                          );
-                          await groupChat!.event!.update(eventsUpdateData);
 
                           setState(() {});
                         },

@@ -1,17 +1,17 @@
 import '../auth/auth_util.dart';
 import '../backend/backend.dart';
-import '../chat_page/chat_page_widget.dart';
 import '../flutter_flow/chat/index.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class CreategroupchatNOTNEWWidget extends StatefulWidget {
-  const CreategroupchatNOTNEWWidget({
+class CreategroupchatNOTNEWCopyWidget extends StatefulWidget {
+  const CreategroupchatNOTNEWCopyWidget({
     Key? key,
     this.groupChatForEventCreate,
     this.specificChat2,
@@ -21,12 +21,12 @@ class CreategroupchatNOTNEWWidget extends StatefulWidget {
   final ChatsRecord? specificChat2;
 
   @override
-  _CreategroupchatNOTNEWWidgetState createState() =>
-      _CreategroupchatNOTNEWWidgetState();
+  _CreategroupchatNOTNEWCopyWidgetState createState() =>
+      _CreategroupchatNOTNEWCopyWidgetState();
 }
 
-class _CreategroupchatNOTNEWWidgetState
-    extends State<CreategroupchatNOTNEWWidget> {
+class _CreategroupchatNOTNEWCopyWidgetState
+    extends State<CreategroupchatNOTNEWCopyWidget> {
   Map<UsersRecord, bool> checkboxListTileValueMap = {};
   List<UsersRecord> get checkboxListTileCheckedItems =>
       checkboxListTileValueMap.entries
@@ -54,7 +54,7 @@ class _CreategroupchatNOTNEWWidgetState
   @override
   Widget build(BuildContext context) {
     return Title(
-        title: 'creategroupchatNOTNEW',
+        title: 'creategroupchatNOTNEWCopy',
         color: FlutterFlowTheme.of(context).primaryColor,
         child: Scaffold(
           key: scaffoldKey,
@@ -80,7 +80,7 @@ class _CreategroupchatNOTNEWWidgetState
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Create Group Chat',
+                  'Add People to Group Chat',
                   style: FlutterFlowTheme.of(context).subtitle1.override(
                         fontFamily: 'Lexend Deca',
                         color: Color(0xFF95A1AC),
@@ -333,47 +333,44 @@ class _CreategroupchatNOTNEWWidgetState
                     topRight: Radius.circular(16),
                   ),
                 ),
-                child: Visibility(
-                  visible: checkboxListTileCheckedItems.length == 2,
-                  child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 34),
-                    child: FFButtonWidget(
-                      onPressed: () async {
-                        groupChatfromCreateGroupPage =
-                            await FFChatManager.instance.createChat(
-                          checkboxListTileCheckedItems
-                              .where((e) => e != null)
-                              .toList()
-                              .map((e) => e.reference)
-                              .toList(),
-                        );
-                        context.pushNamed(
-                          'ChatPage',
-                          queryParams: {
-                            'chatRef': serializeParam(
-                              groupChatfromCreateGroupPage?.reference,
-                              ParamType.DocumentReference,
-                            ),
-                          }.withoutNulls,
-                        );
+                child: Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 34),
+                  child: FFButtonWidget(
+                    onPressed: () async {
+                      groupChatfromCreateGroupPage =
+                          await FFChatManager.instance.addGroupMembers(
+                        widget.specificChat2!,
+                        checkboxListTileCheckedItems
+                            .where((e) => e != null)
+                            .toList()
+                            .map((e) => e.reference)
+                            .toList(),
+                      );
 
-                        setState(() {});
-                      },
-                      text: 'Create Chat',
-                      options: FFButtonOptions(
-                        width: 130,
-                        height: 40,
-                        color: Color(0xFF4E39F9),
-                        textStyle: FlutterFlowTheme.of(context).title3.override(
-                              fontFamily: 'Lexend Deca',
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w500,
-                            ),
-                        borderSide: BorderSide(
-                          color: Colors.transparent,
-                          width: 1,
-                        ),
+                      final chatsUpdateData = {
+                        'numUsers': FieldValue.increment(
+                            checkboxListTileCheckedItems.length),
+                      };
+                      await groupChatfromCreateGroupPage!.reference
+                          .update(chatsUpdateData);
+                      context.pop();
+
+                      setState(() {});
+                    },
+                    text: 'Add to Chat',
+                    options: FFButtonOptions(
+                      width: 130,
+                      height: 40,
+                      color: Color(0xFF4E39F9),
+                      textStyle: FlutterFlowTheme.of(context).title3.override(
+                            fontFamily: 'Lexend Deca',
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                          ),
+                      borderSide: BorderSide(
+                        color: Colors.transparent,
+                        width: 1,
                       ),
                     ),
                   ),

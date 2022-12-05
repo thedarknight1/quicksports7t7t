@@ -3,31 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:shared_preferences/shared_preferences.dart';
-
-const kThemeModeKey = '__theme_mode__';
-SharedPreferences? _prefs;
-
 abstract class FlutterFlowTheme {
-  static Future initialize() async =>
-      _prefs = await SharedPreferences.getInstance();
-  static ThemeMode get themeMode {
-    final darkMode = _prefs?.getBool(kThemeModeKey);
-    return darkMode == null
-        ? ThemeMode.system
-        : darkMode
-            ? ThemeMode.dark
-            : ThemeMode.light;
+  static FlutterFlowTheme of(BuildContext context) {
+    return LightModeTheme();
   }
-
-  static void saveThemeMode(ThemeMode mode) => mode == ThemeMode.system
-      ? _prefs?.remove(kThemeModeKey)
-      : _prefs?.setBool(kThemeModeKey, mode == ThemeMode.dark);
-
-  static FlutterFlowTheme of(BuildContext context) =>
-      Theme.of(context).brightness == Brightness.dark
-          ? DarkModeTheme()
-          : LightModeTheme();
 
   late Color primaryColor;
   late Color secondaryColor;
@@ -72,7 +51,7 @@ abstract class FlutterFlowTheme {
 }
 
 class LightModeTheme extends FlutterFlowTheme {
-  late Color primaryColor = const Color(0xFFEE8B60);
+  late Color primaryColor = const Color(0xFFEF534F);
   late Color secondaryColor = const Color(0xFF262D34);
   late Color tertiaryColor = const Color(0xFF39D2C0);
   late Color alternate = const Color(0xFF31BFAE);
@@ -168,32 +147,6 @@ class ThemeTypography extends Typography {
         fontWeight: FontWeight.normal,
         fontSize: 14,
       );
-}
-
-class DarkModeTheme extends FlutterFlowTheme {
-  late Color primaryColor = const Color(0xFFEE8B60);
-  late Color secondaryColor = const Color(0xFF262D34);
-  late Color tertiaryColor = const Color(0xFF39D2C0);
-  late Color alternate = const Color(0xFF31BFAE);
-  late Color primaryBackground = const Color(0xFF1D2429);
-  late Color secondaryBackground = const Color(0xFF14181B);
-  late Color primaryText = const Color(0xFFFFFFFF);
-  late Color secondaryText = const Color(0xFF95A1AC);
-
-  late Color white = Color(0xFFFFFFFF);
-  late Color iconGray = Color(0xFF8B97A2);
-  late Color grayDark = Color(0xFF57636C);
-  late Color darkBG = Color(0xFF111417);
-  late Color background = Color(0xFFF1F4F8);
-  late Color grayLines = Color(0xFFDBE2E7);
-  late Color primaryBtnText = Color(0xFFFFFFFF);
-  late Color lineColor = Color(0xFF22282F);
-  late Color grayIcon = Color(0xFF95A1AC);
-  late Color gray200 = Color(0xFFDBE2E7);
-  late Color gray600 = Color(0xFF262D34);
-  late Color black600 = Color(0xFF090F13);
-  late Color tertiary400 = Color(0xFF39D2C0);
-  late Color textColor = Color(0xFFFFFFFF);
 }
 
 extension TextStyleHelper on TextStyle {

@@ -127,6 +127,7 @@ class _PeopleWidgetState extends State<PeopleWidget> {
                         return _pagingController!;
                       }(),
                       padding: EdgeInsets.zero,
+                      primary: false,
                       shrinkWrap: true,
                       scrollDirection: Axis.vertical,
                       builderDelegate: PagedChildBuilderDelegate<UsersRecord>(
@@ -150,7 +151,7 @@ class _PeopleWidgetState extends State<PeopleWidget> {
                             color: Color(0xFFF5F5F5),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 Container(
                                   width: 80,

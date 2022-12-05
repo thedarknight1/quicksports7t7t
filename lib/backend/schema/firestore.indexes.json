@@ -5,7 +5,7 @@
       "queryScope": "COLLECTION",
       "fields": [
         {
-          "fieldPath": "locationname",
+          "fieldPath": "courtRef",
           "order": "ASCENDING"
         },
         {

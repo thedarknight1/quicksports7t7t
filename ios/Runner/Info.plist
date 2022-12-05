@@ -59,7 +59,8 @@
       <string>In order to take a picture or video, this app requires permission to access the camera</string>
 	<key>NSPhotoLibraryUsageDescription</key>
       <string>In order to upload media, this app requires permission to access the photo library</string>
-
+	<key>PermissionGroupNotification</key>
+      <string>Allow Notifications to keep you updated on when sports players near you are active</string>
 
 
 	<key>UILaunchStoryboardName</key>

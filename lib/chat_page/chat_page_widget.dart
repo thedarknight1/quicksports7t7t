@@ -1,4 +1,3 @@
-import '../auth/auth_util.dart';
 import '../backend/backend.dart';
 import '../flutter_flow/chat/index.dart';
 import '../flutter_flow/flutter_flow_animations.dart';
@@ -129,15 +128,18 @@ class _ChatPageWidgetState extends State<ChatPageWidget>
                   padding: EdgeInsetsDirectional.fromSTEB(0, 0, 20, 0),
                   child: InkWell(
                     onTap: () async {
-                      final recordfriendCreateData =
-                          createRecordfriendRecordData(
-                        statusRequest: 'Pending',
-                        applicantUID: currentUserReference,
-                        recipientUID: _chatInfo!.chatRecord.userB,
+                      context.pushNamed(
+                        'creategroupchatNOTNEWCopy',
+                        queryParams: {
+                          'specificChat2': serializeParam(
+                            _chatInfo!.chatRecord,
+                            ParamType.Document,
+                          ),
+                        }.withoutNulls,
+                        extra: <String, dynamic>{
+                          'specificChat2': _chatInfo!.chatRecord,
+                        },
                       );
-                      await RecordfriendRecord.collection
-                          .doc()
-                          .set(recordfriendCreateData);
                     },
                     child: Icon(
                       Icons.person_add,

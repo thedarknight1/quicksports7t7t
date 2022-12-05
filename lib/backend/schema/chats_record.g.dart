@@ -77,13 +77,11 @@ class _$ChatsRecordSerializer implements StructuredSerializer<ChatsRecord> {
                   DocumentReference, const [const FullType.nullable(Object)])
             ])));
     }
-    value = object.event;
+    value = object.numUsers;
     if (value != null) {
       result
-        ..add('Event')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(
-                DocumentReference, const [const FullType.nullable(Object)])));
+        ..add('numUsers')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
     }
     value = object.ffRef;
     if (value != null) {
@@ -147,11 +145,9 @@ class _$ChatsRecordSerializer implements StructuredSerializer<ChatsRecord> {
                     DocumentReference, const [const FullType.nullable(Object)])
               ]))! as BuiltList<Object?>);
           break;
-        case 'Event':
-          result.event = serializers.deserialize(value,
-              specifiedType: const FullType(DocumentReference, const [
-                const FullType.nullable(Object)
-              ])) as DocumentReference<Object?>?;
+        case 'numUsers':
+          result.numUsers = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'Document__Reference__Field':
           result.ffRef = serializers.deserialize(value,
@@ -182,7 +178,7 @@ class _$ChatsRecord extends ChatsRecord {
   @override
   final BuiltList<DocumentReference<Object?>>? lastMessageSeenBy;
   @override
-  final DocumentReference<Object?>? event;
+  final int? numUsers;
   @override
   final DocumentReference<Object?>? ffRef;
 
@@ -197,7 +193,7 @@ class _$ChatsRecord extends ChatsRecord {
       this.lastMessageTime,
       this.lastMessageSentBy,
       this.lastMessageSeenBy,
-      this.event,
+      this.numUsers,
       this.ffRef})
       : super._();
 
@@ -219,7 +215,7 @@ class _$ChatsRecord extends ChatsRecord {
         lastMessageTime == other.lastMessageTime &&
         lastMessageSentBy == other.lastMessageSentBy &&
         lastMessageSeenBy == other.lastMessageSeenBy &&
-        event == other.event &&
+        numUsers == other.numUsers &&
         ffRef == other.ffRef;
   }
 
@@ -237,7 +233,7 @@ class _$ChatsRecord extends ChatsRecord {
                         lastMessageTime.hashCode),
                     lastMessageSentBy.hashCode),
                 lastMessageSeenBy.hashCode),
-            event.hashCode),
+            numUsers.hashCode),
         ffRef.hashCode));
   }
 
@@ -251,7 +247,7 @@ class _$ChatsRecord extends ChatsRecord {
           ..add('lastMessageTime', lastMessageTime)
           ..add('lastMessageSentBy', lastMessageSentBy)
           ..add('lastMessageSeenBy', lastMessageSeenBy)
-          ..add('event', event)
+          ..add('numUsers', numUsers)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -297,9 +293,9 @@ class ChatsRecordBuilder implements Builder<ChatsRecord, ChatsRecordBuilder> {
           ListBuilder<DocumentReference<Object?>>? lastMessageSeenBy) =>
       _$this._lastMessageSeenBy = lastMessageSeenBy;
 
-  DocumentReference<Object?>? _event;
-  DocumentReference<Object?>? get event => _$this._event;
-  set event(DocumentReference<Object?>? event) => _$this._event = event;
+  int? _numUsers;
+  int? get numUsers => _$this._numUsers;
+  set numUsers(int? numUsers) => _$this._numUsers = numUsers;
 
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
@@ -319,7 +315,7 @@ class ChatsRecordBuilder implements Builder<ChatsRecord, ChatsRecordBuilder> {
       _lastMessageTime = $v.lastMessageTime;
       _lastMessageSentBy = $v.lastMessageSentBy;
       _lastMessageSeenBy = $v.lastMessageSeenBy?.toBuilder();
-      _event = $v.event;
+      _numUsers = $v.numUsers;
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -352,7 +348,7 @@ class ChatsRecordBuilder implements Builder<ChatsRecord, ChatsRecordBuilder> {
               lastMessageTime: lastMessageTime,
               lastMessageSentBy: lastMessageSentBy,
               lastMessageSeenBy: _lastMessageSeenBy?.build(),
-              event: event,
+              numUsers: numUsers,
               ffRef: ffRef);
     } catch (_) {
       late String _$failedField;

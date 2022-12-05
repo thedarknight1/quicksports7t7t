@@ -83,10 +83,18 @@ class _$EventsRecordSerializer implements StructuredSerializer<EventsRecord> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    value = object.groupchat;
+    value = object.courtRef;
     if (value != null) {
       result
-        ..add('groupchat')
+        ..add('courtRef')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(
+                DocumentReference, const [const FullType.nullable(Object)])));
+    }
+    value = object.groupChatRef;
+    if (value != null) {
+      result
+        ..add('groupChatRef')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(
                 DocumentReference, const [const FullType.nullable(Object)])));
@@ -150,8 +158,14 @@ class _$EventsRecordSerializer implements StructuredSerializer<EventsRecord> {
           result.eventsportname = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
-        case 'groupchat':
-          result.groupchat = serializers.deserialize(value,
+        case 'courtRef':
+          result.courtRef = serializers.deserialize(value,
+              specifiedType: const FullType(DocumentReference, const [
+                const FullType.nullable(Object)
+              ])) as DocumentReference<Object?>?;
+          break;
+        case 'groupChatRef':
+          result.groupChatRef = serializers.deserialize(value,
               specifiedType: const FullType(DocumentReference, const [
                 const FullType.nullable(Object)
               ])) as DocumentReference<Object?>?;
@@ -189,7 +203,9 @@ class _$EventsRecord extends EventsRecord {
   @override
   final String? eventsportname;
   @override
-  final DocumentReference<Object?>? groupchat;
+  final DocumentReference<Object?>? courtRef;
+  @override
+  final DocumentReference<Object?>? groupChatRef;
   @override
   final DocumentReference<Object?>? ffRef;
 
@@ -206,7 +222,8 @@ class _$EventsRecord extends EventsRecord {
       this.locationname,
       this.locationarea,
       this.eventsportname,
-      this.groupchat,
+      this.courtRef,
+      this.groupChatRef,
       this.ffRef})
       : super._();
 
@@ -230,7 +247,8 @@ class _$EventsRecord extends EventsRecord {
         locationname == other.locationname &&
         locationarea == other.locationarea &&
         eventsportname == other.eventsportname &&
-        groupchat == other.groupchat &&
+        courtRef == other.courtRef &&
+        groupChatRef == other.groupChatRef &&
         ffRef == other.ffRef;
   }
 
@@ -245,16 +263,18 @@ class _$EventsRecord extends EventsRecord {
                             $jc(
                                 $jc(
                                     $jc(
-                                        $jc($jc(0, description.hashCode),
-                                            date.hashCode),
-                                        time.hashCode),
-                                    activity.hashCode),
-                                playerage.hashCode),
-                            playercount.hashCode),
-                        locationname.hashCode),
-                    locationarea.hashCode),
-                eventsportname.hashCode),
-            groupchat.hashCode),
+                                        $jc(
+                                            $jc($jc(0, description.hashCode),
+                                                date.hashCode),
+                                            time.hashCode),
+                                        activity.hashCode),
+                                    playerage.hashCode),
+                                playercount.hashCode),
+                            locationname.hashCode),
+                        locationarea.hashCode),
+                    eventsportname.hashCode),
+                courtRef.hashCode),
+            groupChatRef.hashCode),
         ffRef.hashCode));
   }
 
@@ -270,7 +290,8 @@ class _$EventsRecord extends EventsRecord {
           ..add('locationname', locationname)
           ..add('locationarea', locationarea)
           ..add('eventsportname', eventsportname)
-          ..add('groupchat', groupchat)
+          ..add('courtRef', courtRef)
+          ..add('groupChatRef', groupChatRef)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -317,10 +338,15 @@ class EventsRecordBuilder
   set eventsportname(String? eventsportname) =>
       _$this._eventsportname = eventsportname;
 
-  DocumentReference<Object?>? _groupchat;
-  DocumentReference<Object?>? get groupchat => _$this._groupchat;
-  set groupchat(DocumentReference<Object?>? groupchat) =>
-      _$this._groupchat = groupchat;
+  DocumentReference<Object?>? _courtRef;
+  DocumentReference<Object?>? get courtRef => _$this._courtRef;
+  set courtRef(DocumentReference<Object?>? courtRef) =>
+      _$this._courtRef = courtRef;
+
+  DocumentReference<Object?>? _groupChatRef;
+  DocumentReference<Object?>? get groupChatRef => _$this._groupChatRef;
+  set groupChatRef(DocumentReference<Object?>? groupChatRef) =>
+      _$this._groupChatRef = groupChatRef;
 
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
@@ -342,7 +368,8 @@ class EventsRecordBuilder
       _locationname = $v.locationname;
       _locationarea = $v.locationarea;
       _eventsportname = $v.eventsportname;
-      _groupchat = $v.groupchat;
+      _courtRef = $v.courtRef;
+      _groupChatRef = $v.groupChatRef;
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -375,7 +402,8 @@ class EventsRecordBuilder
             locationname: locationname,
             locationarea: locationarea,
             eventsportname: eventsportname,
-            groupchat: groupchat,
+            courtRef: courtRef,
+            groupChatRef: groupChatRef,
             ffRef: ffRef);
     replace(_$result);
     return _$result;

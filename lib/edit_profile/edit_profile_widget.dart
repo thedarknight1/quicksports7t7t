@@ -187,7 +187,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                             color: Colors.transparent,
                             width: 1,
                           ),
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(50),
                         ),
                       ),
                     ],
@@ -337,7 +337,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                       },
                       text: 'Save Changes',
                       options: FFButtonOptions(
-                        width: 340,
+                        width: 200,
                         height: 60,
                         color: FlutterFlowTheme.of(context).primaryColor,
                         textStyle:
@@ -352,7 +352,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                           color: Colors.transparent,
                           width: 1,
                         ),
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(50),
                       ),
                     ),
                   ),

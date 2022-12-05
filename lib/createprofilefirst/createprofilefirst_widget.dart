@@ -32,7 +32,7 @@ class _CreateprofilefirstWidgetState extends State<CreateprofilefirstWidget> {
   void initState() {
     super.initState();
     myBioController = TextEditingController();
-    userNameController = TextEditingController();
+    userNameController = TextEditingController(text: '@');
     yourNameController = TextEditingController();
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
@@ -235,6 +235,7 @@ class _CreateprofilefirstWidgetState extends State<CreateprofilefirstWidget> {
                                   color: Colors.transparent,
                                   width: 1,
                                 ),
+                                borderRadius: BorderRadius.circular(50),
                               ),
                             ),
                           ],
@@ -395,47 +396,96 @@ class _CreateprofilefirstWidgetState extends State<CreateprofilefirstWidget> {
                         alignment: AlignmentDirectional(0, 0.05),
                         child: Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 0),
-                          child: FFButtonWidget(
-                            onPressed: () async {
-                              final usersUpdateData = createUsersRecordData(
-                                displayName: yourNameController!.text,
-                                username: userNameController!.text,
-                                email: '',
-                                photoUrl: uploadedFileUrl,
-                              );
-                              await currentUserReference!
-                                  .update(usersUpdateData);
-
-                              context.pushNamed(
-                                'Locationprofile',
-                                extra: <String, dynamic>{
-                                  kTransitionInfoKey: TransitionInfo(
-                                    hasTransition: true,
-                                    transitionType:
-                                        PageTransitionType.rightToLeft,
+                          child: StreamBuilder<List<UsersRecord>>(
+                            stream: queryUsersRecord(),
+                            builder: (context, snapshot) {
+                              // Customize what your widget looks like when it's loading.
+                              if (!snapshot.hasData) {
+                                return Center(
+                                  child: SizedBox(
+                                    width: 50,
+                                    height: 50,
+                                    child: SpinKitRotatingCircle(
+                                      color: Color(0xFFF25454),
+                                      size: 50,
+                                    ),
                                   ),
+                                );
+                              }
+                              List<UsersRecord> buttonUsersRecordList = snapshot
+                                  .data!
+                                  .where((u) => u.uid != currentUserUid)
+                                  .toList();
+                              return FFButtonWidget(
+                                onPressed: () async {
+                                  if ((yourNameController!.text != null &&
+                                          yourNameController!.text != '') &&
+                                      (userNameController!.text != null &&
+                                          userNameController!.text != '')) {
+                                    final usersUpdateData =
+                                        createUsersRecordData(
+                                      displayName: yourNameController!.text,
+                                      username: userNameController!.text,
+                                      email: '',
+                                      photoUrl: uploadedFileUrl,
+                                    );
+                                    await currentUserReference!
+                                        .update(usersUpdateData);
+
+                                    context.pushNamed(
+                                      'Locationprofile',
+                                      extra: <String, dynamic>{
+                                        kTransitionInfoKey: TransitionInfo(
+                                          hasTransition: true,
+                                          transitionType:
+                                              PageTransitionType.rightToLeft,
+                                        ),
+                                      },
+                                    );
+                                  } else {
+                                    await showDialog(
+                                      context: context,
+                                      builder: (alertDialogContext) {
+                                        return AlertDialog(
+                                          title: Text(
+                                              'Please fill in a display name and username'),
+                                          content: Text(
+                                              'Please fill in a display name and username'),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () => Navigator.pop(
+                                                  alertDialogContext),
+                                              child: Text('Ok'),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  }
                                 },
+                                text: 'Continue',
+                                options: FFButtonOptions(
+                                  width: 200,
+                                  height: 60,
+                                  color:
+                                      FlutterFlowTheme.of(context).primaryColor,
+                                  textStyle: FlutterFlowTheme.of(context)
+                                      .subtitle2
+                                      .override(
+                                        fontFamily: 'Lexend Deca',
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                  elevation: 2,
+                                  borderSide: BorderSide(
+                                    color: Colors.transparent,
+                                    width: 1,
+                                  ),
+                                  borderRadius: BorderRadius.circular(50),
+                                ),
                               );
                             },
-                            text: 'Continue',
-                            options: FFButtonOptions(
-                              width: 340,
-                              height: 60,
-                              color: FlutterFlowTheme.of(context).primaryColor,
-                              textStyle: FlutterFlowTheme.of(context)
-                                  .subtitle2
-                                  .override(
-                                    fontFamily: 'Lexend Deca',
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                              elevation: 2,
-                              borderSide: BorderSide(
-                                color: Colors.transparent,
-                                width: 1,
-                              ),
-                            ),
                           ),
                         ),
                       ),

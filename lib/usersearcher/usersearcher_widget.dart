@@ -406,7 +406,7 @@ class _UsersearcherWidgetState extends State<UsersearcherWidget>
                                         offset: Offset(0, 2),
                                       )
                                     ],
-                                    borderRadius: BorderRadius.circular(8),
+                                    borderRadius: BorderRadius.circular(15),
                                   ),
                                   child: Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
@@ -566,7 +566,7 @@ class _UsersearcherWidgetState extends State<UsersearcherWidget>
                                       offset: Offset(0, 2),
                                     )
                                   ],
-                                  borderRadius: BorderRadius.circular(8),
+                                  borderRadius: BorderRadius.circular(50),
                                 ),
                                 child: Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
@@ -668,6 +668,8 @@ class _UsersearcherWidgetState extends State<UsersearcherWidget>
                                             color: Colors.transparent,
                                             width: 1,
                                           ),
+                                          borderRadius:
+                                              BorderRadius.circular(50),
                                         ),
                                       ),
                                     ],

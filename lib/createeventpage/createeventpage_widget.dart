@@ -1,5 +1,7 @@
 import '../auth/auth_util.dart';
 import '../backend/backend.dart';
+import '../chat_page/chat_page_widget.dart';
+import '../flutter_flow/chat/index.dart';
 import '../flutter_flow/flutter_flow_calendar.dart';
 import '../flutter_flow/flutter_flow_drop_down.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
@@ -24,12 +26,13 @@ class CreateeventpageWidget extends StatefulWidget {
 }
 
 class _CreateeventpageWidgetState extends State<CreateeventpageWidget> {
+  ChatsRecord? groupChat;
+  EventsRecord? createdEvent;
   DateTimeRange? calendarSelectedDay;
   String? dropDownValue1;
   String? dropDownValue2;
   String? dropDownValue3;
   TextEditingController? textController;
-  EventsRecord? createdEvent;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -291,62 +294,104 @@ class _CreateeventpageWidgetState extends State<CreateeventpageWidget> {
                             style: FlutterFlowTheme.of(context).bodyText1,
                           ),
                         ),
-                        FFButtonWidget(
-                          onPressed: () async {
-                            final eventsCreateData = createEventsRecordData(
-                              description: textController!.text,
-                              date: dateTimeFormat(
-                                'yMMMd',
-                                calendarSelectedDay?.start,
-                                locale:
-                                    FFLocalizations.of(context).languageCode,
-                              ),
-                              time: dropDownValue1,
-                              playerage: dropDownValue3,
-                              playercount: dropDownValue2,
-                              activity: '',
-                              locationname: widget.createeventpage!.name,
-                              locationarea:
-                                  widget.createeventpage!.location?.toString(),
-                              eventsportname: widget.createeventpage!.sportname,
-                            );
-                            var eventsRecordReference =
-                                EventsRecord.collection.doc();
-                            await eventsRecordReference.set(eventsCreateData);
-                            createdEvent = EventsRecord.getDocumentFromData(
-                                eventsCreateData, eventsRecordReference);
-
-                            context.pushNamed(
-                              'yesornogroupchat',
-                              queryParams: {
-                                'eventGroupChat': serializeParam(
-                                  createdEvent,
-                                  ParamType.Document,
+                        StreamBuilder<List<UsersRecord>>(
+                          stream: queryUsersRecord(
+                            queryBuilder: (usersRecord) => usersRecord
+                                .where('zips', isEqualTo: '738492929256'),
+                            limit: 3,
+                          ),
+                          builder: (context, snapshot) {
+                            // Customize what your widget looks like when it's loading.
+                            if (!snapshot.hasData) {
+                              return Center(
+                                child: SizedBox(
+                                  width: 50,
+                                  height: 50,
+                                  child: SpinKitRotatingCircle(
+                                    color: Color(0xFFF25454),
+                                    size: 50,
+                                  ),
                                 ),
-                              }.withoutNulls,
-                              extra: <String, dynamic>{
-                                'eventGroupChat': createdEvent,
-                              },
-                            );
+                              );
+                            }
+                            List<UsersRecord> buttonUsersRecordList =
+                                snapshot.data!;
+                            return FFButtonWidget(
+                              onPressed: () async {
+                                groupChat =
+                                    await FFChatManager.instance.createChat(
+                                  buttonUsersRecordList
+                                      .where((e) => e != null)
+                                      .toList()
+                                      .map((e) => e.reference)
+                                      .toList(),
+                                );
+                                context.pushNamed(
+                                  'ChatPage',
+                                  queryParams: {
+                                    'chatRef': serializeParam(
+                                      groupChat?.reference,
+                                      ParamType.DocumentReference,
+                                    ),
+                                  }.withoutNulls,
+                                );
 
-                            setState(() {});
-                          },
-                          text: 'Publish Event',
-                          options: FFButtonOptions(
-                            width: 130,
-                            height: 40,
-                            color: FlutterFlowTheme.of(context).primaryColor,
-                            textStyle:
-                                FlutterFlowTheme.of(context).subtitle2.override(
+                                final chatsUpdateData = createChatsRecordData(
+                                  numUsers: 1,
+                                );
+                                await groupChat!.reference
+                                    .update(chatsUpdateData);
+
+                                final eventsCreateData = createEventsRecordData(
+                                  description: textController!.text,
+                                  date: dateTimeFormat(
+                                    'yMMMd',
+                                    calendarSelectedDay?.start,
+                                    locale: FFLocalizations.of(context)
+                                        .languageCode,
+                                  ),
+                                  time: dropDownValue1,
+                                  playerage: dropDownValue3,
+                                  playercount: dropDownValue2,
+                                  activity: '',
+                                  locationname: widget.createeventpage!.name,
+                                  locationarea: widget.createeventpage!.location
+                                      ?.toString(),
+                                  eventsportname:
+                                      widget.createeventpage!.sportname,
+                                  courtRef:
+                                      createeventpageCourtsRecord.reference,
+                                  groupChatRef: groupChat!.reference,
+                                );
+                                var eventsRecordReference =
+                                    EventsRecord.collection.doc();
+                                await eventsRecordReference
+                                    .set(eventsCreateData);
+                                createdEvent = EventsRecord.getDocumentFromData(
+                                    eventsCreateData, eventsRecordReference);
+
+                                setState(() {});
+                              },
+                              text: 'Publish Event + Create Group Chat',
+                              options: FFButtonOptions(
+                                width: 290,
+                                height: 40,
+                                color:
+                                    FlutterFlowTheme.of(context).primaryColor,
+                                textStyle: FlutterFlowTheme.of(context)
+                                    .subtitle2
+                                    .override(
                                       fontFamily: 'Overpass',
                                       color: Colors.white,
                                     ),
-                            borderSide: BorderSide(
-                              color: Colors.transparent,
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
+                                borderSide: BorderSide(
+                                  color: Colors.transparent,
+                                  width: 1,
+                                ),
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                            );
+                          },
                         ),
                       ],
                     ),

@@ -193,7 +193,7 @@ class _RateCourtPageWidgetState extends State<RateCourtPageWidget> {
                                 color: Colors.transparent,
                                 width: 1,
                               ),
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(50),
                             ),
                           ),
                         ),

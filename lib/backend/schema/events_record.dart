@@ -28,7 +28,9 @@ abstract class EventsRecord
 
   String? get eventsportname;
 
-  DocumentReference? get groupchat;
+  DocumentReference? get courtRef;
+
+  DocumentReference? get groupChatRef;
 
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
@@ -76,7 +78,8 @@ Map<String, dynamic> createEventsRecordData({
   String? locationname,
   String? locationarea,
   String? eventsportname,
-  DocumentReference? groupchat,
+  DocumentReference? courtRef,
+  DocumentReference? groupChatRef,
 }) {
   final firestoreData = serializers.toFirestore(
     EventsRecord.serializer,
@@ -91,7 +94,8 @@ Map<String, dynamic> createEventsRecordData({
         ..locationname = locationname
         ..locationarea = locationarea
         ..eventsportname = eventsportname
-        ..groupchat = groupchat,
+        ..courtRef = courtRef
+        ..groupChatRef = groupChatRef,
     ),
   );
 
