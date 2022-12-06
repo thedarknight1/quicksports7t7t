@@ -89,7 +89,7 @@ class _CreategroupchatNOTNEWCopyWidgetState
                       ),
                 ),
                 Text(
-                  'Select the friends to add to chat.\n(You must select atleast 2)',
+                  'Select the friend(s) to add to chat.',
                   style: FlutterFlowTheme.of(context).bodyText2.override(
                         fontFamily: 'Lexend Deca',
                         color: Color(0xFF1A1F24),
@@ -335,44 +335,71 @@ class _CreategroupchatNOTNEWCopyWidgetState
                 ),
                 child: Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 34),
-                  child: FFButtonWidget(
-                    onPressed: () async {
-                      groupChatfromCreateGroupPage =
-                          await FFChatManager.instance.addGroupMembers(
-                        widget.specificChat2!,
-                        checkboxListTileCheckedItems
-                            .where((e) => e != null)
-                            .toList()
-                            .map((e) => e.reference)
-                            .toList(),
-                      );
-
-                      final chatsUpdateData = {
-                        'numUsers': FieldValue.increment(
-                            checkboxListTileCheckedItems.length),
-                      };
-                      await groupChatfromCreateGroupPage!.reference
-                          .update(chatsUpdateData);
-                      context.pop();
-
-                      setState(() {});
-                    },
-                    text: 'Add to Chat',
-                    options: FFButtonOptions(
-                      width: 130,
-                      height: 40,
-                      color: Color(0xFF4E39F9),
-                      textStyle: FlutterFlowTheme.of(context).title3.override(
-                            fontFamily: 'Lexend Deca',
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
-                          ),
-                      borderSide: BorderSide(
-                        color: Colors.transparent,
-                        width: 1,
-                      ),
+                  child: StreamBuilder<List<UsersRecord>>(
+                    stream: queryUsersRecord(
+                      queryBuilder: (usersRecord) => usersRecord.where('uid',
+                          isEqualTo: 'kurTAlbhyqV5yBwoZJmO2QIp6jy2'),
+                      singleRecord: true,
                     ),
+                    builder: (context, snapshot) {
+                      // Customize what your widget looks like when it's loading.
+                      if (!snapshot.hasData) {
+                        return Center(
+                          child: SizedBox(
+                            width: 50,
+                            height: 50,
+                            child: SpinKitRotatingCircle(
+                              color: Color(0xFFF25454),
+                              size: 50,
+                            ),
+                          ),
+                        );
+                      }
+                      List<UsersRecord> buttonUsersRecordList = snapshot.data!;
+                      final buttonUsersRecord = buttonUsersRecordList.isNotEmpty
+                          ? buttonUsersRecordList.first
+                          : null;
+                      return FFButtonWidget(
+                        onPressed: () async {
+                          groupChatfromCreateGroupPage =
+                              await FFChatManager.instance.addGroupMembers(
+                            widget.specificChat2!,
+                            checkboxListTileCheckedItems
+                                .where((e) => e != null)
+                                .toList()
+                                .map((e) => e.reference)
+                                .toList(),
+                          );
+
+                          final chatsUpdateData = {
+                            'numUsers': FieldValue.increment(
+                                checkboxListTileCheckedItems.length),
+                          };
+                          await groupChatfromCreateGroupPage!.reference
+                              .update(chatsUpdateData);
+                          context.pop();
+
+                          setState(() {});
+                        },
+                        text: 'Add to Chat',
+                        options: FFButtonOptions(
+                          width: 130,
+                          height: 40,
+                          color: Color(0xFF4E39F9),
+                          textStyle:
+                              FlutterFlowTheme.of(context).title3.override(
+                                    fontFamily: 'Lexend Deca',
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                          borderSide: BorderSide(
+                            color: Colors.transparent,
+                            width: 1,
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ),
               ),

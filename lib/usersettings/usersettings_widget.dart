@@ -6,6 +6,7 @@ import '../flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:share_plus/share_plus.dart';
 
 class UsersettingsWidget extends StatefulWidget {
   const UsersettingsWidget({Key? key}) : super(key: key);
@@ -171,9 +172,14 @@ class _UsersettingsWidgetState extends State<UsersettingsWidget> {
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  'Edit Profile',
-                                  style: FlutterFlowTheme.of(context).subtitle2,
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      20, 0, 0, 0),
+                                  child: Text(
+                                    'Edit Profile',
+                                    style:
+                                        FlutterFlowTheme.of(context).subtitle2,
+                                  ),
                                 ),
                                 FlutterFlowIconButton(
                                   borderColor: Colors.transparent,
@@ -234,9 +240,14 @@ class _UsersettingsWidgetState extends State<UsersettingsWidget> {
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  'Change Password',
-                                  style: FlutterFlowTheme.of(context).subtitle2,
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      20, 0, 0, 0),
+                                  child: Text(
+                                    'Change Password',
+                                    style:
+                                        FlutterFlowTheme.of(context).subtitle2,
+                                  ),
                                 ),
                                 FlutterFlowIconButton(
                                   borderColor: Colors.transparent,
@@ -267,36 +278,66 @@ class _UsersettingsWidgetState extends State<UsersettingsWidget> {
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Material(
-                      color: Colors.transparent,
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.9,
-                        height: 60,
-                        decoration: BoxDecoration(
-                          color:
-                              FlutterFlowTheme.of(context).secondaryBackground,
+                    InkWell(
+                      onTap: () async {
+                        context.pushNamed('termsandconditions');
+                      },
+                      child: Material(
+                        color: Colors.transparent,
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(50),
-                          border: Border.all(
+                        ),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          height: 60,
+                          decoration: BoxDecoration(
                             color: FlutterFlowTheme.of(context)
                                 .secondaryBackground,
-                            width: 0,
+                            borderRadius: BorderRadius.circular(50),
+                            border: Border.all(
+                              color: FlutterFlowTheme.of(context)
+                                  .secondaryBackground,
+                              width: 0,
+                            ),
                           ),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(16, 0, 4, 0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Notification Settings',
-                                style: FlutterFlowTheme.of(context).subtitle2,
-                              ),
-                            ],
+                          child: Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(16, 0, 4, 0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      20, 0, 0, 0),
+                                  child: Text(
+                                    'Terms of Services',
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyText1
+                                        .override(
+                                          fontFamily: 'Overpass',
+                                          color: Color(0xFF111417),
+                                          fontSize: 16,
+                                        ),
+                                  ),
+                                ),
+                                FlutterFlowIconButton(
+                                  borderColor: Colors.transparent,
+                                  borderRadius: 30,
+                                  buttonSize: 46,
+                                  icon: Icon(
+                                    Icons.chevron_right_rounded,
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryText,
+                                    size: 20,
+                                  ),
+                                  onPressed: () async {
+                                    context.pushNamed('termsandconditions');
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -305,52 +346,34 @@ class _UsersettingsWidgetState extends State<UsersettingsWidget> {
                 ),
               ),
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Material(
+                padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+                child: FFButtonWidget(
+                  onPressed: () async {
+                    if (isAndroid == true) {
+                      await Share.share(
+                          'https://play.google.com/store/apps/details?id=com.flutterflow.courts');
+                    } else {
+                      await Share.share(
+                          'https://apps.apple.com/us/app/quicksports/id1629551608');
+                    }
+                  },
+                  text: 'Share QuickSports ',
+                  options: FFButtonOptions(
+                    width: 230,
+                    height: 50,
+                    color: FlutterFlowTheme.of(context).secondaryColor,
+                    textStyle: FlutterFlowTheme.of(context).subtitle2.override(
+                          fontFamily: 'Overpass',
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
+                    elevation: 3,
+                    borderSide: BorderSide(
                       color: Colors.transparent,
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.9,
-                        height: 60,
-                        decoration: BoxDecoration(
-                          color:
-                              FlutterFlowTheme.of(context).secondaryBackground,
-                          borderRadius: BorderRadius.circular(50),
-                          border: Border.all(
-                            color: FlutterFlowTheme.of(context)
-                                .secondaryBackground,
-                            width: 0,
-                          ),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(16, 0, 4, 0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Terms of Services',
-                                style: FlutterFlowTheme.of(context)
-                                    .bodyText1
-                                    .override(
-                                      fontFamily: 'Overpass',
-                                      color: Color(0xFF111417),
-                                      fontSize: 16,
-                                    ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                      width: 1,
                     ),
-                  ],
+                    borderRadius: BorderRadius.circular(50),
+                  ),
                 ),
               ),
               Padding(
@@ -360,7 +383,7 @@ class _UsersettingsWidgetState extends State<UsersettingsWidget> {
                     GoRouter.of(context).prepareAuthEvent();
                     await signOut();
 
-                    context.goNamedAuth('loginCopy', mounted);
+                    context.goNamedAuth('createAccount', mounted);
                   },
                   text: 'Log Out',
                   options: FFButtonOptions(

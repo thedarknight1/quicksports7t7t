@@ -81,7 +81,7 @@ class _ChatPageWidgetState extends State<ChatPageWidget>
                 size: 24,
               ),
               onPressed: () async {
-                context.pushNamed('AllChats');
+                context.pop();
               },
             ),
             title: Stack(

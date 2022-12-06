@@ -70,7 +70,10 @@ class _PeopleprofileWidgetState extends State<PeopleprofileWidget> {
                             Align(
                               alignment: AlignmentDirectional(0, -1),
                               child: Image.network(
-                                peopleprofileUsersRecord.photoUrl!,
+                                valueOrDefault<String>(
+                                  peopleprofileUsersRecord.photoUrl,
+                                  'https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg',
+                                ),
                                 width: double.infinity,
                                 height: 500,
                                 fit: BoxFit.cover,
@@ -169,6 +172,36 @@ class _PeopleprofileWidgetState extends State<PeopleprofileWidget> {
                                                             FontWeight.normal,
                                                       ),
                                                 ),
+                                                FlutterFlowIconButton(
+                                                  borderColor:
+                                                      Colors.transparent,
+                                                  borderRadius: 30,
+                                                  borderWidth: 1,
+                                                  buttonSize: 60,
+                                                  icon: Icon(
+                                                    Icons.message,
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .white,
+                                                    size: 30,
+                                                  ),
+                                                  onPressed: () async {
+                                                    context.pushNamed(
+                                                      'ChatPage',
+                                                      queryParams: {
+                                                        'chatUser':
+                                                            serializeParam(
+                                                          peopleprofileUsersRecord,
+                                                          ParamType.Document,
+                                                        ),
+                                                      }.withoutNulls,
+                                                      extra: <String, dynamic>{
+                                                        'chatUser':
+                                                            peopleprofileUsersRecord,
+                                                      },
+                                                    );
+                                                  },
+                                                ),
                                               ],
                                             ),
                                           ),
@@ -216,8 +249,13 @@ class _PeopleprofileWidgetState extends State<PeopleprofileWidget> {
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             Text(
-                              'Recent Work',
-                              style: FlutterFlowTheme.of(context).bodyText2,
+                              'Posts',
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyText2
+                                  .override(
+                                    fontFamily: 'Overpass',
+                                    fontSize: 24,
+                                  ),
                             ),
                           ],
                         ),
@@ -250,15 +288,15 @@ class _PeopleprofileWidgetState extends State<PeopleprofileWidget> {
                                 ),
                                 child: Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
-                                      4, 4, 4, 4),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(8),
-                                    child: Image.network(
-                                      'https://cdn.dribbble.com/users/385565/screenshots/13011248/media/8c8dad33dacdc96738232cf1581029a8.jpg?compress=1&resize=1200x900&vertical=top',
-                                      width: 100,
-                                      height: 100,
-                                      fit: BoxFit.cover,
-                                    ),
+                                      80, 50, 80, 0),
+                                  child: Text(
+                                    'Coming soon to QuickSports...',
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyText1
+                                        .override(
+                                          fontFamily: 'Overpass',
+                                          fontSize: 24,
+                                        ),
                                   ),
                                 ),
                               ),

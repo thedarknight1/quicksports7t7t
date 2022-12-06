@@ -65,7 +65,7 @@ class _RateCourtPageWidgetState extends State<RateCourtPageWidget> {
               },
             ),
             title: Text(
-              'Rate Court',
+              widget.court!.name!,
               style: FlutterFlowTheme.of(context).title3,
             ),
             actions: [],
@@ -90,7 +90,7 @@ class _RateCourtPageWidgetState extends State<RateCourtPageWidget> {
                             obscureText: false,
                             decoration: InputDecoration(
                               labelText: 'Comment',
-                              hintText: 'Saturdays at noon',
+                              hintText: 'Comment...',
                               enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
                                   color: FlutterFlowTheme.of(context).grayLines,
@@ -152,7 +152,7 @@ class _RateCourtPageWidgetState extends State<RateCourtPageWidget> {
                               color: FlutterFlowTheme.of(context).primaryColor,
                             ),
                             direction: Axis.horizontal,
-                            initialRating: ratingBarValue ??= 3,
+                            initialRating: ratingBarValue ??= 0,
                             unratedColor:
                                 FlutterFlowTheme.of(context).grayLines,
                             itemCount: 5,
@@ -165,17 +165,53 @@ class _RateCourtPageWidgetState extends State<RateCourtPageWidget> {
                           padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 20),
                           child: FFButtonWidget(
                             onPressed: () async {
-                              final commentsCreateData =
-                                  createCommentsRecordData(
-                                user: currentUserReference,
-                                text: textController!.text,
-                                court: widget.court!.reference,
-                                courtQualityRating: ratingBarValue,
-                              );
-                              await CommentsRecord.collection
-                                  .doc()
-                                  .set(commentsCreateData);
-                              context.pop();
+                              if (ratingBarValue! > 0.0) {
+                                final commentsCreateData =
+                                    createCommentsRecordData(
+                                  user: currentUserReference,
+                                  text: textController!.text,
+                                  court: widget.court!.reference,
+                                  courtQualityRating: ratingBarValue,
+                                );
+                                await CommentsRecord.collection
+                                    .doc()
+                                    .set(commentsCreateData);
+
+                                context.pushNamed(
+                                  'courtAddedSuccessCopyCopy',
+                                  queryParams: {
+                                    'courtRef': serializeParam(
+                                      widget.court!.reference,
+                                      ParamType.DocumentReference,
+                                    ),
+                                    'courtDoc': serializeParam(
+                                      widget.court,
+                                      ParamType.Document,
+                                    ),
+                                  }.withoutNulls,
+                                  extra: <String, dynamic>{
+                                    'courtDoc': widget.court,
+                                  },
+                                );
+                              } else {
+                                await showDialog(
+                                  context: context,
+                                  builder: (alertDialogContext) {
+                                    return AlertDialog(
+                                      title: Text('Set a rating'),
+                                      content: Text(
+                                          'Make sure to set a star rating before submitting'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(alertDialogContext),
+                                          child: Text('Ok'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              }
                             },
                             text: 'Add Review',
                             options: FFButtonOptions(

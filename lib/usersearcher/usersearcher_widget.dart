@@ -1,4 +1,3 @@
-import '../auth/auth_util.dart';
 import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_animations.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
@@ -43,8 +42,9 @@ class _UsersearcherWidgetState extends State<UsersearcherWidget>
       ],
     ),
   };
-  List<UsersRecord>? algoliaSearchResults = [];
+  List<UsersRecord>? algoliaSearchResults1 = [];
   TextEditingController? textController;
+  List<UsersRecord>? algoliaSearchResults2 = [];
   PagingController<DocumentSnapshot?, UsersRecord>? _pagingController;
   Query? _pagingQuery;
   List<StreamSubscription?> _streamSubscriptions = [];
@@ -83,23 +83,12 @@ class _UsersearcherWidgetState extends State<UsersearcherWidget>
           appBar: AppBar(
             backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
             automaticallyImplyLeading: false,
-            leading: FlutterFlowIconButton(
-              borderColor: Colors.transparent,
-              borderRadius: 30,
-              borderWidth: 1,
-              buttonSize: 54,
-              icon: Icon(
-                Icons.arrow_back_rounded,
-                color: FlutterFlowTheme.of(context).secondaryText,
-                size: 24,
+            title: Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+              child: Text(
+                'Find Users',
+                style: FlutterFlowTheme.of(context).title3,
               ),
-              onPressed: () {
-                print('IconButton pressed ...');
-              },
-            ),
-            title: Text(
-              'Add Members',
-              style: FlutterFlowTheme.of(context).title3,
             ),
             actions: [],
             centerTitle: false,
@@ -124,20 +113,20 @@ class _UsersearcherWidgetState extends State<UsersearcherWidget>
                               'textController',
                               Duration(milliseconds: 2000),
                               () async {
-                                setState(() => algoliaSearchResults = null);
+                                setState(() => algoliaSearchResults1 = null);
                                 await UsersRecord.search(
                                   term: textController!.text,
                                 )
-                                    .then((r) => algoliaSearchResults = r)
+                                    .then((r) => algoliaSearchResults1 = r)
                                     .onError(
-                                        (_, __) => algoliaSearchResults = [])
+                                        (_, __) => algoliaSearchResults1 = [])
                                     .whenComplete(() => setState(() {}));
                               },
                             ),
                             autofocus: true,
                             obscureText: false,
                             decoration: InputDecoration(
-                              labelText: 'Search members...',
+                              labelText: 'Search users...',
                               labelStyle:
                                   FlutterFlowTheme.of(context).bodyText2,
                               enabledBorder: OutlineInputBorder(
@@ -187,8 +176,16 @@ class _UsersearcherWidgetState extends State<UsersearcherWidget>
                               color: FlutterFlowTheme.of(context).primaryText,
                               size: 24,
                             ),
-                            onPressed: () {
-                              print('IconButton pressed ...');
+                            onPressed: () async {
+                              setState(() => algoliaSearchResults2 = null);
+                              await UsersRecord.search(
+                                term: textController!.text,
+                                maxResults: 10,
+                              )
+                                  .then((r) => algoliaSearchResults2 = r)
+                                  .onError(
+                                      (_, __) => algoliaSearchResults2 = [])
+                                  .whenComplete(() => setState(() {}));
                             },
                           ),
                         ),
@@ -199,7 +196,7 @@ class _UsersearcherWidgetState extends State<UsersearcherWidget>
                     alignment: AlignmentDirectional(0, 0),
                     child: Builder(
                       builder: (context) {
-                        if (algoliaSearchResults! == null) {
+                        if (algoliaSearchResults1! == null) {
                           return Center(
                             child: SizedBox(
                               width: 50,
@@ -211,7 +208,7 @@ class _UsersearcherWidgetState extends State<UsersearcherWidget>
                             ),
                           );
                         }
-                        final algoliaResults = algoliaSearchResults!.toList();
+                        final algoliaResults = algoliaSearchResults1!.toList();
                         return ListView.builder(
                           padding: EdgeInsets.zero,
                           shrinkWrap: true,
@@ -223,109 +220,163 @@ class _UsersearcherWidgetState extends State<UsersearcherWidget>
                             return Padding(
                               padding:
                                   EdgeInsetsDirectional.fromSTEB(0, 0, 0, 1),
-                              child: Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      blurRadius: 0,
-                                      color: Color(0xFFE0E3E7),
-                                      offset: Offset(0, 1),
-                                    )
-                                  ],
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      8, 8, 8, 8),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(40),
-                                        child: Image.network(
-                                          valueOrDefault<String>(
-                                            algoliaResultsItem.photoUrl,
-                                            'https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg',
-                                          ),
-                                          width: 60,
-                                          height: 60,
-                                          fit: BoxFit.cover,
-                                        ),
+                              child: InkWell(
+                                onTap: () async {
+                                  context.pushNamed(
+                                    'peopleprofile',
+                                    queryParams: {
+                                      'peopleprofileparameter': serializeParam(
+                                        algoliaResultsItem.reference,
+                                        ParamType.DocumentReference,
                                       ),
-                                      Expanded(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(12, 0, 0, 0),
-                                              child: Text(
-                                                algoliaResultsItem.displayName!,
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .subtitle1
-                                                        .override(
-                                                          fontFamily: 'Outfit',
-                                                          color:
-                                                              Color(0xFF101213),
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                        ),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(12, 0, 0, 0),
-                                              child: Text(
-                                                algoliaResultsItem.username!,
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .subtitle2
-                                                        .override(
-                                                          fontFamily: 'Outfit',
-                                                          color:
-                                                              Color(0xFF57636C),
-                                                          fontSize: 16,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                        ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Card(
-                                        clipBehavior:
-                                            Clip.antiAliasWithSaveLayer,
-                                        color: Color(0xFFF1F4F8),
-                                        elevation: 1,
-                                        shape: RoundedRectangleBorder(
+                                    }.withoutNulls,
+                                  );
+                                },
+                                child: Container(
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        blurRadius: 0,
+                                        color: Color(0xFFE0E3E7),
+                                        offset: Offset(0, 1),
+                                      )
+                                    ],
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        8, 8, 8, 8),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(40),
+                                          child: Image.network(
+                                            valueOrDefault<String>(
+                                              algoliaResultsItem.photoUrl,
+                                              'https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg',
+                                            ),
+                                            width: 60,
+                                            height: 60,
+                                            fit: BoxFit.cover,
+                                          ),
                                         ),
-                                        child: Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  4, 4, 4, 4),
-                                          child: InkWell(
-                                            onTap: () async {
-                                              context
-                                                  .pushNamed('peopleprofile');
-                                            },
-                                            child: Icon(
-                                              Icons
-                                                  .keyboard_arrow_right_rounded,
-                                              color: Color(0xFF57636C),
-                                              size: 24,
+                                        Expanded(
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.max,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(12, 0, 0, 0),
+                                                child: Text(
+                                                  algoliaResultsItem
+                                                      .displayName!,
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .subtitle1
+                                                      .override(
+                                                        fontFamily: 'Outfit',
+                                                        color:
+                                                            Color(0xFF101213),
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                      ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(12, 0, 0, 0),
+                                                child: Text(
+                                                  algoliaResultsItem.username!,
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .subtitle2
+                                                      .override(
+                                                        fontFamily: 'Outfit',
+                                                        color:
+                                                            Color(0xFF57636C),
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                      ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        FlutterFlowIconButton(
+                                          borderColor: Colors.transparent,
+                                          borderRadius: 30,
+                                          borderWidth: 1,
+                                          buttonSize: 60,
+                                          icon: Icon(
+                                            Icons.message,
+                                            color: FlutterFlowTheme.of(context)
+                                                .primaryColor,
+                                            size: 30,
+                                          ),
+                                          onPressed: () async {
+                                            context.pushNamed(
+                                              'ChatPage',
+                                              queryParams: {
+                                                'chatUser': serializeParam(
+                                                  algoliaResultsItem,
+                                                  ParamType.Document,
+                                                ),
+                                              }.withoutNulls,
+                                              extra: <String, dynamic>{
+                                                'chatUser': algoliaResultsItem,
+                                              },
+                                            );
+                                          },
+                                        ),
+                                        InkWell(
+                                          onTap: () async {
+                                            context.pushNamed(
+                                              'peopleprofile',
+                                              queryParams: {
+                                                'peopleprofileparameter':
+                                                    serializeParam(
+                                                  algoliaResultsItem.reference,
+                                                  ParamType.DocumentReference,
+                                                ),
+                                              }.withoutNulls,
+                                            );
+                                          },
+                                          child: Card(
+                                            clipBehavior:
+                                                Clip.antiAliasWithSaveLayer,
+                                            color: Color(0xFFF1F4F8),
+                                            elevation: 1,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(40),
+                                            ),
+                                            child: Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(4, 4, 4, 4),
+                                              child: InkWell(
+                                                onTap: () async {
+                                                  context.pushNamed(
+                                                      'peopleprofile');
+                                                },
+                                                child: Icon(
+                                                  Icons
+                                                      .keyboard_arrow_right_rounded,
+                                                  color: Color(0xFF57636C),
+                                                  size: 24,
+                                                ),
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ).animateOnPageLoad(animationsMap[
@@ -334,132 +385,6 @@ class _UsersearcherWidgetState extends State<UsersearcherWidget>
                           },
                         );
                       },
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(24, 0, 0, 0),
-                    child: Text(
-                      'Members',
-                      style: FlutterFlowTheme.of(context).bodyText2,
-                    ),
-                  ),
-                  Container(
-                    width: double.infinity,
-                    height: 170,
-                    decoration: BoxDecoration(
-                      color: FlutterFlowTheme.of(context).primaryBackground,
-                    ),
-                    child: FutureBuilder<List<UsersRecord>>(
-                      future: queryUsersRecordOnce(),
-                      builder: (context, snapshot) {
-                        // Customize what your widget looks like when it's loading.
-                        if (!snapshot.hasData) {
-                          return Center(
-                            child: SizedBox(
-                              width: 50,
-                              height: 50,
-                              child: SpinKitRotatingCircle(
-                                color: Color(0xFFF25454),
-                                size: 50,
-                              ),
-                            ),
-                          );
-                        }
-                        List<UsersRecord> listViewUsersRecordList = snapshot
-                            .data!
-                            .where((u) => u.uid != currentUserUid)
-                            .toList();
-                        return ListView.builder(
-                          padding: EdgeInsets.zero,
-                          primary: false,
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          itemCount: listViewUsersRecordList.length,
-                          itemBuilder: (context, listViewIndex) {
-                            final listViewUsersRecord =
-                                listViewUsersRecordList[listViewIndex];
-                            return Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  16, 12, 12, 12),
-                              child: InkWell(
-                                onTap: () async {
-                                  context.pushNamed(
-                                    'peopleprofile',
-                                    queryParams: {
-                                      'peopleprofileparameter': serializeParam(
-                                        listViewUsersRecord.reference,
-                                        ParamType.DocumentReference,
-                                      ),
-                                    }.withoutNulls,
-                                  );
-                                },
-                                child: Container(
-                                  width: 160,
-                                  height: 100,
-                                  decoration: BoxDecoration(
-                                    color: FlutterFlowTheme.of(context)
-                                        .secondaryBackground,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        blurRadius: 4,
-                                        color: Color(0x34090F13),
-                                        offset: Offset(0, 2),
-                                      )
-                                    ],
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        12, 12, 12, 12),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(50),
-                                          child: Image.network(
-                                            valueOrDefault<String>(
-                                              listViewUsersRecord.photoUrl,
-                                              'https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg',
-                                            ),
-                                            width: 60,
-                                            height: 60,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0, 8, 0, 0),
-                                          child: Text(
-                                            listViewUsersRecord.displayName!,
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyText1
-                                                .override(
-                                                  fontFamily: 'Overpass',
-                                                  color: Colors.black,
-                                                  fontSize: 16,
-                                                ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                      },
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(24, 0, 0, 0),
-                    child: Text(
-                      'Add Members',
-                      style: FlutterFlowTheme.of(context).bodyText2,
                     ),
                   ),
                   Padding(
@@ -601,8 +526,11 @@ class _UsersearcherWidgetState extends State<UsersearcherWidget>
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                listViewUsersRecord
-                                                    .displayName!,
+                                                valueOrDefault<String>(
+                                                  listViewUsersRecord
+                                                      .displayName,
+                                                  'anonymous',
+                                                ),
                                                 style:
                                                     FlutterFlowTheme.of(context)
                                                         .bodyText1
@@ -635,6 +563,32 @@ class _UsersearcherWidgetState extends State<UsersearcherWidget>
                                           ),
                                         ),
                                       ),
+                                      FlutterFlowIconButton(
+                                        borderColor: Colors.transparent,
+                                        borderRadius: 30,
+                                        borderWidth: 1,
+                                        buttonSize: 60,
+                                        icon: Icon(
+                                          Icons.message,
+                                          color: FlutterFlowTheme.of(context)
+                                              .primaryColor,
+                                          size: 30,
+                                        ),
+                                        onPressed: () async {
+                                          context.pushNamed(
+                                            'ChatPage',
+                                            queryParams: {
+                                              'chatUser': serializeParam(
+                                                listViewUsersRecord,
+                                                ParamType.Document,
+                                              ),
+                                            }.withoutNulls,
+                                            extra: <String, dynamic>{
+                                              'chatUser': listViewUsersRecord,
+                                            },
+                                          );
+                                        },
+                                      ),
                                       FFButtonWidget(
                                         onPressed: () async {
                                           context.pushNamed(
@@ -650,7 +604,6 @@ class _UsersearcherWidgetState extends State<UsersearcherWidget>
                                         },
                                         text: 'View',
                                         options: FFButtonOptions(
-                                          width: 70,
                                           height: 36,
                                           color: FlutterFlowTheme.of(context)
                                               .primaryColor,

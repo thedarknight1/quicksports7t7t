@@ -352,38 +352,44 @@ class _LoginCopyWidgetState extends State<LoginCopyWidget> {
                             ),
                             isAndroid
                                 ? Container()
-                                : FFButtonWidget(
-                                    onPressed: () async {
-                                      GoRouter.of(context).prepareAuthEvent();
-                                      final user =
-                                          await signInWithApple(context);
-                                      if (user == null) {
-                                        return;
-                                      }
+                                : Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0, 0, 0, 7),
+                                    child: FFButtonWidget(
+                                      onPressed: () async {
+                                        GoRouter.of(context).prepareAuthEvent();
+                                        final user =
+                                            await signInWithApple(context);
+                                        if (user == null) {
+                                          return;
+                                        }
 
-                                      context.goNamedAuth('findCourt', mounted);
-                                    },
-                                    text: 'Sign in with Apple',
-                                    icon: FaIcon(
-                                      FontAwesomeIcons.apple,
-                                      size: 20,
-                                    ),
-                                    options: FFButtonOptions(
-                                      width: 230,
-                                      height: 44,
-                                      color: Colors.white,
-                                      textStyle: GoogleFonts.getFont(
-                                        'Overpass',
-                                        color: Colors.black,
-                                        fontSize: 17,
+                                        context.goNamedAuth(
+                                            'findCourt', mounted);
+                                      },
+                                      text: 'Sign in with Apple',
+                                      icon: FaIcon(
+                                        FontAwesomeIcons.apple,
+                                        size: 20,
                                       ),
-                                      elevation: 4,
-                                      borderSide: BorderSide(
+                                      options: FFButtonOptions(
+                                        width: 230,
+                                        height: 44,
                                         color: FlutterFlowTheme.of(context)
-                                            .background,
-                                        width: 0,
+                                            .secondaryColor,
+                                        textStyle: GoogleFonts.getFont(
+                                          'Overpass',
+                                          color: Colors.white,
+                                          fontSize: 17,
+                                        ),
+                                        elevation: 4,
+                                        borderSide: BorderSide(
+                                          color: FlutterFlowTheme.of(context)
+                                              .background,
+                                          width: 0,
+                                        ),
+                                        borderRadius: BorderRadius.circular(50),
                                       ),
-                                      borderRadius: BorderRadius.circular(50),
                                     ),
                                   ),
                             Align(
@@ -417,10 +423,11 @@ class _LoginCopyWidgetState extends State<LoginCopyWidget> {
                                         options: FFButtonOptions(
                                           width: 230,
                                           height: 44,
-                                          color: Colors.white,
+                                          color: FlutterFlowTheme.of(context)
+                                              .secondaryColor,
                                           textStyle: GoogleFonts.getFont(
                                             'Overpass',
-                                            color: Colors.black,
+                                            color: Colors.white,
                                             fontSize: 17,
                                           ),
                                           elevation: 4,

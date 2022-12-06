@@ -99,6 +99,13 @@ class _$EventsRecordSerializer implements StructuredSerializer<EventsRecord> {
             specifiedType: const FullType(
                 DocumentReference, const [const FullType.nullable(Object)])));
     }
+    value = object.dateTimeStamp;
+    if (value != null) {
+      result
+        ..add('dateTimeStamp')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(DateTime)));
+    }
     value = object.ffRef;
     if (value != null) {
       result
@@ -170,6 +177,10 @@ class _$EventsRecordSerializer implements StructuredSerializer<EventsRecord> {
                 const FullType.nullable(Object)
               ])) as DocumentReference<Object?>?;
           break;
+        case 'dateTimeStamp':
+          result.dateTimeStamp = serializers.deserialize(value,
+              specifiedType: const FullType(DateTime)) as DateTime?;
+          break;
         case 'Document__Reference__Field':
           result.ffRef = serializers.deserialize(value,
               specifiedType: const FullType(DocumentReference, const [
@@ -207,6 +218,8 @@ class _$EventsRecord extends EventsRecord {
   @override
   final DocumentReference<Object?>? groupChatRef;
   @override
+  final DateTime? dateTimeStamp;
+  @override
   final DocumentReference<Object?>? ffRef;
 
   factory _$EventsRecord([void Function(EventsRecordBuilder)? updates]) =>
@@ -224,6 +237,7 @@ class _$EventsRecord extends EventsRecord {
       this.eventsportname,
       this.courtRef,
       this.groupChatRef,
+      this.dateTimeStamp,
       this.ffRef})
       : super._();
 
@@ -249,6 +263,7 @@ class _$EventsRecord extends EventsRecord {
         eventsportname == other.eventsportname &&
         courtRef == other.courtRef &&
         groupChatRef == other.groupChatRef &&
+        dateTimeStamp == other.dateTimeStamp &&
         ffRef == other.ffRef;
   }
 
@@ -264,17 +279,21 @@ class _$EventsRecord extends EventsRecord {
                                 $jc(
                                     $jc(
                                         $jc(
-                                            $jc($jc(0, description.hashCode),
-                                                date.hashCode),
-                                            time.hashCode),
-                                        activity.hashCode),
-                                    playerage.hashCode),
-                                playercount.hashCode),
-                            locationname.hashCode),
-                        locationarea.hashCode),
-                    eventsportname.hashCode),
-                courtRef.hashCode),
-            groupChatRef.hashCode),
+                                            $jc(
+                                                $jc(
+                                                    $jc(0,
+                                                        description.hashCode),
+                                                    date.hashCode),
+                                                time.hashCode),
+                                            activity.hashCode),
+                                        playerage.hashCode),
+                                    playercount.hashCode),
+                                locationname.hashCode),
+                            locationarea.hashCode),
+                        eventsportname.hashCode),
+                    courtRef.hashCode),
+                groupChatRef.hashCode),
+            dateTimeStamp.hashCode),
         ffRef.hashCode));
   }
 
@@ -292,6 +311,7 @@ class _$EventsRecord extends EventsRecord {
           ..add('eventsportname', eventsportname)
           ..add('courtRef', courtRef)
           ..add('groupChatRef', groupChatRef)
+          ..add('dateTimeStamp', dateTimeStamp)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -348,6 +368,11 @@ class EventsRecordBuilder
   set groupChatRef(DocumentReference<Object?>? groupChatRef) =>
       _$this._groupChatRef = groupChatRef;
 
+  DateTime? _dateTimeStamp;
+  DateTime? get dateTimeStamp => _$this._dateTimeStamp;
+  set dateTimeStamp(DateTime? dateTimeStamp) =>
+      _$this._dateTimeStamp = dateTimeStamp;
+
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
   set ffRef(DocumentReference<Object?>? ffRef) => _$this._ffRef = ffRef;
@@ -370,6 +395,7 @@ class EventsRecordBuilder
       _eventsportname = $v.eventsportname;
       _courtRef = $v.courtRef;
       _groupChatRef = $v.groupChatRef;
+      _dateTimeStamp = $v.dateTimeStamp;
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -404,6 +430,7 @@ class EventsRecordBuilder
             eventsportname: eventsportname,
             courtRef: courtRef,
             groupChatRef: groupChatRef,
+            dateTimeStamp: dateTimeStamp,
             ffRef: ffRef);
     replace(_$result);
     return _$result;

@@ -1,6 +1,5 @@
 import '../auth/auth_util.dart';
 import '../backend/backend.dart';
-import '../components/rate_court_widget.dart';
 import '../flutter_flow/chat/index.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
@@ -25,7 +24,9 @@ class CourtDetailsWidget extends StatefulWidget {
 }
 
 class _CourtDetailsWidgetState extends State<CourtDetailsWidget> {
+  ChatMessagesRecord? lastMessaged;
   ChatsRecord? groupChat3;
+  ChatMessagesRecord? lastmessage2;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -113,7 +114,7 @@ class _CourtDetailsWidgetState extends State<CourtDetailsWidget> {
                                             size: 20,
                                           ),
                                           onPressed: () async {
-                                            context.pop();
+                                            context.pushNamed('findCourt');
                                           },
                                         ),
                                       ),
@@ -244,13 +245,16 @@ class _CourtDetailsWidgetState extends State<CourtDetailsWidget> {
                                         0, 12, 0, 44),
                                     child: StreamBuilder<List<EventsRecord>>(
                                       stream: queryEventsRecord(
-                                        queryBuilder: (eventsRecord) =>
-                                            eventsRecord
-                                                .where(
-                                                    'courtRef',
-                                                    isEqualTo:
-                                                        widget.court!.reference)
-                                                .orderBy('date'),
+                                        queryBuilder:
+                                            (eventsRecord) =>
+                                                eventsRecord
+                                                    .where('courtRef',
+                                                        isEqualTo: widget
+                                                            .court!.reference)
+                                                    .where('dateTimeStamp',
+                                                        isGreaterThanOrEqualTo:
+                                                            getCurrentTimestamp)
+                                                    .orderBy('dateTimeStamp'),
                                       ),
                                       builder: (context, snapshot) {
                                         // Customize what your widget looks like when it's loading.
@@ -271,6 +275,7 @@ class _CourtDetailsWidgetState extends State<CourtDetailsWidget> {
                                             snapshot.data!;
                                         return ListView.builder(
                                           padding: EdgeInsets.zero,
+                                          primary: false,
                                           shrinkWrap: true,
                                           scrollDirection: Axis.vertical,
                                           itemCount:
@@ -376,8 +381,14 @@ class _CourtDetailsWidgetState extends State<CourtDetailsWidget> {
                                                                     ],
                                                                   ),
                                                                   Text(
-                                                                    listViewEventsRecord
-                                                                        .date!,
+                                                                    dateTimeFormat(
+                                                                      'MMMEd',
+                                                                      listViewEventsRecord
+                                                                          .dateTimeStamp!,
+                                                                      locale: FFLocalizations.of(
+                                                                              context)
+                                                                          .languageCode,
+                                                                    ),
                                                                     style: FlutterFlowTheme.of(
                                                                             context)
                                                                         .bodyText2
@@ -385,7 +396,7 @@ class _CourtDetailsWidgetState extends State<CourtDetailsWidget> {
                                                                           fontFamily:
                                                                               'Overpass',
                                                                           color:
-                                                                              Color(0xFF616A6D),
+                                                                              Color(0xFF8B979B),
                                                                         ),
                                                                   ),
                                                                   Row(
@@ -417,6 +428,34 @@ class _CourtDetailsWidgetState extends State<CourtDetailsWidget> {
                                                                       ),
                                                                     ],
                                                                   ),
+                                                                  Row(
+                                                                    mainAxisSize:
+                                                                        MainAxisSize
+                                                                            .max,
+                                                                    children: [
+                                                                      Text(
+                                                                        'Player age: ',
+                                                                        style: FlutterFlowTheme.of(context)
+                                                                            .bodyText1
+                                                                            .override(
+                                                                              fontFamily: 'Overpass',
+                                                                              color: Colors.white,
+                                                                              fontSize: 18,
+                                                                            ),
+                                                                      ),
+                                                                      Text(
+                                                                        listViewEventsRecord
+                                                                            .playerage!,
+                                                                        style: FlutterFlowTheme.of(context)
+                                                                            .bodyText1
+                                                                            .override(
+                                                                              fontFamily: 'Overpass',
+                                                                              color: Colors.white,
+                                                                              fontSize: 18,
+                                                                            ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
                                                                 ],
                                                               ),
                                                             ),
@@ -429,152 +468,275 @@ class _CourtDetailsWidgetState extends State<CourtDetailsWidget> {
                                                                         0,
                                                                         20,
                                                                         0),
-                                                            child:
-                                                                FFButtonWidget(
-                                                              onPressed:
-                                                                  () async {
-                                                                if (userList5ChatsRecord
-                                                                        .users!
-                                                                        .toList()
-                                                                        .contains(
-                                                                            currentUserReference) ==
-                                                                    true) {
-                                                                  context
-                                                                      .pushNamed(
-                                                                    'ChatPage',
-                                                                    queryParams:
-                                                                        {
-                                                                      'eventGroupChat':
-                                                                          serializeParam(
-                                                                        userList5ChatsRecord,
-                                                                        ParamType
-                                                                            .Document,
+                                                            child: StreamBuilder<
+                                                                List<
+                                                                    UsersRecord>>(
+                                                              stream:
+                                                                  queryUsersRecord(
+                                                                queryBuilder: (usersRecord) =>
+                                                                    usersRecord.where(
+                                                                        'uid',
+                                                                        isEqualTo:
+                                                                            'kurTAlbhyqV5yBwoZJmO2QIp6jy2'),
+                                                                singleRecord:
+                                                                    true,
+                                                              ),
+                                                              builder: (context,
+                                                                  snapshot) {
+                                                                // Customize what your widget looks like when it's loading.
+                                                                if (!snapshot
+                                                                    .hasData) {
+                                                                  return Center(
+                                                                    child:
+                                                                        SizedBox(
+                                                                      width: 50,
+                                                                      height:
+                                                                          50,
+                                                                      child:
+                                                                          SpinKitRotatingCircle(
+                                                                        color: Color(
+                                                                            0xFFF25454),
+                                                                        size:
+                                                                            50,
                                                                       ),
-                                                                      'chatRef':
-                                                                          serializeParam(
-                                                                        userList5ChatsRecord
-                                                                            .reference,
-                                                                        ParamType
-                                                                            .DocumentReference,
-                                                                      ),
-                                                                    }.withoutNulls,
-                                                                    extra: <
-                                                                        String,
-                                                                        dynamic>{
-                                                                      'eventGroupChat':
-                                                                          userList5ChatsRecord,
-                                                                    },
-                                                                  );
-                                                                } else {
-                                                                  groupChat3 =
-                                                                      await FFChatManager
-                                                                          .instance
-                                                                          .addGroupMembers(
-                                                                    userList5ChatsRecord,
-                                                                    [
-                                                                      currentUserReference!
-                                                                    ],
-                                                                  );
-
-                                                                  final chatsUpdateData =
-                                                                      {
-                                                                    ...createChatsRecordData(
-                                                                      userA: groupChat3!
-                                                                          .userA,
-                                                                      userB: groupChat3!
-                                                                          .userB,
-                                                                      lastMessage:
-                                                                          groupChat3!
-                                                                              .lastMessage,
-                                                                      lastMessageTime:
-                                                                          groupChat3!
-                                                                              .lastMessageTime,
-                                                                      lastMessageSentBy:
-                                                                          groupChat3!
-                                                                              .lastMessageSentBy,
                                                                     ),
-                                                                    'users':
-                                                                        FieldValue
-                                                                            .arrayUnion([
-                                                                      currentUserReference
-                                                                    ]),
-                                                                    'last_message_seen_by':
-                                                                        groupChat3!
-                                                                            .lastMessageSeenBy!
-                                                                            .toList(),
-                                                                    'numUsers':
-                                                                        FieldValue
-                                                                            .increment(1),
-                                                                  };
-                                                                  await listViewEventsRecord
-                                                                      .groupChatRef!
-                                                                      .update(
-                                                                          chatsUpdateData);
-
-                                                                  context
-                                                                      .pushNamed(
-                                                                    'ChatPage',
-                                                                    queryParams:
-                                                                        {
-                                                                      'eventGroupChat':
-                                                                          serializeParam(
-                                                                        groupChat3,
-                                                                        ParamType
-                                                                            .Document,
-                                                                      ),
-                                                                      'chatRef':
-                                                                          serializeParam(
-                                                                        groupChat3!
-                                                                            .reference,
-                                                                        ParamType
-                                                                            .DocumentReference,
-                                                                      ),
-                                                                    }.withoutNulls,
-                                                                    extra: <
-                                                                        String,
-                                                                        dynamic>{
-                                                                      'eventGroupChat':
-                                                                          groupChat3,
-                                                                    },
                                                                   );
                                                                 }
+                                                                List<UsersRecord>
+                                                                    buttonUsersRecordList =
+                                                                    snapshot
+                                                                        .data!;
+                                                                final buttonUsersRecord =
+                                                                    buttonUsersRecordList
+                                                                            .isNotEmpty
+                                                                        ? buttonUsersRecordList
+                                                                            .first
+                                                                        : null;
+                                                                return FFButtonWidget(
+                                                                  onPressed:
+                                                                      () async {
+                                                                    var _shouldSetState =
+                                                                        false;
+                                                                    if (userList5ChatsRecord
+                                                                            .users!
+                                                                            .toList()
+                                                                            .contains(currentUserReference) ==
+                                                                        true) {
+                                                                      context
+                                                                          .pushNamed(
+                                                                        'ChatPage',
+                                                                        queryParams:
+                                                                            {
+                                                                          'eventGroupChat':
+                                                                              serializeParam(
+                                                                            userList5ChatsRecord,
+                                                                            ParamType.Document,
+                                                                          ),
+                                                                          'chatRef':
+                                                                              serializeParam(
+                                                                            userList5ChatsRecord.reference,
+                                                                            ParamType.DocumentReference,
+                                                                          ),
+                                                                        }.withoutNulls,
+                                                                        extra: <
+                                                                            String,
+                                                                            dynamic>{
+                                                                          'eventGroupChat':
+                                                                              userList5ChatsRecord,
+                                                                        },
+                                                                      );
 
-                                                                setState(() {});
-                                                              },
-                                                              text:
-                                                                  'Join Event',
-                                                              options:
-                                                                  FFButtonOptions(
-                                                                width: 100,
-                                                                height: 36,
-                                                                color: Colors
-                                                                    .white,
-                                                                textStyle: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyText1
-                                                                    .override(
-                                                                      fontFamily:
-                                                                          'Outfit',
-                                                                      color: Color(
-                                                                          0xFFC63737),
-                                                                      fontSize:
-                                                                          14,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .normal,
+                                                                      if (_shouldSetState)
+                                                                        setState(
+                                                                            () {});
+                                                                      return;
+                                                                    } else {
+                                                                      groupChat3 = await FFChatManager
+                                                                          .instance
+                                                                          .addGroupMembers(
+                                                                        userList5ChatsRecord,
+                                                                        [
+                                                                          currentUserReference!
+                                                                        ],
+                                                                      );
+                                                                      _shouldSetState =
+                                                                          true;
+
+                                                                      final chatMessagesCreateData =
+                                                                          createChatMessagesRecordData(
+                                                                        user: buttonUsersRecord!
+                                                                            .reference,
+                                                                        chat: userList5ChatsRecord
+                                                                            .reference,
+                                                                        text:
+                                                                            'Automatic Message: New user has joined the event:',
+                                                                        timestamp:
+                                                                            getCurrentTimestamp,
+                                                                      );
+                                                                      var chatMessagesRecordReference = ChatMessagesRecord
+                                                                          .collection
+                                                                          .doc();
+                                                                      await chatMessagesRecordReference
+                                                                          .set(
+                                                                              chatMessagesCreateData);
+                                                                      lastMessaged = ChatMessagesRecord.getDocumentFromData(
+                                                                          chatMessagesCreateData,
+                                                                          chatMessagesRecordReference);
+                                                                      _shouldSetState =
+                                                                          true;
+
+                                                                      final chatsUpdateData =
+                                                                          {
+                                                                        ...createChatsRecordData(
+                                                                          userA:
+                                                                              groupChat3!.userA,
+                                                                          userB:
+                                                                              groupChat3!.userB,
+                                                                          lastMessage:
+                                                                              lastMessaged!.text,
+                                                                          lastMessageTime:
+                                                                              lastMessaged!.timestamp,
+                                                                          lastMessageSentBy:
+                                                                              lastMessaged!.user,
+                                                                        ),
+                                                                        'users':
+                                                                            FieldValue.arrayUnion([
+                                                                          currentUserReference
+                                                                        ]),
+                                                                        'last_message_seen_by': groupChat3!
+                                                                            .lastMessageSeenBy!
+                                                                            .toList(),
+                                                                        'numUsers':
+                                                                            FieldValue.increment(1),
+                                                                      };
+                                                                      await listViewEventsRecord
+                                                                          .groupChatRef!
+                                                                          .update(
+                                                                              chatsUpdateData);
+                                                                      await showDialog(
+                                                                        context:
+                                                                            context,
+                                                                        builder:
+                                                                            (alertDialogContext) {
+                                                                          return AlertDialog(
+                                                                            title:
+                                                                                Text('You\'re in!'),
+                                                                            content:
+                                                                                Text('You\'ve successfully joined the event!'),
+                                                                            actions: [
+                                                                              TextButton(
+                                                                                onPressed: () => Navigator.pop(alertDialogContext),
+                                                                                child: Text('Go to event group chat'),
+                                                                              ),
+                                                                            ],
+                                                                          );
+                                                                        },
+                                                                      );
+
+                                                                      context
+                                                                          .pushNamed(
+                                                                        'ChatPage',
+                                                                        queryParams:
+                                                                            {
+                                                                          'eventGroupChat':
+                                                                              serializeParam(
+                                                                            groupChat3,
+                                                                            ParamType.Document,
+                                                                          ),
+                                                                          'chatRef':
+                                                                              serializeParam(
+                                                                            groupChat3!.reference,
+                                                                            ParamType.DocumentReference,
+                                                                          ),
+                                                                        }.withoutNulls,
+                                                                        extra: <
+                                                                            String,
+                                                                            dynamic>{
+                                                                          'eventGroupChat':
+                                                                              groupChat3,
+                                                                        },
+                                                                      );
+                                                                    }
+
+                                                                    final chatMessagesCreateData =
+                                                                        createChatMessagesRecordData(
+                                                                      user: buttonUsersRecord!
+                                                                          .reference,
+                                                                      chat: listViewEventsRecord
+                                                                          .groupChatRef,
+                                                                      text:
+                                                                          currentUserDisplayName,
+                                                                      timestamp:
+                                                                          getCurrentTimestamp,
+                                                                    );
+                                                                    var chatMessagesRecordReference =
+                                                                        ChatMessagesRecord
+                                                                            .collection
+                                                                            .doc();
+                                                                    await chatMessagesRecordReference
+                                                                        .set(
+                                                                            chatMessagesCreateData);
+                                                                    lastmessage2 =
+                                                                        ChatMessagesRecord.getDocumentFromData(
+                                                                            chatMessagesCreateData,
+                                                                            chatMessagesRecordReference);
+                                                                    _shouldSetState =
+                                                                        true;
+
+                                                                    final chatsUpdateData =
+                                                                        createChatsRecordData(
+                                                                      lastMessage:
+                                                                          lastmessage2!
+                                                                              .text,
+                                                                      lastMessageTime:
+                                                                          lastmessage2!
+                                                                              .timestamp,
+                                                                      lastMessageSentBy:
+                                                                          lastmessage2!
+                                                                              .user,
+                                                                    );
+                                                                    await listViewEventsRecord
+                                                                        .groupChatRef!
+                                                                        .update(
+                                                                            chatsUpdateData);
+                                                                    if (_shouldSetState)
+                                                                      setState(
+                                                                          () {});
+                                                                  },
+                                                                  text:
+                                                                      'Join Event',
+                                                                  options:
+                                                                      FFButtonOptions(
+                                                                    width: 100,
+                                                                    height: 36,
+                                                                    color: Colors
+                                                                        .white,
+                                                                    textStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyText1
+                                                                        .override(
+                                                                          fontFamily:
+                                                                              'Outfit',
+                                                                          color:
+                                                                              Color(0xFFC63737),
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight:
+                                                                              FontWeight.normal,
+                                                                        ),
+                                                                    borderSide:
+                                                                        BorderSide(
+                                                                      color: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .white,
+                                                                      width: 1,
                                                                     ),
-                                                                borderSide:
-                                                                    BorderSide(
-                                                                  color: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .white,
-                                                                  width: 1,
-                                                                ),
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
                                                                             50),
-                                                              ),
+                                                                  ),
+                                                                );
+                                                              },
                                                             ),
                                                           ),
                                                         ],
@@ -615,70 +777,76 @@ class _CourtDetailsWidgetState extends State<CourtDetailsWidget> {
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            FFButtonWidget(
-                              onPressed: () async {
-                                await launchURL(functions.getMapUrl(
-                                    courtDetailsCourtsRecord.location));
-                              },
-                              text: 'Open in Maps',
-                              options: FFButtonOptions(
-                                width: 130,
-                                height: 50,
-                                color:
-                                    FlutterFlowTheme.of(context).primaryColor,
-                                textStyle: FlutterFlowTheme.of(context)
-                                    .subtitle2
-                                    .override(
-                                      fontFamily: 'Overpass',
-                                      color: Colors.white,
-                                    ),
-                                borderSide: BorderSide(
-                                  color: Colors.transparent,
-                                  width: 1,
+                            Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(0, 0, 7, 0),
+                              child: FFButtonWidget(
+                                onPressed: () async {
+                                  await launchURL(functions.getMapUrl(
+                                      courtDetailsCourtsRecord.location));
+                                },
+                                text: 'Open in Maps',
+                                options: FFButtonOptions(
+                                  width: 130,
+                                  height: 50,
+                                  color: FlutterFlowTheme.of(context)
+                                      .secondaryColor,
+                                  textStyle: FlutterFlowTheme.of(context)
+                                      .bodyText2
+                                      .override(
+                                        fontFamily: 'Overpass',
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                  borderSide: BorderSide(
+                                    color: Colors.transparent,
+                                    width: 1,
+                                  ),
+                                  borderRadius: BorderRadius.circular(50),
                                 ),
-                                borderRadius: BorderRadius.circular(50),
                               ),
                             ),
-                            FFButtonWidget(
-                              onPressed: () async {
-                                await showModalBottomSheet(
-                                  isScrollControlled: true,
-                                  context: context,
-                                  builder: (context) {
-                                    return Padding(
-                                      padding:
-                                          MediaQuery.of(context).viewInsets,
-                                      child: Container(
-                                        height: 584,
-                                        child: RateCourtWidget(
-                                          court: widget.court,
-                                        ),
+                            Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(0, 0, 7, 0),
+                              child: FFButtonWidget(
+                                onPressed: () async {
+                                  context.pushNamed(
+                                    'rateCourtPage',
+                                    queryParams: {
+                                      'court': serializeParam(
+                                        courtDetailsCourtsRecord,
+                                        ParamType.Document,
                                       ),
-                                    );
-                                  },
-                                ).then((value) => setState(() {}));
-                              },
-                              text: 'Rate',
-                              options: FFButtonOptions(
-                                height: 50,
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    20, 0, 20, 0),
-                                color:
-                                    FlutterFlowTheme.of(context).secondaryColor,
-                                textStyle: FlutterFlowTheme.of(context)
-                                    .bodyText2
-                                    .override(
-                                      fontFamily: 'Overpass',
-                                      color: FlutterFlowTheme.of(context).white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                borderSide: BorderSide(
-                                  color: Colors.transparent,
-                                  width: 1,
+                                    }.withoutNulls,
+                                    extra: <String, dynamic>{
+                                      'court': courtDetailsCourtsRecord,
+                                    },
+                                  );
+                                },
+                                text: 'Rate',
+                                options: FFButtonOptions(
+                                  height: 50,
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      20, 0, 20, 0),
+                                  color: FlutterFlowTheme.of(context)
+                                      .secondaryColor,
+                                  textStyle: FlutterFlowTheme.of(context)
+                                      .bodyText2
+                                      .override(
+                                        fontFamily: 'Overpass',
+                                        color:
+                                            FlutterFlowTheme.of(context).white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                  borderSide: BorderSide(
+                                    color: Colors.transparent,
+                                    width: 1,
+                                  ),
+                                  borderRadius: BorderRadius.circular(50),
                                 ),
-                                borderRadius: BorderRadius.circular(50),
                               ),
                             ),
                             FFButtonWidget(

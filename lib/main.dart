@@ -9,7 +9,6 @@ import 'flutter_flow/flutter_flow_theme.dart';
 import 'flutter_flow/flutter_flow_util.dart';
 import 'flutter_flow/internationalization.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'flutter_flow/nav/nav.dart';
 import 'index.dart';
@@ -118,10 +117,9 @@ class _NavBarPageState extends State<NavBarPage> {
   Widget build(BuildContext context) {
     final tabs = {
       'findCourt': FindCourtWidget(),
-      'people': PeopleWidget(),
       'AllChats': AllChatsWidget(),
-      'profilePage': ProfilePageWidget(),
       'usersearcher': UsersearcherWidget(),
+      'profilePage': ProfilePageWidget(),
     };
     final currentIndex = tabs.keys.toList().indexOf(_currentPageName);
     return Scaffold(
@@ -148,16 +146,8 @@ class _NavBarPageState extends State<NavBarPage> {
             tooltip: '',
           ),
           BottomNavigationBarItem(
-            icon: FaIcon(
-              FontAwesomeIcons.userFriends,
-              size: 14,
-            ),
-            label: 'Home',
-            tooltip: '',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(
-              Icons.add_comment,
+              Icons.chat_bubble_rounded,
               size: 24,
             ),
             activeIcon: Icon(
@@ -169,11 +159,7 @@ class _NavBarPageState extends State<NavBarPage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.person_outlined,
-              size: 24,
-            ),
-            activeIcon: Icon(
-              Icons.person,
+              Icons.people,
               size: 24,
             ),
             label: 'Home',
@@ -181,7 +167,11 @@ class _NavBarPageState extends State<NavBarPage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.people,
+              Icons.person_outlined,
+              size: 24,
+            ),
+            activeIcon: Icon(
+              Icons.person,
               size: 24,
             ),
             label: 'Home',

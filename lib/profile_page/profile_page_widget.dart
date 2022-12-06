@@ -59,9 +59,9 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                     decoration: BoxDecoration(
                       color: Colors.white,
                       image: DecorationImage(
-                        fit: BoxFit.fitWidth,
+                        fit: BoxFit.fill,
                         image: Image.asset(
-                          'assets/images/bballHero@2x.png',
+                          'assets/images/Black_Minimal_Motivation_Quote_LinkedIn_Banner_(2).png',
                         ).image,
                       ),
                     ),
@@ -181,7 +181,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                             padding:
                                 EdgeInsetsDirectional.fromSTEB(24, 12, 0, 12),
                             child: Text(
-                              'Posts',
+                              'Social Posts',
                               style: FlutterFlowTheme.of(context)
                                   .bodyText1
                                   .override(
@@ -201,19 +201,14 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                       padding: EdgeInsets.zero,
                       scrollDirection: Axis.vertical,
                       children: [
-                        FlutterFlowIconButton(
-                          borderColor: Colors.transparent,
-                          borderRadius: 30,
-                          borderWidth: 1,
-                          buttonSize: 60,
-                          icon: Icon(
-                            Icons.add_circle_outline,
-                            color: FlutterFlowTheme.of(context).primaryText,
-                            size: 40,
-                          ),
-                          onPressed: () {
-                            print('IconButton pressed ...');
-                          },
+                        Text(
+                          'Posting coming soon to QuickSports...',
+                          textAlign: TextAlign.center,
+                          style:
+                              FlutterFlowTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Overpass',
+                                    fontSize: 20,
+                                  ),
                         ),
                       ],
                     ),

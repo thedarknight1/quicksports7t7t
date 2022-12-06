@@ -1,6 +1,5 @@
 import '../auth/auth_util.dart';
 import '../backend/backend.dart';
-import '../chat_page/chat_page_widget.dart';
 import '../flutter_flow/chat/index.dart';
 import '../flutter_flow/flutter_flow_calendar.dart';
 import '../flutter_flow/flutter_flow_drop_down.dart';
@@ -26,6 +25,7 @@ class CreateeventpageWidget extends StatefulWidget {
 }
 
 class _CreateeventpageWidgetState extends State<CreateeventpageWidget> {
+  ChatMessagesRecord? lastMessage;
   ChatsRecord? groupChat;
   EventsRecord? createdEvent;
   DateTimeRange? calendarSelectedDay;
@@ -116,7 +116,7 @@ class _CreateeventpageWidgetState extends State<CreateeventpageWidget> {
                       children: [
                         FlutterFlowCalendar(
                           color: FlutterFlowTheme.of(context).primaryColor,
-                          weekFormat: false,
+                          weekFormat: true,
                           weekStartsMonday: false,
                           initialDate: getCurrentTimestamp,
                           onChange: (DateTimeRange? newSelectedDate) {
@@ -318,57 +318,123 @@ class _CreateeventpageWidgetState extends State<CreateeventpageWidget> {
                                 snapshot.data!;
                             return FFButtonWidget(
                               onPressed: () async {
-                                groupChat =
-                                    await FFChatManager.instance.createChat(
-                                  buttonUsersRecordList
-                                      .where((e) => e != null)
-                                      .toList()
-                                      .map((e) => e.reference)
-                                      .toList(),
-                                );
-                                context.pushNamed(
-                                  'ChatPage',
-                                  queryParams: {
-                                    'chatRef': serializeParam(
-                                      groupChat?.reference,
-                                      ParamType.DocumentReference,
+                                if ((calendarSelectedDay?.end != null) &&
+                                    (dropDownValue1 != null &&
+                                        dropDownValue1 != '') &&
+                                    (dropDownValue2 != null &&
+                                        dropDownValue2 != '') &&
+                                    (dropDownValue3 != null &&
+                                        dropDownValue3 != '')) {
+                                  groupChat =
+                                      await FFChatManager.instance.createChat(
+                                    buttonUsersRecordList
+                                        .where((e) => e != null)
+                                        .toList()
+                                        .map((e) => e.reference)
+                                        .toList(),
+                                  );
+
+                                  final eventsCreateData =
+                                      createEventsRecordData(
+                                    description: textController!.text,
+                                    date: dateTimeFormat(
+                                      'yMMMd',
+                                      calendarSelectedDay?.start,
+                                      locale: FFLocalizations.of(context)
+                                          .languageCode,
                                     ),
-                                  }.withoutNulls,
-                                );
+                                    time: dropDownValue1,
+                                    playerage: dropDownValue3,
+                                    playercount: dropDownValue2,
+                                    activity: '',
+                                    locationname: widget.createeventpage!.name,
+                                    locationarea: widget
+                                        .createeventpage!.location
+                                        ?.toString(),
+                                    eventsportname:
+                                        widget.createeventpage!.sportname,
+                                    courtRef:
+                                        createeventpageCourtsRecord.reference,
+                                    groupChatRef: groupChat!.reference,
+                                    dateTimeStamp: calendarSelectedDay?.end,
+                                  );
+                                  var eventsRecordReference =
+                                      EventsRecord.collection.doc();
+                                  await eventsRecordReference
+                                      .set(eventsCreateData);
+                                  createdEvent =
+                                      EventsRecord.getDocumentFromData(
+                                          eventsCreateData,
+                                          eventsRecordReference);
 
-                                final chatsUpdateData = createChatsRecordData(
-                                  numUsers: 1,
-                                );
-                                await groupChat!.reference
-                                    .update(chatsUpdateData);
+                                  final chatMessagesCreateData =
+                                      createChatMessagesRecordData(
+                                    user: currentUserReference,
+                                    chat: groupChat!.reference,
+                                    text:
+                                        'Automatic message: Group chat has been created.',
+                                    image: '',
+                                    timestamp: getCurrentTimestamp,
+                                  );
+                                  var chatMessagesRecordReference =
+                                      ChatMessagesRecord.collection.doc();
+                                  await chatMessagesRecordReference
+                                      .set(chatMessagesCreateData);
+                                  lastMessage =
+                                      ChatMessagesRecord.getDocumentFromData(
+                                          chatMessagesCreateData,
+                                          chatMessagesRecordReference);
 
-                                final eventsCreateData = createEventsRecordData(
-                                  description: textController!.text,
-                                  date: dateTimeFormat(
-                                    'yMMMd',
-                                    calendarSelectedDay?.start,
-                                    locale: FFLocalizations.of(context)
-                                        .languageCode,
-                                  ),
-                                  time: dropDownValue1,
-                                  playerage: dropDownValue3,
-                                  playercount: dropDownValue2,
-                                  activity: '',
-                                  locationname: widget.createeventpage!.name,
-                                  locationarea: widget.createeventpage!.location
-                                      ?.toString(),
-                                  eventsportname:
-                                      widget.createeventpage!.sportname,
-                                  courtRef:
-                                      createeventpageCourtsRecord.reference,
-                                  groupChatRef: groupChat!.reference,
-                                );
-                                var eventsRecordReference =
-                                    EventsRecord.collection.doc();
-                                await eventsRecordReference
-                                    .set(eventsCreateData);
-                                createdEvent = EventsRecord.getDocumentFromData(
-                                    eventsCreateData, eventsRecordReference);
+                                  final chatsUpdateData = createChatsRecordData(
+                                    lastMessage: lastMessage!.text,
+                                    lastMessageTime: lastMessage!.timestamp,
+                                    lastMessageSentBy: lastMessage!.user,
+                                    numUsers: 1,
+                                  );
+                                  await groupChat!.reference
+                                      .update(chatsUpdateData);
+
+                                  context.pushNamed(
+                                    'courtAddedSuccessCopy',
+                                    queryParams: {
+                                      'groupChatRef': serializeParam(
+                                        groupChat!.reference,
+                                        ParamType.DocumentReference,
+                                      ),
+                                      'groupChatDoc': serializeParam(
+                                        groupChat,
+                                        ParamType.Document,
+                                      ),
+                                      'courtDoc': serializeParam(
+                                        createeventpageCourtsRecord,
+                                        ParamType.Document,
+                                      ),
+                                    }.withoutNulls,
+                                    extra: <String, dynamic>{
+                                      'groupChatDoc': groupChat,
+                                      'courtDoc': createeventpageCourtsRecord,
+                                    },
+                                  );
+                                } else {
+                                  await showDialog(
+                                    context: context,
+                                    builder: (alertDialogContext) {
+                                      return AlertDialog(
+                                        title: Text(
+                                            'Please fill out all fields to continue'),
+                                        content: Text(
+                                            'Please fill out all fields to continue'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () => Navigator.pop(
+                                                alertDialogContext),
+                                            child: Text('Ok'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }
 
                                 setState(() {});
                               },

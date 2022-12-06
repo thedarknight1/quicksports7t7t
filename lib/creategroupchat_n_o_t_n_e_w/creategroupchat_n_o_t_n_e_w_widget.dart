@@ -334,7 +334,7 @@ class _CreategroupchatNOTNEWWidgetState
                   ),
                 ),
                 child: Visibility(
-                  visible: checkboxListTileCheckedItems.length == 2,
+                  visible: checkboxListTileCheckedItems.length >= 2,
                   child: Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 34),
                     child: FFButtonWidget(

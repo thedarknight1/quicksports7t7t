@@ -396,7 +396,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                           ),
                           Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(20, 12, 20, 16),
+                                EdgeInsetsDirectional.fromSTEB(40, 12, 40, 10),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.end,
@@ -471,113 +471,142 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                               ],
                             ),
                           ),
+                          Align(
+                            alignment: AlignmentDirectional(0, 0),
+                            child: Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                              child: Container(
+                                width: 230,
+                                height: 44,
+                                child: Stack(
+                                  children: [
+                                    Align(
+                                      alignment: AlignmentDirectional(-0.83, 0),
+                                      child: Container(
+                                        width: 22,
+                                        height: 22,
+                                        clipBehavior: Clip.antiAlias,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Image.network(
+                                          'https://i0.wp.com/nanophorm.com/wp-content/uploads/2018/04/google-logo-icon-PNG-Transparent-Background.png?w=1000&ssl=1',
+                                          fit: BoxFit.contain,
+                                        ),
+                                      ),
+                                    ),
+                                    Align(
+                                      alignment: AlignmentDirectional(0, 0),
+                                      child: Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            0, 1, 0, 1),
+                                        child: FFButtonWidget(
+                                          onPressed: () async {
+                                            GoRouter.of(context)
+                                                .prepareAuthEvent();
+                                            final user =
+                                                await signInWithGoogle(context);
+                                            if (user == null) {
+                                              return;
+                                            }
+
+                                            context.pushNamedAuth(
+                                                'createprofilefirst', mounted);
+                                          },
+                                          text: '         Continue with Google',
+                                          options: FFButtonOptions(
+                                            width: 230,
+                                            height: 44,
+                                            color: FlutterFlowTheme.of(context)
+                                                .secondaryColor,
+                                            textStyle: GoogleFonts.getFont(
+                                              'Roboto',
+                                              color: Colors.white,
+                                              fontSize: 17,
+                                            ),
+                                            elevation: 0,
+                                            borderSide: BorderSide(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondaryColor,
+                                              width: 0,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(50),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Align(
+                                      alignment: AlignmentDirectional(-0.8, 0),
+                                      child: Container(
+                                        width: 22,
+                                        height: 22,
+                                        clipBehavior: Clip.antiAlias,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Image.network(
+                                          'https://i0.wp.com/nanophorm.com/wp-content/uploads/2018/04/google-logo-icon-PNG-Transparent-Background.png?w=1000&ssl=1',
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          isAndroid
+                              ? Container()
+                              : Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0, 7, 0, 15),
+                                  child: FFButtonWidget(
+                                    onPressed: () async {
+                                      GoRouter.of(context).prepareAuthEvent();
+                                      final user =
+                                          await signInWithApple(context);
+                                      if (user == null) {
+                                        return;
+                                      }
+
+                                      context.pushNamedAuth(
+                                          'createprofilefirst', mounted);
+                                    },
+                                    text: 'Continue with Apple',
+                                    icon: FaIcon(
+                                      FontAwesomeIcons.apple,
+                                      color: Colors.white,
+                                      size: 20,
+                                    ),
+                                    options: FFButtonOptions(
+                                      width: 230,
+                                      height: 44,
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryColor,
+                                      textStyle: GoogleFonts.getFont(
+                                        'Roboto',
+                                        color: Colors.white,
+                                        fontSize: 17,
+                                      ),
+                                      elevation: 4,
+                                      borderSide: BorderSide(
+                                        color: FlutterFlowTheme.of(context)
+                                            .secondaryColor,
+                                        width: 0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(50),
+                                    ),
+                                  ),
+                                ),
                           Divider(
                             height: 2,
                             thickness: 2,
                             indent: 20,
                             endIndent: 20,
                             color: Color(0xFFDBE2E7),
-                          ),
-                          Align(
-                            alignment: AlignmentDirectional(0, 0),
-                            child: Container(
-                              width: 230,
-                              height: 44,
-                              child: Stack(
-                                children: [
-                                  Align(
-                                    alignment: AlignmentDirectional(-0.83, 0),
-                                    child: Container(
-                                      width: 22,
-                                      height: 22,
-                                      clipBehavior: Clip.antiAlias,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: Image.network(
-                                        'https://i0.wp.com/nanophorm.com/wp-content/uploads/2018/04/google-logo-icon-PNG-Transparent-Background.png?w=1000&ssl=1',
-                                        fit: BoxFit.contain,
-                                      ),
-                                    ),
-                                  ),
-                                  Align(
-                                    alignment: AlignmentDirectional(0, 0),
-                                    child: FFButtonWidget(
-                                      onPressed: () async {
-                                        GoRouter.of(context).prepareAuthEvent();
-                                        final user =
-                                            await signInWithGoogle(context);
-                                        if (user == null) {
-                                          return;
-                                        }
-
-                                        context.pushNamedAuth(
-                                            'createprofilefirst', mounted);
-                                      },
-                                      text: '         Continue with Google',
-                                      options: FFButtonOptions(
-                                        width: 230,
-                                        height: 44,
-                                        color: Colors.white,
-                                        textStyle: GoogleFonts.getFont(
-                                          'Roboto',
-                                          color: Colors.black,
-                                          fontSize: 17,
-                                        ),
-                                        elevation: 4,
-                                        borderSide: BorderSide(
-                                          color: FlutterFlowTheme.of(context)
-                                              .background,
-                                          width: 0,
-                                        ),
-                                        borderRadius: BorderRadius.circular(50),
-                                      ),
-                                    ),
-                                  ),
-                                  Align(
-                                    alignment: AlignmentDirectional(-0.8, 0),
-                                    child: Container(
-                                      width: 22,
-                                      height: 22,
-                                      clipBehavior: Clip.antiAlias,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: Image.network(
-                                        'https://i0.wp.com/nanophorm.com/wp-content/uploads/2018/04/google-logo-icon-PNG-Transparent-Background.png?w=1000&ssl=1',
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          FFButtonWidget(
-                            onPressed: () {
-                              print('Button pressed ...');
-                            },
-                            text: 'Continue with Apple',
-                            icon: FaIcon(
-                              FontAwesomeIcons.apple,
-                              size: 20,
-                            ),
-                            options: FFButtonOptions(
-                              width: 230,
-                              height: 44,
-                              color: Colors.white,
-                              textStyle: GoogleFonts.getFont(
-                                'Roboto',
-                                color: Colors.black,
-                                fontSize: 17,
-                              ),
-                              elevation: 4,
-                              borderSide: BorderSide(
-                                color: FlutterFlowTheme.of(context).background,
-                                width: 0,
-                              ),
-                              borderRadius: BorderRadius.circular(50),
-                            ),
                           ),
                           Padding(
                             padding:

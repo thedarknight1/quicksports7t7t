@@ -138,7 +138,7 @@ class _FindCourtWidgetState extends State<FindCourtWidget> {
                                 ),
                               )
                               .toList(),
-                          markerColor: GoogleMarkerColor.orange,
+                          markerColor: GoogleMarkerColor.red,
                           mapType: MapType.normal,
                           style: GoogleMapStyle.standard,
                           initialZoom: 14,
@@ -147,7 +147,7 @@ class _FindCourtWidgetState extends State<FindCourtWidget> {
                           showZoomControls: false,
                           showLocation: true,
                           showCompass: false,
-                          showMapToolbar: true,
+                          showMapToolbar: false,
                           showTraffic: false,
                           centerMapOnMarkerTap: true,
                         ),
@@ -172,39 +172,35 @@ class _FindCourtWidgetState extends State<FindCourtWidget> {
                             padding:
                                 EdgeInsetsDirectional.fromSTEB(30, 20, 30, 150),
                             child: Row(
-                              mainAxisSize: MainAxisSize.max,
+                              mainAxisSize: MainAxisSize.min,
                               mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Align(
                                   alignment: AlignmentDirectional(-0.68, -0.52),
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        0, 12, 0, 8),
+                                  child: Text(
+                                    'Hello ',
+                                    textAlign: TextAlign.start,
+                                    style: FlutterFlowTheme.of(context)
+                                        .title2
+                                        .override(
+                                          fontFamily: 'Overpass',
+                                          fontSize: 30,
+                                        ),
+                                  ),
+                                ),
+                                Align(
+                                  alignment: AlignmentDirectional(0.63, -0.52),
+                                  child: AuthUserStreamWidget(
                                     child: Text(
-                                      'Hello ',
+                                      currentUserDisplayName
+                                          .maybeHandleOverflow(maxChars: 12),
+                                      textAlign: TextAlign.start,
                                       style: FlutterFlowTheme.of(context)
                                           .title2
                                           .override(
                                             fontFamily: 'Overpass',
                                             fontSize: 30,
-                                          ),
-                                    ),
-                                  ),
-                                ),
-                                Align(
-                                  alignment: AlignmentDirectional(0.63, -0.49),
-                                  child: AuthUserStreamWidget(
-                                    child: Text(
-                                      currentUserDisplayName,
-                                      textAlign: TextAlign.start,
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyText1
-                                          .override(
-                                            fontFamily: 'Overpass',
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryColor,
-                                            fontSize: 30,
-                                            fontWeight: FontWeight.bold,
                                           ),
                                     ),
                                   ),

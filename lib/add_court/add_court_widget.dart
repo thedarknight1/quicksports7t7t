@@ -26,6 +26,7 @@ class _AddCourtWidgetState extends State<AddCourtWidget> {
   bool isMediaUploading = false;
   String uploadedFileUrl = '';
 
+  CourtsRecord? createdCourt;
   String? dropDownValue;
   TextEditingController? textController1;
   TextEditingController? textController2;
@@ -432,21 +433,62 @@ class _AddCourtWidgetState extends State<AddCourtWidget> {
                           padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 20),
                           child: FFButtonWidget(
                             onPressed: () async {
-                              final courtsCreateData = createCourtsRecordData(
-                                name: textController1!.text,
-                                location: placePickerValue.latLng,
-                                createdAt: getCurrentTimestamp,
-                                user: currentUserReference,
-                                description: textController2!.text,
-                                likes: 0,
-                                imageUrl: uploadedFileUrl,
-                                sportname: dropDownValue,
-                              );
-                              await CourtsRecord.collection
-                                  .doc()
-                                  .set(courtsCreateData);
+                              if ((dropDownValue != null &&
+                                      dropDownValue != '') &&
+                                  (textController1!.text != null &&
+                                      textController1!.text != '') &&
+                                  (placePickerValue != null)) {
+                                final courtsCreateData = createCourtsRecordData(
+                                  name: textController1!.text,
+                                  location: placePickerValue.latLng,
+                                  createdAt: getCurrentTimestamp,
+                                  user: currentUserReference,
+                                  description: textController2!.text,
+                                  likes: 0,
+                                  imageUrl: uploadedFileUrl,
+                                  sportname: dropDownValue,
+                                );
+                                var courtsRecordReference =
+                                    CourtsRecord.collection.doc();
+                                await courtsRecordReference
+                                    .set(courtsCreateData);
+                                createdCourt = CourtsRecord.getDocumentFromData(
+                                    courtsCreateData, courtsRecordReference);
 
-                              context.pushNamed('courtAddedSuccess');
+                                context.pushNamed(
+                                  'courtAddedSuccess',
+                                  queryParams: {
+                                    'newlyCreatedCourt': serializeParam(
+                                      createdCourt,
+                                      ParamType.Document,
+                                    ),
+                                  }.withoutNulls,
+                                  extra: <String, dynamic>{
+                                    'newlyCreatedCourt': createdCourt,
+                                  },
+                                );
+                              } else {
+                                await showDialog(
+                                  context: context,
+                                  builder: (alertDialogContext) {
+                                    return AlertDialog(
+                                      title: Text(
+                                          'Please fill the sport, name, and location fields'),
+                                      content: Text(
+                                          'Please fill the sport, name, and location fields'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(alertDialogContext),
+                                          child: Text('Ok'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              }
+
+                              setState(() {});
                             },
                             text: 'Add Sports Location',
                             icon: Icon(
