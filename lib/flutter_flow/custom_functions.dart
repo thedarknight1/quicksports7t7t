@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -32,4 +33,8 @@ LatLng getInitialMapLocation(LatLng? userLocation) {
     return LatLng(40.8295538, -73.9386429);
   }
   return userLocation;
+}
+
+int calculateAge(DateTime dateToCheck) {
+  return DateTime.now().year - dateToCheck.year;
 }

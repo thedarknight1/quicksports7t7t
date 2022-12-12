@@ -24,8 +24,6 @@ abstract class EventsRecord
 
   String? get locationname;
 
-  String? get locationarea;
-
   String? get eventsportname;
 
   DocumentReference? get courtRef;
@@ -33,6 +31,9 @@ abstract class EventsRecord
   DocumentReference? get groupChatRef;
 
   DateTime? get dateTimeStamp;
+
+  @BuiltValueField(wireName: 'LatLngLocation')
+  LatLng? get latLngLocation;
 
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
@@ -46,7 +47,6 @@ abstract class EventsRecord
     ..playerage = ''
     ..playercount = ''
     ..locationname = ''
-    ..locationarea = ''
     ..eventsportname = '';
 
   static CollectionReference get collection =>
@@ -78,11 +78,11 @@ Map<String, dynamic> createEventsRecordData({
   String? playerage,
   String? playercount,
   String? locationname,
-  String? locationarea,
   String? eventsportname,
   DocumentReference? courtRef,
   DocumentReference? groupChatRef,
   DateTime? dateTimeStamp,
+  LatLng? latLngLocation,
 }) {
   final firestoreData = serializers.toFirestore(
     EventsRecord.serializer,
@@ -95,11 +95,11 @@ Map<String, dynamic> createEventsRecordData({
         ..playerage = playerage
         ..playercount = playercount
         ..locationname = locationname
-        ..locationarea = locationarea
         ..eventsportname = eventsportname
         ..courtRef = courtRef
         ..groupChatRef = groupChatRef
-        ..dateTimeStamp = dateTimeStamp,
+        ..dateTimeStamp = dateTimeStamp
+        ..latLngLocation = latLngLocation,
     ),
   );
 

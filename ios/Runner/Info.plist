@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>QuickSports</string>
+	<string>QuickSports - Sports Near You</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -30,6 +30,18 @@
             <array>
                 <string>com.googleusercontent.apps.308180429807-4j54q93ranaqvr5n8mai5mq2229sdfjb</string>
                 
+            </array>
+        </dict>
+
+
+        <dict>
+            <key>CFBundleTypeRole</key>
+            <string>Editor</string>
+            <key>CFBundleURLName</key>
+            <string>com.flutterflow.courts.braintree</string>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>com.flutterflow.courts.braintree</string>
             </array>
         </dict>
 

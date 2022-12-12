@@ -13,6 +13,7 @@ import 'schema/recordfriend_record.dart';
 import 'schema/userprofile_record.dart';
 import 'schema/cities_record.dart';
 import 'schema/events_record.dart';
+import 'schema/sport_names_record.dart';
 import 'schema/serializers.dart';
 
 export 'dart:async' show StreamSubscription;
@@ -29,6 +30,7 @@ export 'schema/recordfriend_record.dart';
 export 'schema/userprofile_record.dart';
 export 'schema/cities_record.dart';
 export 'schema/events_record.dart';
+export 'schema/sport_names_record.dart';
 
 /// Functions to query CourtsRecords (as a Stream and as a Future).
 Stream<List<CourtsRecord>> queryCourtsRecord({
@@ -408,6 +410,48 @@ Future<FFFirestorePage<EventsRecord>> queryEventsRecordPage({
       isStream: isStream,
     );
 
+/// Functions to query SportNamesRecords (as a Stream and as a Future).
+Stream<List<SportNamesRecord>> querySportNamesRecord({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollection(
+      SportNamesRecord.collection,
+      SportNamesRecord.serializer,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+Future<List<SportNamesRecord>> querySportNamesRecordOnce({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollectionOnce(
+      SportNamesRecord.collection,
+      SportNamesRecord.serializer,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+Future<FFFirestorePage<SportNamesRecord>> querySportNamesRecordPage({
+  Query Function(Query)? queryBuilder,
+  DocumentSnapshot? nextPageMarker,
+  required int pageSize,
+  required bool isStream,
+}) =>
+    queryCollectionPage(
+      SportNamesRecord.collection,
+      SportNamesRecord.serializer,
+      queryBuilder: queryBuilder,
+      nextPageMarker: nextPageMarker,
+      pageSize: pageSize,
+      isStream: isStream,
+    );
+
 Stream<List<T>> queryCollection<T>(Query collection, Serializer<T> serializer,
     {Query Function(Query)? queryBuilder,
     int limit = -1,
@@ -518,6 +562,7 @@ Future maybeCreateUser(User user) async {
   final userRecord = UsersRecord.collection.doc(user.uid);
   final userExists = await userRecord.get().then((u) => u.exists);
   if (userExists) {
+    currentUserDocument = await UsersRecord.getDocumentOnce(userRecord);
     return;
   }
 
@@ -531,4 +576,6 @@ Future maybeCreateUser(User user) async {
   );
 
   await userRecord.set(userData);
+  currentUserDocument =
+      serializers.deserializeWith(UsersRecord.serializer, userData);
 }

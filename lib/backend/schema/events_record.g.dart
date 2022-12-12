@@ -69,13 +69,6 @@ class _$EventsRecordSerializer implements StructuredSerializer<EventsRecord> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    value = object.locationarea;
-    if (value != null) {
-      result
-        ..add('locationarea')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
     value = object.eventsportname;
     if (value != null) {
       result
@@ -105,6 +98,13 @@ class _$EventsRecordSerializer implements StructuredSerializer<EventsRecord> {
         ..add('dateTimeStamp')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(DateTime)));
+    }
+    value = object.latLngLocation;
+    if (value != null) {
+      result
+        ..add('LatLngLocation')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(LatLng)));
     }
     value = object.ffRef;
     if (value != null) {
@@ -157,10 +157,6 @@ class _$EventsRecordSerializer implements StructuredSerializer<EventsRecord> {
           result.locationname = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
-        case 'locationarea':
-          result.locationarea = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
-          break;
         case 'eventsportname':
           result.eventsportname = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
@@ -180,6 +176,10 @@ class _$EventsRecordSerializer implements StructuredSerializer<EventsRecord> {
         case 'dateTimeStamp':
           result.dateTimeStamp = serializers.deserialize(value,
               specifiedType: const FullType(DateTime)) as DateTime?;
+          break;
+        case 'LatLngLocation':
+          result.latLngLocation = serializers.deserialize(value,
+              specifiedType: const FullType(LatLng)) as LatLng?;
           break;
         case 'Document__Reference__Field':
           result.ffRef = serializers.deserialize(value,
@@ -210,8 +210,6 @@ class _$EventsRecord extends EventsRecord {
   @override
   final String? locationname;
   @override
-  final String? locationarea;
-  @override
   final String? eventsportname;
   @override
   final DocumentReference<Object?>? courtRef;
@@ -219,6 +217,8 @@ class _$EventsRecord extends EventsRecord {
   final DocumentReference<Object?>? groupChatRef;
   @override
   final DateTime? dateTimeStamp;
+  @override
+  final LatLng? latLngLocation;
   @override
   final DocumentReference<Object?>? ffRef;
 
@@ -233,11 +233,11 @@ class _$EventsRecord extends EventsRecord {
       this.playerage,
       this.playercount,
       this.locationname,
-      this.locationarea,
       this.eventsportname,
       this.courtRef,
       this.groupChatRef,
       this.dateTimeStamp,
+      this.latLngLocation,
       this.ffRef})
       : super._();
 
@@ -259,11 +259,11 @@ class _$EventsRecord extends EventsRecord {
         playerage == other.playerage &&
         playercount == other.playercount &&
         locationname == other.locationname &&
-        locationarea == other.locationarea &&
         eventsportname == other.eventsportname &&
         courtRef == other.courtRef &&
         groupChatRef == other.groupChatRef &&
         dateTimeStamp == other.dateTimeStamp &&
+        latLngLocation == other.latLngLocation &&
         ffRef == other.ffRef;
   }
 
@@ -289,11 +289,11 @@ class _$EventsRecord extends EventsRecord {
                                         playerage.hashCode),
                                     playercount.hashCode),
                                 locationname.hashCode),
-                            locationarea.hashCode),
-                        eventsportname.hashCode),
-                    courtRef.hashCode),
-                groupChatRef.hashCode),
-            dateTimeStamp.hashCode),
+                            eventsportname.hashCode),
+                        courtRef.hashCode),
+                    groupChatRef.hashCode),
+                dateTimeStamp.hashCode),
+            latLngLocation.hashCode),
         ffRef.hashCode));
   }
 
@@ -307,11 +307,11 @@ class _$EventsRecord extends EventsRecord {
           ..add('playerage', playerage)
           ..add('playercount', playercount)
           ..add('locationname', locationname)
-          ..add('locationarea', locationarea)
           ..add('eventsportname', eventsportname)
           ..add('courtRef', courtRef)
           ..add('groupChatRef', groupChatRef)
           ..add('dateTimeStamp', dateTimeStamp)
+          ..add('latLngLocation', latLngLocation)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -349,10 +349,6 @@ class EventsRecordBuilder
   String? get locationname => _$this._locationname;
   set locationname(String? locationname) => _$this._locationname = locationname;
 
-  String? _locationarea;
-  String? get locationarea => _$this._locationarea;
-  set locationarea(String? locationarea) => _$this._locationarea = locationarea;
-
   String? _eventsportname;
   String? get eventsportname => _$this._eventsportname;
   set eventsportname(String? eventsportname) =>
@@ -373,6 +369,11 @@ class EventsRecordBuilder
   set dateTimeStamp(DateTime? dateTimeStamp) =>
       _$this._dateTimeStamp = dateTimeStamp;
 
+  LatLng? _latLngLocation;
+  LatLng? get latLngLocation => _$this._latLngLocation;
+  set latLngLocation(LatLng? latLngLocation) =>
+      _$this._latLngLocation = latLngLocation;
+
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
   set ffRef(DocumentReference<Object?>? ffRef) => _$this._ffRef = ffRef;
@@ -391,11 +392,11 @@ class EventsRecordBuilder
       _playerage = $v.playerage;
       _playercount = $v.playercount;
       _locationname = $v.locationname;
-      _locationarea = $v.locationarea;
       _eventsportname = $v.eventsportname;
       _courtRef = $v.courtRef;
       _groupChatRef = $v.groupChatRef;
       _dateTimeStamp = $v.dateTimeStamp;
+      _latLngLocation = $v.latLngLocation;
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -426,11 +427,11 @@ class EventsRecordBuilder
             playerage: playerage,
             playercount: playercount,
             locationname: locationname,
-            locationarea: locationarea,
             eventsportname: eventsportname,
             courtRef: courtRef,
             groupChatRef: groupChatRef,
             dateTimeStamp: dateTimeStamp,
+            latLngLocation: latLngLocation,
             ffRef: ffRef);
     replace(_$result);
     return _$result;

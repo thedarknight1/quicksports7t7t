@@ -10,6 +10,7 @@ import 'recordfriend_record.dart';
 import 'userprofile_record.dart';
 import 'cities_record.dart';
 import 'events_record.dart';
+import 'sport_names_record.dart';
 
 import 'index.dart';
 
@@ -30,6 +31,7 @@ const kDocumentReferenceField = 'Document__Reference__Field';
   UserprofileRecord,
   CitiesRecord,
   EventsRecord,
+  SportNamesRecord,
 ])
 final Serializers serializers = (_$serializers.toBuilder()
       ..add(DocumentReferenceSerializer())

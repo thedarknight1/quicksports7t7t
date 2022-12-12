@@ -46,6 +46,19 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
   @BuiltValueField(wireName: 'state_name')
   String? get stateName;
 
+  @BuiltValueField(wireName: 'LatLngLocation')
+  LatLng? get latLngLocation;
+
+  String? get address;
+
+  String? get country;
+
+  bool? get agreedToTerms;
+
+  int? get age;
+
+  DateTime? get birthday;
+
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
   DocumentReference get reference => ffRef!;
@@ -64,7 +77,11 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
     ..favsport3 = ''
     ..city = ''
     ..zips = ''
-    ..stateName = '';
+    ..stateName = ''
+    ..address = ''
+    ..country = ''
+    ..agreedToTerms = false
+    ..age = 0;
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('users');
@@ -95,6 +112,16 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
           ..city = snapshot.data['city']
           ..zips = snapshot.data['zips']
           ..stateName = snapshot.data['state_name']
+          ..latLngLocation = safeGet(() => LatLng(
+                snapshot.data['_geoloc']['lat'],
+                snapshot.data['_geoloc']['lng'],
+              ))
+          ..address = snapshot.data['address']
+          ..country = snapshot.data['country']
+          ..agreedToTerms = snapshot.data['agreedToTerms']
+          ..age = snapshot.data['age']?.round()
+          ..birthday = safeGet(() =>
+              DateTime.fromMillisecondsSinceEpoch(snapshot.data['birthday']))
           ..ffRef = UsersRecord.collection.doc(snapshot.objectID),
       );
 
@@ -139,6 +166,12 @@ Map<String, dynamic> createUsersRecordData({
   String? city,
   String? zips,
   String? stateName,
+  LatLng? latLngLocation,
+  String? address,
+  String? country,
+  bool? agreedToTerms,
+  int? age,
+  DateTime? birthday,
 }) {
   final firestoreData = serializers.toFirestore(
     UsersRecord.serializer,
@@ -158,7 +191,13 @@ Map<String, dynamic> createUsersRecordData({
         ..favsport3 = favsport3
         ..city = city
         ..zips = zips
-        ..stateName = stateName,
+        ..stateName = stateName
+        ..latLngLocation = latLngLocation
+        ..address = address
+        ..country = country
+        ..agreedToTerms = agreedToTerms
+        ..age = age
+        ..birthday = birthday,
     ),
   );
 

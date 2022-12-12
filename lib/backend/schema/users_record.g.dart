@@ -124,6 +124,47 @@ class _$UsersRecordSerializer implements StructuredSerializer<UsersRecord> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.latLngLocation;
+    if (value != null) {
+      result
+        ..add('LatLngLocation')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(LatLng)));
+    }
+    value = object.address;
+    if (value != null) {
+      result
+        ..add('address')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.country;
+    if (value != null) {
+      result
+        ..add('country')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.agreedToTerms;
+    if (value != null) {
+      result
+        ..add('agreedToTerms')
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(bool)));
+    }
+    value = object.age;
+    if (value != null) {
+      result
+        ..add('age')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.birthday;
+    if (value != null) {
+      result
+        ..add('birthday')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(DateTime)));
+    }
     value = object.ffRef;
     if (value != null) {
       result
@@ -206,6 +247,30 @@ class _$UsersRecordSerializer implements StructuredSerializer<UsersRecord> {
           result.stateName = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
+        case 'LatLngLocation':
+          result.latLngLocation = serializers.deserialize(value,
+              specifiedType: const FullType(LatLng)) as LatLng?;
+          break;
+        case 'address':
+          result.address = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'country':
+          result.country = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'agreedToTerms':
+          result.agreedToTerms = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool?;
+          break;
+        case 'age':
+          result.age = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
+          break;
+        case 'birthday':
+          result.birthday = serializers.deserialize(value,
+              specifiedType: const FullType(DateTime)) as DateTime?;
+          break;
         case 'Document__Reference__Field':
           result.ffRef = serializers.deserialize(value,
               specifiedType: const FullType(DocumentReference, const [
@@ -251,6 +316,18 @@ class _$UsersRecord extends UsersRecord {
   @override
   final String? stateName;
   @override
+  final LatLng? latLngLocation;
+  @override
+  final String? address;
+  @override
+  final String? country;
+  @override
+  final bool? agreedToTerms;
+  @override
+  final int? age;
+  @override
+  final DateTime? birthday;
+  @override
   final DocumentReference<Object?>? ffRef;
 
   factory _$UsersRecord([void Function(UsersRecordBuilder)? updates]) =>
@@ -272,6 +349,12 @@ class _$UsersRecord extends UsersRecord {
       this.city,
       this.zips,
       this.stateName,
+      this.latLngLocation,
+      this.address,
+      this.country,
+      this.agreedToTerms,
+      this.age,
+      this.birthday,
       this.ffRef})
       : super._();
 
@@ -301,6 +384,12 @@ class _$UsersRecord extends UsersRecord {
         city == other.city &&
         zips == other.zips &&
         stateName == other.stateName &&
+        latLngLocation == other.latLngLocation &&
+        address == other.address &&
+        country == other.country &&
+        agreedToTerms == other.agreedToTerms &&
+        age == other.age &&
+        birthday == other.birthday &&
         ffRef == other.ffRef;
   }
 
@@ -322,24 +411,27 @@ class _$UsersRecord extends UsersRecord {
                                                         $jc(
                                                             $jc(
                                                                 $jc(
-                                                                    0,
-                                                                    email
-                                                                        .hashCode),
-                                                                displayName
-                                                                    .hashCode),
-                                                            photoUrl.hashCode),
-                                                        uid.hashCode),
-                                                    createdTime.hashCode),
-                                                phoneNumber.hashCode),
-                                            username.hashCode),
-                                        favsport.hashCode),
-                                    favteam.hashCode),
-                                favplayer.hashCode),
-                            favsport2.hashCode),
-                        favsport3.hashCode),
-                    city.hashCode),
-                zips.hashCode),
-            stateName.hashCode),
+                                                                    $jc(
+                                                                        $jc(
+                                                                            $jc($jc($jc($jc(0, email.hashCode), displayName.hashCode), photoUrl.hashCode),
+                                                                                uid.hashCode),
+                                                                            createdTime.hashCode),
+                                                                        phoneNumber.hashCode),
+                                                                    username.hashCode),
+                                                                favsport.hashCode),
+                                                            favteam.hashCode),
+                                                        favplayer.hashCode),
+                                                    favsport2.hashCode),
+                                                favsport3.hashCode),
+                                            city.hashCode),
+                                        zips.hashCode),
+                                    stateName.hashCode),
+                                latLngLocation.hashCode),
+                            address.hashCode),
+                        country.hashCode),
+                    agreedToTerms.hashCode),
+                age.hashCode),
+            birthday.hashCode),
         ffRef.hashCode));
   }
 
@@ -361,6 +453,12 @@ class _$UsersRecord extends UsersRecord {
           ..add('city', city)
           ..add('zips', zips)
           ..add('stateName', stateName)
+          ..add('latLngLocation', latLngLocation)
+          ..add('address', address)
+          ..add('country', country)
+          ..add('agreedToTerms', agreedToTerms)
+          ..add('age', age)
+          ..add('birthday', birthday)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -429,6 +527,32 @@ class UsersRecordBuilder implements Builder<UsersRecord, UsersRecordBuilder> {
   String? get stateName => _$this._stateName;
   set stateName(String? stateName) => _$this._stateName = stateName;
 
+  LatLng? _latLngLocation;
+  LatLng? get latLngLocation => _$this._latLngLocation;
+  set latLngLocation(LatLng? latLngLocation) =>
+      _$this._latLngLocation = latLngLocation;
+
+  String? _address;
+  String? get address => _$this._address;
+  set address(String? address) => _$this._address = address;
+
+  String? _country;
+  String? get country => _$this._country;
+  set country(String? country) => _$this._country = country;
+
+  bool? _agreedToTerms;
+  bool? get agreedToTerms => _$this._agreedToTerms;
+  set agreedToTerms(bool? agreedToTerms) =>
+      _$this._agreedToTerms = agreedToTerms;
+
+  int? _age;
+  int? get age => _$this._age;
+  set age(int? age) => _$this._age = age;
+
+  DateTime? _birthday;
+  DateTime? get birthday => _$this._birthday;
+  set birthday(DateTime? birthday) => _$this._birthday = birthday;
+
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
   set ffRef(DocumentReference<Object?>? ffRef) => _$this._ffRef = ffRef;
@@ -455,6 +579,12 @@ class UsersRecordBuilder implements Builder<UsersRecord, UsersRecordBuilder> {
       _city = $v.city;
       _zips = $v.zips;
       _stateName = $v.stateName;
+      _latLngLocation = $v.latLngLocation;
+      _address = $v.address;
+      _country = $v.country;
+      _agreedToTerms = $v.agreedToTerms;
+      _age = $v.age;
+      _birthday = $v.birthday;
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -493,6 +623,12 @@ class UsersRecordBuilder implements Builder<UsersRecord, UsersRecordBuilder> {
             city: city,
             zips: zips,
             stateName: stateName,
+            latLngLocation: latLngLocation,
+            address: address,
+            country: country,
+            agreedToTerms: agreedToTerms,
+            age: age,
+            birthday: birthday,
             ffRef: ffRef);
     replace(_$result);
     return _$result;

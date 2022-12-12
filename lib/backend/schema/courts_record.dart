@@ -40,6 +40,12 @@ abstract class CourtsRecord
 
   String? get bio;
 
+  BuiltList<String>? get sportList;
+
+  String? get sport2name;
+
+  String? get sport3name;
+
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
   DocumentReference get reference => ffRef!;
@@ -53,7 +59,10 @@ abstract class CourtsRecord
     ..isIndoor = false
     ..videoUrl = ''
     ..sportname = ''
-    ..bio = '';
+    ..bio = ''
+    ..sportList = ListBuilder()
+    ..sport2name = ''
+    ..sport3name = '';
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('courts');
@@ -85,6 +94,9 @@ abstract class CourtsRecord
           ..videoUrl = snapshot.data['video_url']
           ..sportname = snapshot.data['sportname']
           ..bio = snapshot.data['bio']
+          ..sportList = safeGet(() => ListBuilder(snapshot.data['sportList']))
+          ..sport2name = snapshot.data['sport2name']
+          ..sport3name = snapshot.data['sport3name']
           ..ffRef = CourtsRecord.collection.doc(snapshot.objectID),
       );
 
@@ -126,6 +138,8 @@ Map<String, dynamic> createCourtsRecordData({
   String? videoUrl,
   String? sportname,
   String? bio,
+  String? sport2name,
+  String? sport3name,
 }) {
   final firestoreData = serializers.toFirestore(
     CourtsRecord.serializer,
@@ -142,7 +156,10 @@ Map<String, dynamic> createCourtsRecordData({
         ..isIndoor = isIndoor
         ..videoUrl = videoUrl
         ..sportname = sportname
-        ..bio = bio,
+        ..bio = bio
+        ..sportList = null
+        ..sport2name = sport2name
+        ..sport3name = sport3name,
     ),
   );
 

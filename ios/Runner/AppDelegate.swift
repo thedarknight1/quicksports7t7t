@@ -1,4 +1,5 @@
 import UIKit
+import Braintree
 
 import Flutter
 import GoogleMaps
@@ -11,6 +12,7 @@ import GoogleMaps
   ) -> Bool {
     GMSServices.provideAPIKey("AIzaSyAGk8Fbi0rIS8maUISU8sWikpT165FsKN4")
     GeneratedPluginRegistrant.register(with: self)
+    BTAppContextSwitcher.setReturnURLScheme("com.flutterflow.courts.braintree")
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 }

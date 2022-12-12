@@ -1,5 +1,6 @@
 import '../auth/auth_util.dart';
 import '../backend/backend.dart';
+import '../flutter_flow/flutter_flow_ad_banner.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
@@ -73,9 +74,9 @@ class _RateCourtPageWidgetState extends State<RateCourtPageWidget> {
             elevation: 0,
           ),
           body: SafeArea(
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
+            child: GestureDetector(
+              onTap: () => FocusScope.of(context).unfocus(),
+              child: Stack(
                 children: [
                   Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(15, 16, 15, 0),
@@ -235,6 +236,30 @@ class _RateCourtPageWidgetState extends State<RateCourtPageWidget> {
                         ),
                       ],
                     ),
+                  ),
+                  Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: FlutterFlowAdBanner(
+                              width: MediaQuery.of(context).size.width,
+                              height: 50,
+                              showsTestAd: false,
+                              iOSAdUnitID:
+                                  'ca-app-pub-4806655917667448/3106284766',
+                              androidAdUnitID:
+                                  'ca-app-pub-4806655917667448/5732448102',
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ],
               ),

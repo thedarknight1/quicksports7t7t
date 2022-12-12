@@ -33,6 +33,12 @@ abstract class ChatsRecord implements Built<ChatsRecord, ChatsRecordBuilder> {
 
   int? get numUsers;
 
+  String? get chatEventName;
+
+  String? get eventTime;
+
+  DateTime? get eventTimeStamp;
+
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
   DocumentReference get reference => ffRef!;
@@ -41,7 +47,9 @@ abstract class ChatsRecord implements Built<ChatsRecord, ChatsRecordBuilder> {
     ..users = ListBuilder()
     ..lastMessage = ''
     ..lastMessageSeenBy = ListBuilder()
-    ..numUsers = 0;
+    ..numUsers = 0
+    ..chatEventName = ''
+    ..eventTime = '';
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('chats');
@@ -68,6 +76,10 @@ abstract class ChatsRecord implements Built<ChatsRecord, ChatsRecordBuilder> {
           ..lastMessageSeenBy = safeGet(() => ListBuilder(
               snapshot.data['last_message_seen_by'].map((s) => toRef(s))))
           ..numUsers = snapshot.data['numUsers']?.round()
+          ..chatEventName = snapshot.data['chatEventName']
+          ..eventTime = snapshot.data['eventTime']
+          ..eventTimeStamp = safeGet(() => DateTime.fromMillisecondsSinceEpoch(
+              snapshot.data['eventTimeStamp']))
           ..ffRef = ChatsRecord.collection.doc(snapshot.objectID),
       );
 
@@ -103,6 +115,9 @@ Map<String, dynamic> createChatsRecordData({
   DateTime? lastMessageTime,
   DocumentReference? lastMessageSentBy,
   int? numUsers,
+  String? chatEventName,
+  String? eventTime,
+  DateTime? eventTimeStamp,
 }) {
   final firestoreData = serializers.toFirestore(
     ChatsRecord.serializer,
@@ -115,7 +130,10 @@ Map<String, dynamic> createChatsRecordData({
         ..lastMessageTime = lastMessageTime
         ..lastMessageSentBy = lastMessageSentBy
         ..lastMessageSeenBy = null
-        ..numUsers = numUsers,
+        ..numUsers = numUsers
+        ..chatEventName = chatEventName
+        ..eventTime = eventTime
+        ..eventTimeStamp = eventTimeStamp,
     ),
   );
 

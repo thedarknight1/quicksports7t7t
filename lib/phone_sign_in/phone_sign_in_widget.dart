@@ -48,164 +48,170 @@ class _PhoneSignInWidgetState extends State<PhoneSignInWidget> {
             elevation: 0,
           ),
           body: SafeArea(
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Text(
-                        'Phone Number',
-                        style: FlutterFlowTheme.of(context).title1.override(
-                              fontFamily: 'Overpass',
-                              color: FlutterFlowTheme.of(context).primaryColor,
-                            ),
-                      ),
-                    ],
+            child: GestureDetector(
+              onTap: () => FocusScope.of(context).unfocus(),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Text(
+                          'Phone Number',
+                          style: FlutterFlowTheme.of(context).title1.override(
+                                fontFamily: 'Overpass',
+                                color:
+                                    FlutterFlowTheme.of(context).primaryColor,
+                              ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 4, 70, 0),
-                          child: Text(
-                            'Enter a valid phone number below.',
-                            style: FlutterFlowTheme.of(context).bodyText1,
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(0, 4, 70, 0),
+                            child: Text(
+                              'Enter a valid phone number below.',
+                              style: FlutterFlowTheme.of(context).bodyText1,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(16, 8, 16, 8),
-                          child: TextFormField(
-                            controller: inputNormalController,
-                            obscureText: false,
-                            decoration: InputDecoration(
-                              labelText: 'Phone Number',
-                              labelStyle: FlutterFlowTheme.of(context)
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(16, 8, 16, 8),
+                            child: TextFormField(
+                              controller: inputNormalController,
+                              obscureText: false,
+                              decoration: InputDecoration(
+                                labelText: 'Phone Number',
+                                labelStyle: FlutterFlowTheme.of(context)
+                                    .bodyText1
+                                    .override(
+                                      fontFamily: 'Overpass',
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryColor,
+                                    ),
+                                hintText: '+1 123 456 7890',
+                                hintStyle: FlutterFlowTheme.of(context)
+                                    .bodyText1
+                                    .override(
+                                      fontFamily: 'Overpass',
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryColor,
+                                    ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Color(0xFFEEEFEF),
+                                    width: 2,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Color(0xFFEEEFEF),
+                                    width: 2,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Color(0x00000000),
+                                    width: 2,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Color(0x00000000),
+                                    width: 2,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
+                              style: FlutterFlowTheme.of(context)
                                   .bodyText1
                                   .override(
                                     fontFamily: 'Overpass',
                                     color: FlutterFlowTheme.of(context)
-                                        .secondaryColor,
+                                        .primaryColor,
                                   ),
-                              hintText: '+1 123 456 7890',
-                              hintStyle: FlutterFlowTheme.of(context)
-                                  .bodyText1
-                                  .override(
-                                    fontFamily: 'Overpass',
-                                    color: FlutterFlowTheme.of(context)
-                                        .secondaryColor,
-                                  ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0xFFEEEFEF),
-                                  width: 2,
-                                ),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0xFFEEEFEF),
-                                  width: 2,
-                                ),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              errorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0x00000000),
-                                  width: 2,
-                                ),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              focusedErrorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0x00000000),
-                                  width: 2,
-                                ),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
+                              keyboardType: TextInputType.phone,
                             ),
-                            style: FlutterFlowTheme.of(context)
-                                .bodyText1
-                                .override(
-                                  fontFamily: 'Overpass',
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryColor,
-                                ),
-                            keyboardType: TextInputType.phone,
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(20, 24, 20, 0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      FFButtonWidget(
-                        onPressed: () async {
-                          final phoneNumberVal = inputNormalController!.text;
-                          if (phoneNumberVal == null ||
-                              phoneNumberVal.isEmpty ||
-                              !phoneNumberVal.startsWith('+')) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                    'Phone Number is required and has to start with +.'),
-                              ),
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(20, 24, 20, 0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        FFButtonWidget(
+                          onPressed: () async {
+                            final phoneNumberVal = inputNormalController!.text;
+                            if (phoneNumberVal == null ||
+                                phoneNumberVal.isEmpty ||
+                                !phoneNumberVal.startsWith('+')) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                      'Phone Number is required and has to start with +.'),
+                                ),
+                              );
+                              return;
+                            }
+                            await beginPhoneAuth(
+                              context: context,
+                              phoneNumber: phoneNumberVal,
+                              onCodeSent: () async {
+                                context.goNamedAuth('verifyPhone', mounted);
+                              },
                             );
-                            return;
-                          }
-                          await beginPhoneAuth(
-                            context: context,
-                            phoneNumber: phoneNumberVal,
-                            onCodeSent: () async {
-                              context.goNamedAuth('verifyPhone', mounted);
-                            },
-                          );
-                        },
-                        text: 'Send Code',
-                        options: FFButtonOptions(
-                          width: 140,
-                          height: 50,
-                          color: FlutterFlowTheme.of(context).primaryColor,
-                          textStyle:
-                              FlutterFlowTheme.of(context).subtitle2.override(
-                                    fontFamily: 'Overpass',
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                          elevation: 3,
-                          borderSide: BorderSide(
-                            color: Colors.transparent,
-                            width: 1,
+                          },
+                          text: 'Send Code',
+                          options: FFButtonOptions(
+                            width: 140,
+                            height: 50,
+                            color: FlutterFlowTheme.of(context).primaryColor,
+                            textStyle:
+                                FlutterFlowTheme.of(context).subtitle2.override(
+                                      fontFamily: 'Overpass',
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                            elevation: 3,
+                            borderSide: BorderSide(
+                              color: Colors.transparent,
+                              width: 1,
+                            ),
+                            borderRadius: BorderRadius.circular(50),
                           ),
-                          borderRadius: BorderRadius.circular(50),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ));

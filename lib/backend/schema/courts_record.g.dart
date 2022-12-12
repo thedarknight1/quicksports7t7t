@@ -104,6 +104,28 @@ class _$CourtsRecordSerializer implements StructuredSerializer<CourtsRecord> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.sportList;
+    if (value != null) {
+      result
+        ..add('sportList')
+        ..add(serializers.serialize(value,
+            specifiedType:
+                const FullType(BuiltList, const [const FullType(String)])));
+    }
+    value = object.sport2name;
+    if (value != null) {
+      result
+        ..add('sport2name')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.sport3name;
+    if (value != null) {
+      result
+        ..add('sport3name')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     value = object.ffRef;
     if (value != null) {
       result
@@ -177,6 +199,20 @@ class _$CourtsRecordSerializer implements StructuredSerializer<CourtsRecord> {
           result.bio = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
+        case 'sportList':
+          result.sportList.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(String)]))!
+              as BuiltList<Object?>);
+          break;
+        case 'sport2name':
+          result.sport2name = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'sport3name':
+          result.sport3name = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
         case 'Document__Reference__Field':
           result.ffRef = serializers.deserialize(value,
               specifiedType: const FullType(DocumentReference, const [
@@ -216,6 +252,12 @@ class _$CourtsRecord extends CourtsRecord {
   @override
   final String? bio;
   @override
+  final BuiltList<String>? sportList;
+  @override
+  final String? sport2name;
+  @override
+  final String? sport3name;
+  @override
   final DocumentReference<Object?>? ffRef;
 
   factory _$CourtsRecord([void Function(CourtsRecordBuilder)? updates]) =>
@@ -234,6 +276,9 @@ class _$CourtsRecord extends CourtsRecord {
       this.videoUrl,
       this.sportname,
       this.bio,
+      this.sportList,
+      this.sport2name,
+      this.sport3name,
       this.ffRef})
       : super._();
 
@@ -260,6 +305,9 @@ class _$CourtsRecord extends CourtsRecord {
         videoUrl == other.videoUrl &&
         sportname == other.sportname &&
         bio == other.bio &&
+        sportList == other.sportList &&
+        sport2name == other.sport2name &&
+        sport3name == other.sport3name &&
         ffRef == other.ffRef;
   }
 
@@ -276,18 +324,29 @@ class _$CourtsRecord extends CourtsRecord {
                                     $jc(
                                         $jc(
                                             $jc(
-                                                $jc($jc(0, name.hashCode),
-                                                    location.hashCode),
-                                                createdAt.hashCode),
-                                            user.hashCode),
-                                        description.hashCode),
-                                    likes.hashCode),
-                                value.hashCode),
-                            imageUrl.hashCode),
-                        isIndoor.hashCode),
-                    videoUrl.hashCode),
-                sportname.hashCode),
-            bio.hashCode),
+                                                $jc(
+                                                    $jc(
+                                                        $jc(
+                                                            $jc(
+                                                                $jc(
+                                                                    0,
+                                                                    name
+                                                                        .hashCode),
+                                                                location
+                                                                    .hashCode),
+                                                            createdAt.hashCode),
+                                                        user.hashCode),
+                                                    description.hashCode),
+                                                likes.hashCode),
+                                            value.hashCode),
+                                        imageUrl.hashCode),
+                                    isIndoor.hashCode),
+                                videoUrl.hashCode),
+                            sportname.hashCode),
+                        bio.hashCode),
+                    sportList.hashCode),
+                sport2name.hashCode),
+            sport3name.hashCode),
         ffRef.hashCode));
   }
 
@@ -306,6 +365,9 @@ class _$CourtsRecord extends CourtsRecord {
           ..add('videoUrl', videoUrl)
           ..add('sportname', sportname)
           ..add('bio', bio)
+          ..add('sportList', sportList)
+          ..add('sport2name', sport2name)
+          ..add('sport3name', sport3name)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -363,6 +425,20 @@ class CourtsRecordBuilder
   String? get bio => _$this._bio;
   set bio(String? bio) => _$this._bio = bio;
 
+  ListBuilder<String>? _sportList;
+  ListBuilder<String> get sportList =>
+      _$this._sportList ??= new ListBuilder<String>();
+  set sportList(ListBuilder<String>? sportList) =>
+      _$this._sportList = sportList;
+
+  String? _sport2name;
+  String? get sport2name => _$this._sport2name;
+  set sport2name(String? sport2name) => _$this._sport2name = sport2name;
+
+  String? _sport3name;
+  String? get sport3name => _$this._sport3name;
+  set sport3name(String? sport3name) => _$this._sport3name = sport3name;
+
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
   set ffRef(DocumentReference<Object?>? ffRef) => _$this._ffRef = ffRef;
@@ -386,6 +462,9 @@ class CourtsRecordBuilder
       _videoUrl = $v.videoUrl;
       _sportname = $v.sportname;
       _bio = $v.bio;
+      _sportList = $v.sportList?.toBuilder();
+      _sport2name = $v.sport2name;
+      _sport3name = $v.sport3name;
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -407,21 +486,37 @@ class CourtsRecordBuilder
   CourtsRecord build() => _build();
 
   _$CourtsRecord _build() {
-    final _$result = _$v ??
-        new _$CourtsRecord._(
-            name: name,
-            location: location,
-            createdAt: createdAt,
-            user: user,
-            description: description,
-            likes: likes,
-            value: value,
-            imageUrl: imageUrl,
-            isIndoor: isIndoor,
-            videoUrl: videoUrl,
-            sportname: sportname,
-            bio: bio,
-            ffRef: ffRef);
+    _$CourtsRecord _$result;
+    try {
+      _$result = _$v ??
+          new _$CourtsRecord._(
+              name: name,
+              location: location,
+              createdAt: createdAt,
+              user: user,
+              description: description,
+              likes: likes,
+              value: value,
+              imageUrl: imageUrl,
+              isIndoor: isIndoor,
+              videoUrl: videoUrl,
+              sportname: sportname,
+              bio: bio,
+              sportList: _sportList?.build(),
+              sport2name: sport2name,
+              sport3name: sport3name,
+              ffRef: ffRef);
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'sportList';
+        _sportList?.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            r'CourtsRecord', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

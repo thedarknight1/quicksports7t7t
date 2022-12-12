@@ -67,158 +67,220 @@ class _ChatPageWidgetState extends State<ChatPageWidget>
         child: Scaffold(
           key: scaffoldKey,
           backgroundColor: Colors.white,
-          appBar: AppBar(
-            backgroundColor: Colors.white,
-            automaticallyImplyLeading: false,
-            leading: FlutterFlowIconButton(
-              borderColor: Colors.transparent,
-              borderRadius: 30,
-              borderWidth: 1,
-              buttonSize: 60,
-              icon: Icon(
-                Icons.arrow_back_rounded,
-                color: Colors.black,
-                size: 24,
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(90),
+            child: AppBar(
+              backgroundColor: Colors.white,
+              automaticallyImplyLeading: false,
+              leading: FlutterFlowIconButton(
+                borderColor: Colors.transparent,
+                borderRadius: 30,
+                borderWidth: 1,
+                buttonSize: 60,
+                icon: Icon(
+                  Icons.arrow_back_rounded,
+                  color: Colors.black,
+                  size: 24,
+                ),
+                onPressed: () async {
+                  context.pop();
+                },
               ),
-              onPressed: () async {
-                context.pop();
-              },
-            ),
-            title: Stack(
-              children: [
-                if (!isGroupChat())
-                  InkWell(
-                    onTap: () async {
-                      context.pushNamed(
-                        'peopleprofile',
-                        extra: <String, dynamic>{
-                          kTransitionInfoKey: TransitionInfo(
-                            hasTransition: true,
-                            transitionType: PageTransitionType.fade,
+              title: Container(
+                height: 90,
+                child: Stack(
+                  children: [
+                    if (!isGroupChat())
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(0, 35, 0, 0),
+                        child: InkWell(
+                          onTap: () async {
+                            context.pushNamed(
+                              'peopleprofile',
+                              extra: <String, dynamic>{
+                                kTransitionInfoKey: TransitionInfo(
+                                  hasTransition: true,
+                                  transitionType: PageTransitionType.fade,
+                                ),
+                              },
+                            );
+                          },
+                          child: Text(
+                            widget.chatUser!.displayName!,
+                            style:
+                                FlutterFlowTheme.of(context).bodyText1.override(
+                                      fontFamily: 'Lexend Deca',
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                           ),
-                        },
-                      );
-                    },
-                    child: Text(
-                      widget.chatUser!.displayName!,
-                      style: FlutterFlowTheme.of(context).bodyText1.override(
-                            fontFamily: 'Lexend Deca',
-                            color: Colors.black,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                    ),
-                  ),
-                if (isGroupChat())
-                  Text(
-                    'Group Chat',
-                    style: FlutterFlowTheme.of(context).bodyText1.override(
-                          fontFamily: 'Lexend Deca',
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
                         ),
-                  ),
-              ],
-            ),
-            actions: [
-              Visibility(
-                visible: isGroupChat(),
-                child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 0, 20, 0),
-                  child: InkWell(
-                    onTap: () async {
-                      context.pushNamed(
-                        'creategroupchatNOTNEWCopy',
-                        queryParams: {
-                          'specificChat2': serializeParam(
-                            _chatInfo!.chatRecord,
-                            ParamType.Document,
+                      ),
+                    if (isGroupChat())
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(0, 35, 0, 0),
+                        child: Text(
+                          valueOrDefault<String>(
+                            _chatInfo!.chatRecord.chatEventName,
+                            'Group Chat',
                           ),
-                        }.withoutNulls,
-                        extra: <String, dynamic>{
-                          'specificChat2': _chatInfo!.chatRecord,
-                        },
-                      );
-                    },
-                    child: Icon(
-                      Icons.person_add,
-                      color: Colors.black,
-                      size: 24,
+                          style:
+                              FlutterFlowTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Lexend Deca',
+                                    color: Colors.black,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                        ),
+                      ),
+                    if (isGroupChat())
+                      Align(
+                        alignment: AlignmentDirectional(0, 0),
+                        child: Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(0, 50, 0, 0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Padding(
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(0, 0, 7, 0),
+                                child: Text(
+                                  dateTimeFormat(
+                                    'MMMEd',
+                                    _chatInfo!.chatRecord.eventTimeStamp!,
+                                    locale: FFLocalizations.of(context)
+                                        .languageCode,
+                                  ),
+                                  textAlign: TextAlign.start,
+                                  style: FlutterFlowTheme.of(context).bodyText1,
+                                ),
+                              ),
+                              Text(
+                                _chatInfo!.chatRecord.eventTime!,
+                                textAlign: TextAlign.end,
+                                style: FlutterFlowTheme.of(context).bodyText1,
+                              ),
+                              if (_chatInfo!.chatRecord.numUsers != null)
+                                Text(
+                                  '    Player Count: ',
+                                  style: FlutterFlowTheme.of(context).bodyText1,
+                                ),
+                              Text(
+                                _chatInfo!.chatRecord.numUsers!.toString(),
+                                textAlign: TextAlign.start,
+                                style: FlutterFlowTheme.of(context).bodyText1,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+              actions: [
+                Visibility(
+                  visible: isGroupChat(),
+                  child: Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 20, 0),
+                    child: InkWell(
+                      onTap: () async {
+                        context.pushNamed(
+                          'creategroupchatNOTNEWCopy',
+                          queryParams: {
+                            'specificChat2': serializeParam(
+                              _chatInfo!.chatRecord,
+                              ParamType.Document,
+                            ),
+                          }.withoutNulls,
+                          extra: <String, dynamic>{
+                            'specificChat2': _chatInfo!.chatRecord,
+                          },
+                        );
+                      },
+                      child: Icon(
+                        Icons.person_add,
+                        color: Colors.black,
+                        size: 24,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
-            centerTitle: false,
-            elevation: 2,
+              ],
+              centerTitle: false,
+              toolbarHeight: MediaQuery.of(context).size.height * 1,
+              elevation: 2,
+            ),
           ),
           body: SafeArea(
-            child: StreamBuilder<FFChatInfo>(
-              stream: FFChatManager.instance.getChatInfo(
-                otherUserRecord: widget.chatUser,
-                chatReference: widget.chatRef,
+            child: GestureDetector(
+              onTap: () => FocusScope.of(context).unfocus(),
+              child: StreamBuilder<FFChatInfo>(
+                stream: FFChatManager.instance.getChatInfo(
+                  otherUserRecord: widget.chatUser,
+                  chatReference: widget.chatRef,
+                ),
+                builder: (context, snapshot) => snapshot.hasData
+                    ? FFChatPage(
+                        chatInfo: snapshot.data!,
+                        allowImages: true,
+                        backgroundColor: Color(0xFFF2F4F8),
+                        timeDisplaySetting: TimeDisplaySetting.visibleOnTap,
+                        currentUserBoxDecoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(
+                            color: Colors.transparent,
+                          ),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        otherUsersBoxDecoration: BoxDecoration(
+                          color: Color(0xFFE25E5E),
+                          border: Border.all(
+                            color: Colors.transparent,
+                          ),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        currentUserTextStyle: GoogleFonts.getFont(
+                          'DM Sans',
+                          color: Color(0xFF1E2429),
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14,
+                          fontStyle: FontStyle.normal,
+                        ),
+                        otherUsersTextStyle: GoogleFonts.getFont(
+                          'DM Sans',
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14,
+                        ),
+                        inputHintTextStyle: GoogleFonts.getFont(
+                          'DM Sans',
+                          color: Color(0xFF95A1AC),
+                          fontWeight: FontWeight.normal,
+                          fontSize: 14,
+                        ),
+                        inputTextStyle: GoogleFonts.getFont(
+                          'DM Sans',
+                          color: Colors.black,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 14,
+                        ),
+                        emptyChatWidget: Image.asset(
+                          'assets/images/messagesEmpty@2x.png',
+                          width: MediaQuery.of(context).size.width * 0.76,
+                        ),
+                      )
+                    : Center(
+                        child: SizedBox(
+                          width: 50,
+                          height: 50,
+                          child: SpinKitRotatingCircle(
+                            color: Color(0xFFF25454),
+                            size: 50,
+                          ),
+                        ),
+                      ),
               ),
-              builder: (context, snapshot) => snapshot.hasData
-                  ? FFChatPage(
-                      chatInfo: snapshot.data!,
-                      allowImages: true,
-                      backgroundColor: Color(0xFFF2F4F8),
-                      timeDisplaySetting: TimeDisplaySetting.visibleOnTap,
-                      currentUserBoxDecoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(
-                          color: Colors.transparent,
-                        ),
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      otherUsersBoxDecoration: BoxDecoration(
-                        color: Color(0xFFE25E5E),
-                        border: Border.all(
-                          color: Colors.transparent,
-                        ),
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      currentUserTextStyle: GoogleFonts.getFont(
-                        'DM Sans',
-                        color: Color(0xFF1E2429),
-                        fontWeight: FontWeight.w500,
-                        fontSize: 14,
-                        fontStyle: FontStyle.normal,
-                      ),
-                      otherUsersTextStyle: GoogleFonts.getFont(
-                        'DM Sans',
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 14,
-                      ),
-                      inputHintTextStyle: GoogleFonts.getFont(
-                        'DM Sans',
-                        color: Color(0xFF95A1AC),
-                        fontWeight: FontWeight.normal,
-                        fontSize: 14,
-                      ),
-                      inputTextStyle: GoogleFonts.getFont(
-                        'DM Sans',
-                        color: Colors.black,
-                        fontWeight: FontWeight.normal,
-                        fontSize: 14,
-                      ),
-                      emptyChatWidget: Image.asset(
-                        'assets/images/messagesEmpty@2x.png',
-                        width: MediaQuery.of(context).size.width * 0.76,
-                      ),
-                    )
-                  : Center(
-                      child: SizedBox(
-                        width: 50,
-                        height: 50,
-                        child: SpinKitRotatingCircle(
-                          color: Color(0xFFF25454),
-                          size: 50,
-                        ),
-                      ),
-                    ),
             ),
           ),
         ));

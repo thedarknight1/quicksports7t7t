@@ -166,9 +166,10 @@ class _CreateprofilefirstWidgetState extends State<CreateprofilefirstWidget> {
                           children: [
                             FFButtonWidget(
                               onPressed: () async {
-                                final selectedMedia = await selectMedia(
-                                  mediaSource: MediaSource.photoGallery,
-                                  multiImage: false,
+                                final selectedMedia =
+                                    await selectMediaWithSourceBottomSheet(
+                                  context: context,
+                                  allowPhoto: true,
                                 );
                                 if (selectedMedia != null &&
                                     selectedMedia.every((m) =>
@@ -210,7 +211,10 @@ class _CreateprofilefirstWidgetState extends State<CreateprofilefirstWidget> {
                                 }
 
                                 final usersUpdateData = createUsersRecordData(
-                                  photoUrl: uploadedFileUrl,
+                                  photoUrl: valueOrDefault<String>(
+                                    uploadedFileUrl,
+                                    'https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg',
+                                  ),
                                 );
                                 await currentUserReference!
                                     .update(usersUpdateData);
@@ -427,7 +431,6 @@ class _CreateprofilefirstWidgetState extends State<CreateprofilefirstWidget> {
                                       displayName: yourNameController!.text,
                                       username: userNameController!.text,
                                       email: '',
-                                      photoUrl: uploadedFileUrl,
                                     );
                                     await currentUserReference!
                                         .update(usersUpdateData);

@@ -83,6 +83,27 @@ class _$ChatsRecordSerializer implements StructuredSerializer<ChatsRecord> {
         ..add('numUsers')
         ..add(serializers.serialize(value, specifiedType: const FullType(int)));
     }
+    value = object.chatEventName;
+    if (value != null) {
+      result
+        ..add('chatEventName')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.eventTime;
+    if (value != null) {
+      result
+        ..add('eventTime')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.eventTimeStamp;
+    if (value != null) {
+      result
+        ..add('eventTimeStamp')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(DateTime)));
+    }
     value = object.ffRef;
     if (value != null) {
       result
@@ -149,6 +170,18 @@ class _$ChatsRecordSerializer implements StructuredSerializer<ChatsRecord> {
           result.numUsers = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int?;
           break;
+        case 'chatEventName':
+          result.chatEventName = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'eventTime':
+          result.eventTime = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'eventTimeStamp':
+          result.eventTimeStamp = serializers.deserialize(value,
+              specifiedType: const FullType(DateTime)) as DateTime?;
+          break;
         case 'Document__Reference__Field':
           result.ffRef = serializers.deserialize(value,
               specifiedType: const FullType(DocumentReference, const [
@@ -180,6 +213,12 @@ class _$ChatsRecord extends ChatsRecord {
   @override
   final int? numUsers;
   @override
+  final String? chatEventName;
+  @override
+  final String? eventTime;
+  @override
+  final DateTime? eventTimeStamp;
+  @override
   final DocumentReference<Object?>? ffRef;
 
   factory _$ChatsRecord([void Function(ChatsRecordBuilder)? updates]) =>
@@ -194,6 +233,9 @@ class _$ChatsRecord extends ChatsRecord {
       this.lastMessageSentBy,
       this.lastMessageSeenBy,
       this.numUsers,
+      this.chatEventName,
+      this.eventTime,
+      this.eventTimeStamp,
       this.ffRef})
       : super._();
 
@@ -216,6 +258,9 @@ class _$ChatsRecord extends ChatsRecord {
         lastMessageSentBy == other.lastMessageSentBy &&
         lastMessageSeenBy == other.lastMessageSeenBy &&
         numUsers == other.numUsers &&
+        chatEventName == other.chatEventName &&
+        eventTime == other.eventTime &&
+        eventTimeStamp == other.eventTimeStamp &&
         ffRef == other.ffRef;
   }
 
@@ -227,13 +272,21 @@ class _$ChatsRecord extends ChatsRecord {
                 $jc(
                     $jc(
                         $jc(
-                            $jc($jc($jc(0, users.hashCode), userA.hashCode),
-                                userB.hashCode),
-                            lastMessage.hashCode),
-                        lastMessageTime.hashCode),
-                    lastMessageSentBy.hashCode),
-                lastMessageSeenBy.hashCode),
-            numUsers.hashCode),
+                            $jc(
+                                $jc(
+                                    $jc(
+                                        $jc(
+                                            $jc($jc(0, users.hashCode),
+                                                userA.hashCode),
+                                            userB.hashCode),
+                                        lastMessage.hashCode),
+                                    lastMessageTime.hashCode),
+                                lastMessageSentBy.hashCode),
+                            lastMessageSeenBy.hashCode),
+                        numUsers.hashCode),
+                    chatEventName.hashCode),
+                eventTime.hashCode),
+            eventTimeStamp.hashCode),
         ffRef.hashCode));
   }
 
@@ -248,6 +301,9 @@ class _$ChatsRecord extends ChatsRecord {
           ..add('lastMessageSentBy', lastMessageSentBy)
           ..add('lastMessageSeenBy', lastMessageSeenBy)
           ..add('numUsers', numUsers)
+          ..add('chatEventName', chatEventName)
+          ..add('eventTime', eventTime)
+          ..add('eventTimeStamp', eventTimeStamp)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -297,6 +353,20 @@ class ChatsRecordBuilder implements Builder<ChatsRecord, ChatsRecordBuilder> {
   int? get numUsers => _$this._numUsers;
   set numUsers(int? numUsers) => _$this._numUsers = numUsers;
 
+  String? _chatEventName;
+  String? get chatEventName => _$this._chatEventName;
+  set chatEventName(String? chatEventName) =>
+      _$this._chatEventName = chatEventName;
+
+  String? _eventTime;
+  String? get eventTime => _$this._eventTime;
+  set eventTime(String? eventTime) => _$this._eventTime = eventTime;
+
+  DateTime? _eventTimeStamp;
+  DateTime? get eventTimeStamp => _$this._eventTimeStamp;
+  set eventTimeStamp(DateTime? eventTimeStamp) =>
+      _$this._eventTimeStamp = eventTimeStamp;
+
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
   set ffRef(DocumentReference<Object?>? ffRef) => _$this._ffRef = ffRef;
@@ -316,6 +386,9 @@ class ChatsRecordBuilder implements Builder<ChatsRecord, ChatsRecordBuilder> {
       _lastMessageSentBy = $v.lastMessageSentBy;
       _lastMessageSeenBy = $v.lastMessageSeenBy?.toBuilder();
       _numUsers = $v.numUsers;
+      _chatEventName = $v.chatEventName;
+      _eventTime = $v.eventTime;
+      _eventTimeStamp = $v.eventTimeStamp;
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -349,6 +422,9 @@ class ChatsRecordBuilder implements Builder<ChatsRecord, ChatsRecordBuilder> {
               lastMessageSentBy: lastMessageSentBy,
               lastMessageSeenBy: _lastMessageSeenBy?.build(),
               numUsers: numUsers,
+              chatEventName: chatEventName,
+              eventTime: eventTime,
+              eventTimeStamp: eventTimeStamp,
               ffRef: ffRef);
     } catch (_) {
       late String _$failedField;
