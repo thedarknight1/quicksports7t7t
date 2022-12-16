@@ -46,6 +46,21 @@ abstract class CourtsRecord
 
   String? get sport3name;
 
+  @BuiltValueField(wireName: 'Address')
+  String? get address;
+
+  @BuiltValueField(wireName: 'City')
+  String? get city;
+
+  @BuiltValueField(wireName: 'State')
+  String? get state;
+
+  @BuiltValueField(wireName: 'Zipcode')
+  String? get zipcode;
+
+  @BuiltValueField(wireName: 'Country')
+  String? get country;
+
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
   DocumentReference get reference => ffRef!;
@@ -62,7 +77,12 @@ abstract class CourtsRecord
     ..bio = ''
     ..sportList = ListBuilder()
     ..sport2name = ''
-    ..sport3name = '';
+    ..sport3name = ''
+    ..address = ''
+    ..city = ''
+    ..state = ''
+    ..zipcode = ''
+    ..country = '';
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('courts');
@@ -97,6 +117,11 @@ abstract class CourtsRecord
           ..sportList = safeGet(() => ListBuilder(snapshot.data['sportList']))
           ..sport2name = snapshot.data['sport2name']
           ..sport3name = snapshot.data['sport3name']
+          ..address = snapshot.data['Address']
+          ..city = snapshot.data['City']
+          ..state = snapshot.data['State']
+          ..zipcode = snapshot.data['Zipcode']
+          ..country = snapshot.data['Country']
           ..ffRef = CourtsRecord.collection.doc(snapshot.objectID),
       );
 
@@ -140,6 +165,11 @@ Map<String, dynamic> createCourtsRecordData({
   String? bio,
   String? sport2name,
   String? sport3name,
+  String? address,
+  String? city,
+  String? state,
+  String? zipcode,
+  String? country,
 }) {
   final firestoreData = serializers.toFirestore(
     CourtsRecord.serializer,
@@ -159,7 +189,12 @@ Map<String, dynamic> createCourtsRecordData({
         ..bio = bio
         ..sportList = null
         ..sport2name = sport2name
-        ..sport3name = sport3name,
+        ..sport3name = sport3name
+        ..address = address
+        ..city = city
+        ..state = state
+        ..zipcode = zipcode
+        ..country = country,
     ),
   );
 

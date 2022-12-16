@@ -126,6 +126,41 @@ class _$CourtsRecordSerializer implements StructuredSerializer<CourtsRecord> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.address;
+    if (value != null) {
+      result
+        ..add('Address')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.city;
+    if (value != null) {
+      result
+        ..add('City')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.state;
+    if (value != null) {
+      result
+        ..add('State')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.zipcode;
+    if (value != null) {
+      result
+        ..add('Zipcode')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.country;
+    if (value != null) {
+      result
+        ..add('Country')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     value = object.ffRef;
     if (value != null) {
       result
@@ -213,6 +248,26 @@ class _$CourtsRecordSerializer implements StructuredSerializer<CourtsRecord> {
           result.sport3name = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
+        case 'Address':
+          result.address = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'City':
+          result.city = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'State':
+          result.state = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'Zipcode':
+          result.zipcode = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'Country':
+          result.country = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
         case 'Document__Reference__Field':
           result.ffRef = serializers.deserialize(value,
               specifiedType: const FullType(DocumentReference, const [
@@ -258,6 +313,16 @@ class _$CourtsRecord extends CourtsRecord {
   @override
   final String? sport3name;
   @override
+  final String? address;
+  @override
+  final String? city;
+  @override
+  final String? state;
+  @override
+  final String? zipcode;
+  @override
+  final String? country;
+  @override
   final DocumentReference<Object?>? ffRef;
 
   factory _$CourtsRecord([void Function(CourtsRecordBuilder)? updates]) =>
@@ -279,6 +344,11 @@ class _$CourtsRecord extends CourtsRecord {
       this.sportList,
       this.sport2name,
       this.sport3name,
+      this.address,
+      this.city,
+      this.state,
+      this.zipcode,
+      this.country,
       this.ffRef})
       : super._();
 
@@ -308,6 +378,11 @@ class _$CourtsRecord extends CourtsRecord {
         sportList == other.sportList &&
         sport2name == other.sport2name &&
         sport3name == other.sport3name &&
+        address == other.address &&
+        city == other.city &&
+        state == other.state &&
+        zipcode == other.zipcode &&
+        country == other.country &&
         ffRef == other.ffRef;
   }
 
@@ -329,24 +404,27 @@ class _$CourtsRecord extends CourtsRecord {
                                                         $jc(
                                                             $jc(
                                                                 $jc(
-                                                                    0,
-                                                                    name
-                                                                        .hashCode),
-                                                                location
-                                                                    .hashCode),
-                                                            createdAt.hashCode),
-                                                        user.hashCode),
-                                                    description.hashCode),
-                                                likes.hashCode),
-                                            value.hashCode),
-                                        imageUrl.hashCode),
-                                    isIndoor.hashCode),
-                                videoUrl.hashCode),
-                            sportname.hashCode),
-                        bio.hashCode),
-                    sportList.hashCode),
-                sport2name.hashCode),
-            sport3name.hashCode),
+                                                                    $jc(
+                                                                        $jc(
+                                                                            $jc($jc($jc(0, name.hashCode), location.hashCode),
+                                                                                createdAt.hashCode),
+                                                                            user.hashCode),
+                                                                        description.hashCode),
+                                                                    likes.hashCode),
+                                                                value.hashCode),
+                                                            imageUrl.hashCode),
+                                                        isIndoor.hashCode),
+                                                    videoUrl.hashCode),
+                                                sportname.hashCode),
+                                            bio.hashCode),
+                                        sportList.hashCode),
+                                    sport2name.hashCode),
+                                sport3name.hashCode),
+                            address.hashCode),
+                        city.hashCode),
+                    state.hashCode),
+                zipcode.hashCode),
+            country.hashCode),
         ffRef.hashCode));
   }
 
@@ -368,6 +446,11 @@ class _$CourtsRecord extends CourtsRecord {
           ..add('sportList', sportList)
           ..add('sport2name', sport2name)
           ..add('sport3name', sport3name)
+          ..add('address', address)
+          ..add('city', city)
+          ..add('state', state)
+          ..add('zipcode', zipcode)
+          ..add('country', country)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -439,6 +522,26 @@ class CourtsRecordBuilder
   String? get sport3name => _$this._sport3name;
   set sport3name(String? sport3name) => _$this._sport3name = sport3name;
 
+  String? _address;
+  String? get address => _$this._address;
+  set address(String? address) => _$this._address = address;
+
+  String? _city;
+  String? get city => _$this._city;
+  set city(String? city) => _$this._city = city;
+
+  String? _state;
+  String? get state => _$this._state;
+  set state(String? state) => _$this._state = state;
+
+  String? _zipcode;
+  String? get zipcode => _$this._zipcode;
+  set zipcode(String? zipcode) => _$this._zipcode = zipcode;
+
+  String? _country;
+  String? get country => _$this._country;
+  set country(String? country) => _$this._country = country;
+
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
   set ffRef(DocumentReference<Object?>? ffRef) => _$this._ffRef = ffRef;
@@ -465,6 +568,11 @@ class CourtsRecordBuilder
       _sportList = $v.sportList?.toBuilder();
       _sport2name = $v.sport2name;
       _sport3name = $v.sport3name;
+      _address = $v.address;
+      _city = $v.city;
+      _state = $v.state;
+      _zipcode = $v.zipcode;
+      _country = $v.country;
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -505,6 +613,11 @@ class CourtsRecordBuilder
               sportList: _sportList?.build(),
               sport2name: sport2name,
               sport3name: sport3name,
+              address: address,
+              city: city,
+              state: state,
+              zipcode: zipcode,
+              country: country,
               ffRef: ffRef);
     } catch (_) {
       late String _$failedField;

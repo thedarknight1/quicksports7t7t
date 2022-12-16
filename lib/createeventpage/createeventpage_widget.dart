@@ -444,6 +444,13 @@ class _CreateeventpageWidgetState extends State<CreateeventpageWidget> {
                                         latLngLocation:
                                             createeventpageCourtsRecord
                                                 .location,
+                                        zipcode:
+                                            createeventpageCourtsRecord.zipcode,
+                                        city: createeventpageCourtsRecord.city,
+                                        state:
+                                            createeventpageCourtsRecord.state,
+                                        address:
+                                            createeventpageCourtsRecord.address,
                                       );
                                       var eventsRecordReference =
                                           EventsRecord.collection.doc();

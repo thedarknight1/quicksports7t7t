@@ -35,6 +35,18 @@ abstract class EventsRecord
   @BuiltValueField(wireName: 'LatLngLocation')
   LatLng? get latLngLocation;
 
+  @BuiltValueField(wireName: 'Zipcode')
+  String? get zipcode;
+
+  @BuiltValueField(wireName: 'City')
+  String? get city;
+
+  @BuiltValueField(wireName: 'State')
+  String? get state;
+
+  @BuiltValueField(wireName: 'Address')
+  String? get address;
+
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
   DocumentReference get reference => ffRef!;
@@ -47,7 +59,11 @@ abstract class EventsRecord
     ..playerage = ''
     ..playercount = ''
     ..locationname = ''
-    ..eventsportname = '';
+    ..eventsportname = ''
+    ..zipcode = ''
+    ..city = ''
+    ..state = ''
+    ..address = '';
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('events');
@@ -83,6 +99,10 @@ Map<String, dynamic> createEventsRecordData({
   DocumentReference? groupChatRef,
   DateTime? dateTimeStamp,
   LatLng? latLngLocation,
+  String? zipcode,
+  String? city,
+  String? state,
+  String? address,
 }) {
   final firestoreData = serializers.toFirestore(
     EventsRecord.serializer,
@@ -99,7 +119,11 @@ Map<String, dynamic> createEventsRecordData({
         ..courtRef = courtRef
         ..groupChatRef = groupChatRef
         ..dateTimeStamp = dateTimeStamp
-        ..latLngLocation = latLngLocation,
+        ..latLngLocation = latLngLocation
+        ..zipcode = zipcode
+        ..city = city
+        ..state = state
+        ..address = address,
     ),
   );
 

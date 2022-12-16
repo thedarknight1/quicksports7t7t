@@ -439,6 +439,11 @@ class _AddCourtWidgetState extends State<AddCourtWidget> {
                                           likes: 0,
                                           imageUrl: uploadedFileUrl,
                                           isIndoor: checkboxListTileValue1,
+                                          address: placePickerValue.address,
+                                          city: placePickerValue.city,
+                                          state: placePickerValue.state,
+                                          country: placePickerValue.country,
+                                          zipcode: placePickerValue.zipCode,
                                         ),
                                         'sportList': selectedSportsList,
                                       };

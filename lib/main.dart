@@ -116,8 +116,9 @@ class _NavBarPageState extends State<NavBarPage> {
   @override
   Widget build(BuildContext context) {
     final tabs = {
-      'findCourt': FindCourtWidget(),
+      'eventsNearYou': EventsNearYouWidget(),
       'AllChats': AllChatsWidget(),
+      'findCourt': FindCourtWidget(),
       'usersearcher': UsersearcherWidget(),
       'profilePage': ProfilePageWidget(),
     };
@@ -139,10 +140,14 @@ class _NavBarPageState extends State<NavBarPage> {
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.search,
+              Icons.event,
               size: 24,
             ),
-            label: 'Home',
+            activeIcon: Icon(
+              Icons.event,
+              size: 24,
+            ),
+            label: '',
             tooltip: '',
           ),
           BottomNavigationBarItem(
@@ -155,6 +160,14 @@ class _NavBarPageState extends State<NavBarPage> {
               size: 24,
             ),
             label: '',
+            tooltip: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.search,
+              size: 24,
+            ),
+            label: 'Home',
             tooltip: '',
           ),
           BottomNavigationBarItem(

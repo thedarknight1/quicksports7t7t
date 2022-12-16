@@ -176,7 +176,6 @@ class _LocationprofileWidgetState extends State<LocationprofileWidget> {
                           },
                           currentTime: getCurrentTimestamp,
                           minTime: DateTime(0, 0, 0),
-                          maxTime: getCurrentTimestamp,
                           locale: LocaleType.values.firstWhere(
                             (l) =>
                                 l.name ==

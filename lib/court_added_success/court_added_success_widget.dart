@@ -131,7 +131,7 @@ class _CourtAddedSuccessWidgetState extends State<CourtAddedSuccessWidget> {
                     onPressed: () async {
                       context.pushNamed(
                         'courtDetails',
-                        queryParams: {
+                        params: {
                           'court': serializeParam(
                             widget.newlyCreatedCourt,
                             ParamType.Document,

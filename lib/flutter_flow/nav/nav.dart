@@ -6,8 +6,11 @@ import 'package:go_router/go_router.dart';
 import 'package:page_transition/page_transition.dart';
 import '../flutter_flow_theme.dart';
 import '../../backend/backend.dart';
+
 import '../../auth/firebase_user_provider.dart';
 
+import '../../backend/firebase_dynamic_links/firebase_dynamic_links.dart'
+    show DynamicLinksHandler;
 import '../../index.dart';
 import '../../main.dart';
 import '../lat_lng.dart';
@@ -16,6 +19,8 @@ import 'serialization_util.dart';
 
 export 'package:go_router/go_router.dart';
 export 'serialization_util.dart';
+export '../../backend/firebase_dynamic_links/firebase_dynamic_links.dart'
+    show generateCurrentPageLink;
 
 const kTransitionInfoKey = '__transition_info__';
 
@@ -70,6 +75,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       refreshListenable: appStateNotifier,
       errorBuilder: (context, _) =>
           appStateNotifier.loggedIn ? NavBarPage() : CreateAccountWidget(),
+      navigatorBuilder: (_, __, child) => DynamicLinksHandler(child: child),
       routes: [
         FFRoute(
           name: '_initialize',
@@ -124,6 +130,20 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               builder: (context, params) => CreateprofilefirstWidget(),
             ),
             FFRoute(
+              name: 'eventsNearYou',
+              path: 'eventsNearYou',
+              builder: (context, params) => params.isEmpty
+                  ? NavBarPage(initialPage: 'eventsNearYou')
+                  : EventsNearYouWidget(),
+            ),
+            FFRoute(
+              name: 'profilePage',
+              path: 'profilePage',
+              builder: (context, params) => params.isEmpty
+                  ? NavBarPage(initialPage: 'profilePage')
+                  : ProfilePageWidget(),
+            ),
+            FFRoute(
               name: 'yesornogroupchat',
               path: 'yesornogroupchat',
               asyncParams: {
@@ -136,13 +156,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                 specificChat:
                     params.getParam('specificChat', ParamType.Document),
               ),
-            ),
-            FFRoute(
-              name: 'profilePage',
-              path: 'profilePage',
-              builder: (context, params) => params.isEmpty
-                  ? NavBarPage(initialPage: 'profilePage')
-                  : ProfilePageWidget(),
             ),
             FFRoute(
               name: 'changePassword',
@@ -234,33 +247,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                   : AllChatsWidget(),
             ),
             FFRoute(
-              name: 'courtDetails',
-              path: 'courtDetails',
-              asyncParams: {
-                'court': getDoc('courts', CourtsRecord.serializer),
-              },
-              builder: (context, params) => CourtDetailsWidget(
-                court: params.getParam('court', ParamType.Document),
-              ),
-            ),
-            FFRoute(
               name: 'usersearcher',
               path: 'usersearcher',
               builder: (context, params) => params.isEmpty
                   ? NavBarPage(initialPage: 'usersearcher')
                   : UsersearcherWidget(),
-            ),
-            FFRoute(
-              name: 'courtAddedSuccessCopyCopy',
-              path: 'ratingAddedSuccess',
-              asyncParams: {
-                'courtDoc': getDoc('courts', CourtsRecord.serializer),
-              },
-              builder: (context, params) => CourtAddedSuccessCopyCopyWidget(
-                courtRef: params.getParam(
-                    'courtRef', ParamType.DocumentReference, false, 'courts'),
-                courtDoc: params.getParam('courtDoc', ParamType.Document),
-              ),
             ),
             FFRoute(
               name: 'courtAddedSuccessCopy',
@@ -280,6 +271,29 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               ),
             ),
             FFRoute(
+              name: 'courtAddedSuccessCopyCopy',
+              path: 'ratingAddedSuccess',
+              asyncParams: {
+                'courtDoc': getDoc('courts', CourtsRecord.serializer),
+              },
+              builder: (context, params) => CourtAddedSuccessCopyCopyWidget(
+                courtRef: params.getParam(
+                    'courtRef', ParamType.DocumentReference, false, 'courts'),
+                courtDoc: params.getParam('courtDoc', ParamType.Document),
+              ),
+            ),
+            FFRoute(
+              name: 'courtDetails',
+              path: 'courtDetails/:court',
+              requireAuth: true,
+              asyncParams: {
+                'court': getDoc('courts', CourtsRecord.serializer),
+              },
+              builder: (context, params) => CourtDetailsWidget(
+                court: params.getParam('court', ParamType.Document),
+              ),
+            ),
+            FFRoute(
               name: 'creategroupchatNOTNEW',
               path: 'creategroupchatNOTNEW',
               asyncParams: {
@@ -295,19 +309,31 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               ),
             ),
             FFRoute(
+              name: 'groupChatPeopleList',
+              path: 'groupChatPeopleList',
+              asyncParams: {
+                'groupChat': getDoc('chats', ChatsRecord.serializer),
+              },
+              builder: (context, params) => GroupChatPeopleListWidget(
+                groupChat: params.getParam('groupChat', ParamType.Document),
+                groupChatRef: params.getParam('groupChatRef',
+                    ParamType.DocumentReference, false, 'chats'),
+              ),
+            ),
+            FFRoute(
               name: 'usersettings',
               path: 'usersettings',
               builder: (context, params) => UsersettingsWidget(),
             ),
             FFRoute(
-              name: 'donate',
-              path: 'donate',
-              builder: (context, params) => DonateWidget(),
-            ),
-            FFRoute(
               name: 'termsandconditions',
               path: 'termsandconditions',
               builder: (context, params) => TermsandconditionsWidget(),
+            ),
+            FFRoute(
+              name: 'donate',
+              path: 'donate',
+              builder: (context, params) => DonateWidget(),
             ),
             FFRoute(
               name: 'courtAddedSuccessCopyCopyCopy',
@@ -339,6 +365,38 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                     'groupChatForEventCreate', ParamType.Document),
                 specificChat2:
                     params.getParam('specificChat2', ParamType.Document),
+              ),
+            ),
+            FFRoute(
+              name: 'courtDetailsCopy',
+              path: 'courtDetailsCopy/:court2',
+              requireAuth: true,
+              asyncParams: {
+                'court2': getDoc('courts', CourtsRecord.serializer),
+              },
+              builder: (context, params) => CourtDetailsCopyWidget(
+                court2: params.getParam('court2', ParamType.Document),
+              ),
+            ),
+            FFRoute(
+              name: 'eventDetails',
+              path: 'eventDetails/:event/:chat',
+              requireAuth: true,
+              asyncParams: {
+                'court': getDoc('courts', CourtsRecord.serializer),
+                'event': getDoc('events', EventsRecord.serializer),
+                'chat': getDoc('chats', ChatsRecord.serializer),
+              },
+              builder: (context, params) => EventDetailsWidget(
+                court: params.getParam('court', ParamType.Document),
+                courtRef: params.getParam(
+                    'courtRef', ParamType.DocumentReference, false, 'courts'),
+                event: params.getParam('event', ParamType.Document),
+                eventRef: params.getParam(
+                    'eventRef', ParamType.DocumentReference, false, 'events'),
+                chat: params.getParam('chat', ParamType.Document),
+                chatRef: params.getParam(
+                    'chatRef', ParamType.DocumentReference, false, 'chats'),
               ),
             )
           ].map((r) => r.toRoute(appStateNotifier)).toList(),

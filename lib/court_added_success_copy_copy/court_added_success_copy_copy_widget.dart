@@ -126,7 +126,7 @@ class _CourtAddedSuccessCopyCopyWidgetState
                         onPressed: () async {
                           context.pushNamed(
                             'courtDetails',
-                            queryParams: {
+                            params: {
                               'court': serializeParam(
                                 widget.courtDoc,
                                 ParamType.Document,

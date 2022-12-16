@@ -1,3 +1,4 @@
+import '../auth/auth_util.dart';
 import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_ad_banner.dart';
 import '../flutter_flow/flutter_flow_animations.dart';
@@ -416,189 +417,204 @@ class _UsersearcherWidgetState extends State<UsersearcherWidget>
                         ),
                       ),
                       Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(20, 10, 0, 0),
+                        child: Text(
+                          'Users near you',
+                          style: FlutterFlowTheme.of(context).bodyText1,
+                        ),
+                      ),
+                      Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(0, 12, 0, 44),
-                        child: PagedListView<DocumentSnapshot<Object?>?,
-                            UsersRecord>(
-                          pagingController: () {
-                            final Query<Object?> Function(Query<Object?>)
-                                queryBuilder = (usersRecord) => usersRecord;
-                            if (_pagingController != null) {
-                              final query =
-                                  queryBuilder(UsersRecord.collection);
-                              if (query != _pagingQuery) {
-                                // The query has changed
-                                _pagingQuery = query;
-                                _streamSubscriptions
-                                    .forEach((s) => s?.cancel());
-                                _streamSubscriptions.clear();
-                                _pagingController!.refresh();
+                        child: AuthUserStreamWidget(
+                          child: PagedListView<DocumentSnapshot<Object?>?,
+                              UsersRecord>(
+                            pagingController: () {
+                              final Query<Object?> Function(Query<Object?>)
+                                  queryBuilder =
+                                  (usersRecord) => usersRecord.where(
+                                      'state_name',
+                                      isEqualTo: valueOrDefault(
+                                          currentUserDocument?.stateName, ''));
+                              if (_pagingController != null) {
+                                final query =
+                                    queryBuilder(UsersRecord.collection);
+                                if (query != _pagingQuery) {
+                                  // The query has changed
+                                  _pagingQuery = query;
+                                  _streamSubscriptions
+                                      .forEach((s) => s?.cancel());
+                                  _streamSubscriptions.clear();
+                                  _pagingController!.refresh();
+                                }
+                                return _pagingController!;
                               }
-                              return _pagingController!;
-                            }
 
-                            _pagingController =
-                                PagingController(firstPageKey: null);
-                            _pagingQuery = queryBuilder(UsersRecord.collection);
-                            _pagingController!
-                                .addPageRequestListener((nextPageMarker) {
-                              queryUsersRecordPage(
-                                queryBuilder: (usersRecord) => usersRecord,
-                                nextPageMarker: nextPageMarker,
-                                pageSize: 25,
-                                isStream: true,
-                              ).then((page) {
-                                _pagingController!.appendPage(
-                                  page.data,
-                                  page.nextPageMarker,
-                                );
-                                final streamSubscription =
-                                    page.dataStream?.listen((data) {
-                                  final itemIndexes = _pagingController!
-                                      .itemList!
-                                      .asMap()
-                                      .map((k, v) =>
-                                          MapEntry(v.reference.id, k));
-                                  data.forEach((item) {
-                                    final index =
-                                        itemIndexes[item.reference.id];
-                                    final items = _pagingController!.itemList!;
-                                    if (index != null) {
-                                      items.replaceRange(
-                                          index, index + 1, [item]);
-                                      _pagingController!.itemList = {
-                                        for (var item in items)
-                                          item.reference: item
-                                      }.values.toList();
-                                    }
+                              _pagingController =
+                                  PagingController(firstPageKey: null);
+                              _pagingQuery =
+                                  queryBuilder(UsersRecord.collection);
+                              _pagingController!
+                                  .addPageRequestListener((nextPageMarker) {
+                                queryUsersRecordPage(
+                                  queryBuilder: (usersRecord) =>
+                                      usersRecord.where('state_name',
+                                          isEqualTo: valueOrDefault(
+                                              currentUserDocument?.stateName,
+                                              '')),
+                                  nextPageMarker: nextPageMarker,
+                                  pageSize: 25,
+                                  isStream: true,
+                                ).then((page) {
+                                  _pagingController!.appendPage(
+                                    page.data,
+                                    page.nextPageMarker,
+                                  );
+                                  final streamSubscription =
+                                      page.dataStream?.listen((data) {
+                                    final itemIndexes = _pagingController!
+                                        .itemList!
+                                        .asMap()
+                                        .map((k, v) =>
+                                            MapEntry(v.reference.id, k));
+                                    data.forEach((item) {
+                                      final index =
+                                          itemIndexes[item.reference.id];
+                                      final items =
+                                          _pagingController!.itemList!;
+                                      if (index != null) {
+                                        items.replaceRange(
+                                            index, index + 1, [item]);
+                                        _pagingController!.itemList = {
+                                          for (var item in items)
+                                            item.reference: item
+                                        }.values.toList();
+                                      }
+                                    });
+                                    setState(() {});
                                   });
-                                  setState(() {});
+                                  _streamSubscriptions.add(streamSubscription);
                                 });
-                                _streamSubscriptions.add(streamSubscription);
                               });
-                            });
-                            return _pagingController!;
-                          }(),
-                          padding: EdgeInsets.zero,
-                          primary: false,
-                          shrinkWrap: true,
-                          scrollDirection: Axis.vertical,
-                          builderDelegate:
-                              PagedChildBuilderDelegate<UsersRecord>(
-                            // Customize what your widget looks like when it's loading the first page.
-                            firstPageProgressIndicatorBuilder: (_) => Center(
-                              child: SizedBox(
-                                width: 50,
-                                height: 50,
-                                child: SpinKitRotatingCircle(
-                                  color: Color(0xFFF25454),
-                                  size: 50,
+                              return _pagingController!;
+                            }(),
+                            padding: EdgeInsets.zero,
+                            primary: false,
+                            shrinkWrap: true,
+                            scrollDirection: Axis.vertical,
+                            builderDelegate:
+                                PagedChildBuilderDelegate<UsersRecord>(
+                              // Customize what your widget looks like when it's loading the first page.
+                              firstPageProgressIndicatorBuilder: (_) => Center(
+                                child: SizedBox(
+                                  width: 50,
+                                  height: 50,
+                                  child: SpinKitRotatingCircle(
+                                    color: Color(0xFFF25454),
+                                    size: 50,
+                                  ),
                                 ),
                               ),
-                            ),
 
-                            itemBuilder: (context, _, listViewIndex) {
-                              final listViewUsersRecord =
-                                  _pagingController!.itemList![listViewIndex];
-                              return Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    16, 4, 16, 8),
-                                child: InkWell(
-                                  onTap: () async {
-                                    context.pushNamed(
-                                      'peopleprofile',
-                                      queryParams: {
-                                        'peopleprofileparameter':
-                                            serializeParam(
-                                          listViewUsersRecord.reference,
-                                          ParamType.DocumentReference,
-                                        ),
-                                      }.withoutNulls,
-                                    );
-                                  },
-                                  child: Container(
-                                    width: double.infinity,
-                                    height: 60,
-                                    decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryBackground,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          blurRadius: 4,
-                                          color: Color(0x32000000),
-                                          offset: Offset(0, 2),
-                                        )
-                                      ],
-                                      borderRadius: BorderRadius.circular(50),
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          8, 0, 8, 0),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    8, 0, 0, 0),
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(26),
-                                              child: Image.network(
-                                                valueOrDefault<String>(
-                                                  listViewUsersRecord.photoUrl,
-                                                  'https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg',
+                              itemBuilder: (context, _, listViewIndex) {
+                                final listViewUsersRecord =
+                                    _pagingController!.itemList![listViewIndex];
+                                return Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      16, 4, 16, 8),
+                                  child: InkWell(
+                                    onTap: () async {
+                                      context.pushNamed(
+                                        'peopleprofile',
+                                        queryParams: {
+                                          'peopleprofileparameter':
+                                              serializeParam(
+                                            listViewUsersRecord.reference,
+                                            ParamType.DocumentReference,
+                                          ),
+                                        }.withoutNulls,
+                                      );
+                                    },
+                                    child: Container(
+                                      width: double.infinity,
+                                      height: 75,
+                                      decoration: BoxDecoration(
+                                        color: FlutterFlowTheme.of(context)
+                                            .secondaryBackground,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            blurRadius: 4,
+                                            color: Color(0x32000000),
+                                            offset: Offset(0, 2),
+                                          )
+                                        ],
+                                        borderRadius: BorderRadius.circular(50),
+                                      ),
+                                      child: Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            8, 0, 8, 0),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(8, 0, 0, 0),
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(26),
+                                                child: Image.network(
+                                                  valueOrDefault<String>(
+                                                    listViewUsersRecord
+                                                        .photoUrl,
+                                                    'https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg',
+                                                  ),
+                                                  width: 36,
+                                                  height: 36,
+                                                  fit: BoxFit.cover,
                                                 ),
-                                                width: 36,
-                                                height: 36,
-                                                fit: BoxFit.cover,
                                               ),
                                             ),
-                                          ),
-                                          Expanded(
-                                            child: Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(12, 0, 0, 0),
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.max,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                                0, 10, 0, 0),
-                                                    child: Text(
-                                                      valueOrDefault<String>(
-                                                        listViewUsersRecord
-                                                            .displayName,
-                                                        'anonymous',
+                                            Expanded(
+                                              child: Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(12, 0, 0, 0),
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  0, 10, 0, 0),
+                                                      child: Text(
+                                                        valueOrDefault<String>(
+                                                          listViewUsersRecord
+                                                              .displayName,
+                                                          'anonymous',
+                                                        ),
+                                                        style: FlutterFlowTheme
+                                                                .of(context)
+                                                            .bodyText1
+                                                            .override(
+                                                              fontFamily:
+                                                                  'Overpass',
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 16,
+                                                            ),
                                                       ),
-                                                      style: FlutterFlowTheme
-                                                              .of(context)
-                                                          .bodyText1
-                                                          .override(
-                                                            fontFamily:
-                                                                'Overpass',
-                                                            color: Colors.black,
-                                                            fontSize: 16,
-                                                          ),
                                                     ),
-                                                  ),
-                                                  Row(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    0, 0, 0, 8),
-                                                        child: Text(
+                                                    Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      children: [
+                                                        Text(
                                                           listViewUsersRecord
                                                               .username!,
                                                           style: FlutterFlowTheme
@@ -611,92 +627,146 @@ class _UsersearcherWidgetState extends State<UsersearcherWidget>
                                                                     0xFF616A6D),
                                                               ),
                                                         ),
+                                                      ],
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  0, 0, 0, 10),
+                                                      child: Row(
+                                                        mainAxisSize:
+                                                            MainAxisSize.max,
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        0,
+                                                                        0,
+                                                                        0,
+                                                                        8),
+                                                            child: Text(
+                                                              'City: ',
+                                                              style: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .bodyText2
+                                                                  .override(
+                                                                    fontFamily:
+                                                                        'Overpass',
+                                                                    color: Color(
+                                                                        0xFF616A6D),
+                                                                  ),
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        0,
+                                                                        0,
+                                                                        0,
+                                                                        8),
+                                                            child: Text(
+                                                              listViewUsersRecord
+                                                                  .city!,
+                                                              style: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .bodyText1
+                                                                  .override(
+                                                                    fontFamily:
+                                                                        'Overpass',
+                                                                    color: Color(
+                                                                        0xFFEF534F),
+                                                                  ),
+                                                            ),
+                                                          ),
+                                                        ],
                                                       ),
-                                                    ],
-                                                  ),
-                                                ],
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          FlutterFlowIconButton(
-                                            borderColor: Colors.transparent,
-                                            borderRadius: 30,
-                                            borderWidth: 1,
-                                            buttonSize: 60,
-                                            icon: Icon(
-                                              Icons.message,
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primaryColor,
-                                              size: 30,
-                                            ),
-                                            onPressed: () async {
-                                              context.pushNamed(
-                                                'ChatPage',
-                                                queryParams: {
-                                                  'chatUser': serializeParam(
-                                                    listViewUsersRecord,
-                                                    ParamType.Document,
-                                                  ),
-                                                }.withoutNulls,
-                                                extra: <String, dynamic>{
-                                                  'chatUser':
-                                                      listViewUsersRecord,
-                                                },
-                                              );
-                                            },
-                                          ),
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    0, 0, 9, 0),
-                                            child: FFButtonWidget(
-                                              onPressed: () async {
-                                                context.pushNamed(
-                                                  'peopleprofile',
-                                                  queryParams: {
-                                                    'peopleprofileparameter':
-                                                        serializeParam(
-                                                      listViewUsersRecord
-                                                          .reference,
-                                                      ParamType
-                                                          .DocumentReference,
-                                                    ),
-                                                  }.withoutNulls,
-                                                );
-                                              },
-                                              text: 'View',
-                                              options: FFButtonOptions(
-                                                height: 36,
+                                            FlutterFlowIconButton(
+                                              borderColor: Colors.transparent,
+                                              borderRadius: 30,
+                                              borderWidth: 1,
+                                              buttonSize: 60,
+                                              icon: Icon(
+                                                Icons.message,
                                                 color:
                                                     FlutterFlowTheme.of(context)
                                                         .primaryColor,
-                                                textStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyText1
-                                                        .override(
-                                                          fontFamily: 'Outfit',
-                                                          color: Colors.white,
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                        ),
-                                                borderSide: BorderSide(
-                                                  color: Colors.transparent,
-                                                  width: 1,
+                                                size: 30,
+                                              ),
+                                              onPressed: () async {
+                                                context.pushNamed(
+                                                  'ChatPage',
+                                                  queryParams: {
+                                                    'chatUser': serializeParam(
+                                                      listViewUsersRecord,
+                                                      ParamType.Document,
+                                                    ),
+                                                  }.withoutNulls,
+                                                  extra: <String, dynamic>{
+                                                    'chatUser':
+                                                        listViewUsersRecord,
+                                                  },
+                                                );
+                                              },
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(0, 0, 9, 0),
+                                              child: FFButtonWidget(
+                                                onPressed: () async {
+                                                  context.pushNamed(
+                                                    'peopleprofile',
+                                                    queryParams: {
+                                                      'peopleprofileparameter':
+                                                          serializeParam(
+                                                        listViewUsersRecord
+                                                            .reference,
+                                                        ParamType
+                                                            .DocumentReference,
+                                                      ),
+                                                    }.withoutNulls,
+                                                  );
+                                                },
+                                                text: 'View',
+                                                options: FFButtonOptions(
+                                                  height: 36,
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primaryColor,
+                                                  textStyle: FlutterFlowTheme
+                                                          .of(context)
+                                                      .bodyText1
+                                                      .override(
+                                                        fontFamily: 'Outfit',
+                                                        color: Colors.white,
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                      ),
+                                                  borderSide: BorderSide(
+                                                    color: Colors.transparent,
+                                                    width: 1,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(50),
                                                 ),
-                                                borderRadius:
-                                                    BorderRadius.circular(50),
                                               ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              );
-                            },
+                                );
+                              },
+                            ),
                           ),
                         ),
                       ),

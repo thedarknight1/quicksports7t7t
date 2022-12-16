@@ -154,7 +154,7 @@ class _AllChatsWidgetState extends State<AllChatsWidget> {
                                 ),
                                 contentPadding:
                                     EdgeInsetsDirectional.fromSTEB(3, 3, 3, 3),
-                                borderRadius: BorderRadius.circular(0),
+                                borderRadius: BorderRadius.circular(20),
                               );
                             },
                           );

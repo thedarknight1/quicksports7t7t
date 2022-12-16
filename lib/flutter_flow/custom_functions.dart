@@ -38,3 +38,79 @@ LatLng getInitialMapLocation(LatLng? userLocation) {
 int calculateAge(DateTime dateToCheck) {
   return DateTime.now().year - dateToCheck.year;
 }
+
+double? returnDistanceBetweenTwoPoints(
+  LatLng? positionOne,
+  LatLng? positionTwo,
+) {
+  // calculate the distance between two points on a spheroid and return distance as double
+  var p = 0.017453292519943295;
+  var a = 0.5 -
+      math.cos((positionTwo!.latitude - positionOne!.latitude) * p) / 2 +
+      math.cos(positionOne.latitude * p) *
+          math.cos(positionTwo.latitude * p) *
+          (1 - math.cos((positionTwo.longitude - positionOne.longitude) * p)) /
+          2;
+  double result = 12742 * math.asin(math.sqrt(a));
+  // uncomment the line below if you want the result to be rounded
+  // double finalResult = result.roundToDouble();
+  // if you uncommented the line above, you have to replace result in the line below with finalResult
+  return result;
+}
+
+double? returnDistanceBetweenTwoPointsCopy(
+  LatLng? positionOne,
+  LatLng? positionTwo,
+) {
+  // calculate the distance between two points on a spheroid and return distance as double
+  var p = 0.017453292519943295;
+  var a = 0.5 -
+      math.cos((positionTwo!.latitude - positionOne!.latitude) * p) / 2 +
+      math.cos(positionOne.latitude * p) *
+          math.cos(positionTwo.latitude * p) *
+          (1 - math.cos((positionTwo.longitude - positionOne.longitude) * p)) /
+          2;
+  double result = 12742 * math.asin(math.sqrt(a));
+  // uncomment the line below if you want the result to be rounded
+  // double finalResult = result.roundToDouble();
+  // if you uncommented the line above, you have to replace result in the line below with finalResult
+  return result;
+}
+
+List<EventsRecord> getPlacesMaximumDistanceCopy2(
+  List<EventsRecord> places,
+  LatLng userGeo,
+  double maxDistance,
+) {
+  // First create some emptyList
+  List<EventsRecord> placesList = [];
+  List<double> listKm = [];
+  double lat1 = userGeo.latitude;
+  double lon1 = userGeo.longitude;
+  // This iterates through the single documents "places" in the List
+  for (EventsRecord place in places) {
+    var theLatLngLocation = place.latLngLocation;
+    double lat2 = theLatLngLocation!.latitude;
+    double lon2 = theLatLngLocation!.longitude;
+    // This is doing math for distance calculations on the surface of a spheroid
+    var c = math.cos;
+    var p = 0.017453292519943295;
+    var a = 0.5 -
+        c((lat2 - lat1) * p) / 2 +
+        c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
+    // This is getting us the distance
+    var d = (12742 * math.asin(math.sqrt(a)));
+    String inString = d.toStringAsFixed(2); // '2.35'
+    double inDouble = double.parse(inString);
+    listKm.add(inDouble);
+    // Sort the documents that will be returned by distance
+    listKm.sort();
+    int listKmIndex = listKm.indexWhere((dist) => dist == inDouble);
+    // Check if the document we are currently processing is no farther away from userGeo than we defined as max.
+    if (inDouble <= maxDistance) {
+      // If its within our radius, add it to the list of places documents that will be returned
+      placesList.insert(listKmIndex, place);
+    }
+  }
+  return placesList;
+}

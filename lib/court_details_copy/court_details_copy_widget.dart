@@ -1,34 +1,28 @@
-import '../auth/auth_util.dart';
 import '../backend/backend.dart';
-import '../flutter_flow/chat/index.dart';
 import '../flutter_flow/flutter_flow_ad_banner.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../flutter_flow/custom_functions.dart' as functions;
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:share_plus/share_plus.dart';
 
-class CourtDetailsWidget extends StatefulWidget {
-  const CourtDetailsWidget({
+class CourtDetailsCopyWidget extends StatefulWidget {
+  const CourtDetailsCopyWidget({
     Key? key,
-    this.court,
+    this.court2,
   }) : super(key: key);
 
-  final CourtsRecord? court;
+  final CourtsRecord? court2;
 
   @override
-  _CourtDetailsWidgetState createState() => _CourtDetailsWidgetState();
+  _CourtDetailsCopyWidgetState createState() => _CourtDetailsCopyWidgetState();
 }
 
-class _CourtDetailsWidgetState extends State<CourtDetailsWidget> {
-  ChatMessagesRecord? lastMessaged;
-  ChatsRecord? groupChat3;
-  ChatMessagesRecord? lastmessage2;
+class _CourtDetailsCopyWidgetState extends State<CourtDetailsCopyWidget> {
   String _currentPageLink = '';
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -42,7 +36,7 @@ class _CourtDetailsWidgetState extends State<CourtDetailsWidget> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<CourtsRecord>(
-      stream: CourtsRecord.getDocument(widget.court!.reference),
+      stream: CourtsRecord.getDocument(widget.court2!.reference),
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
@@ -57,9 +51,9 @@ class _CourtDetailsWidgetState extends State<CourtDetailsWidget> {
             ),
           );
         }
-        final courtDetailsCourtsRecord = snapshot.data!;
+        final courtDetailsCopyCourtsRecord = snapshot.data!;
         return Title(
-            title: 'courtDetails',
+            title: 'courtDetailsCopy',
             color: FlutterFlowTheme.of(context).primaryColor,
             child: Scaffold(
               key: scaffoldKey,
@@ -87,7 +81,8 @@ class _CourtDetailsWidgetState extends State<CourtDetailsWidget> {
                                         fit: BoxFit.cover,
                                         image: Image.network(
                                           valueOrDefault<String>(
-                                            courtDetailsCourtsRecord.imageUrl,
+                                            courtDetailsCopyCourtsRecord
+                                                .imageUrl,
                                             'https://i0.wp.com/sportsfieldsolutions.com/wp-content/uploads/2020/06/main-back.png?fit=1290%2C638&ssl=1',
                                           ),
                                         ).image,
@@ -123,7 +118,7 @@ class _CourtDetailsWidgetState extends State<CourtDetailsWidget> {
                                                 size: 20,
                                               ),
                                               onPressed: () async {
-                                                context.pushNamed('findCourt');
+                                                context.pop();
                                               },
                                             ),
                                           ),
@@ -152,8 +147,14 @@ class _CourtDetailsWidgetState extends State<CourtDetailsWidget> {
                                                 context,
                                                 title:
                                                     'Check out this Sports Location',
+                                                imageUrl:
+                                                    valueOrDefault<String>(
+                                                  courtDetailsCopyCourtsRecord
+                                                      .imageUrl,
+                                                  'https://play-lh.googleusercontent.com/BHkCtTtpi9ZhxLXTG9tCxc_rVocRVtCYsOq0zNOkYKPQr5i7p0xloiKhlAXpKxk3PmA=s48-rw',
+                                                ),
                                                 description:
-                                                    courtDetailsCourtsRecord
+                                                    courtDetailsCopyCourtsRecord
                                                         .name,
                                               );
 
@@ -188,7 +189,8 @@ class _CourtDetailsWidgetState extends State<CourtDetailsWidget> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                widget.court!.name!
+                                                courtDetailsCopyCourtsRecord
+                                                    .name!
                                                     .maybeHandleOverflow(
                                                   maxChars: 29,
                                                   replacement: '…',
@@ -204,7 +206,8 @@ class _CourtDetailsWidgetState extends State<CourtDetailsWidget> {
                                                         ),
                                               ),
                                               Text(
-                                                courtDetailsCourtsRecord.city!,
+                                                courtDetailsCopyCourtsRecord
+                                                    .city!,
                                                 textAlign: TextAlign.start,
                                                 style:
                                                     FlutterFlowTheme.of(context)
@@ -247,7 +250,7 @@ class _CourtDetailsWidgetState extends State<CourtDetailsWidget> {
                                                                 commentsRecord.where(
                                                                     'court',
                                                                     isEqualTo:
-                                                                        courtDetailsCourtsRecord
+                                                                        courtDetailsCopyCourtsRecord
                                                                             .reference),
                                                           ),
                                                           builder: (context,
@@ -303,7 +306,7 @@ class _CourtDetailsWidgetState extends State<CourtDetailsWidget> {
                                             0, 0, 0, 12),
                                         child: StreamBuilder<CourtsRecord>(
                                           stream: CourtsRecord.getDocument(
-                                              courtDetailsCourtsRecord
+                                              courtDetailsCopyCourtsRecord
                                                   .reference),
                                           builder: (context, snapshot) {
                                             // Customize what your widget looks like when it's loading.
@@ -380,7 +383,7 @@ class _CourtDetailsWidgetState extends State<CourtDetailsWidget> {
                                                     .where(
                                                         'courtRef',
                                                         isEqualTo: widget
-                                                            .court!.reference)
+                                                            .court2!.reference)
                                                     .where('dateTimeStamp',
                                                         isGreaterThanOrEqualTo:
                                                             getCurrentTimestamp)
@@ -642,164 +645,31 @@ class _CourtDetailsWidgetState extends State<CourtDetailsWidget> {
                                                                     return FFButtonWidget(
                                                                       onPressed:
                                                                           () async {
-                                                                        var _shouldSetState =
-                                                                            false;
-                                                                        if (userList5ChatsRecord.users!.toList().contains(currentUserReference) ==
-                                                                            true) {
-                                                                          context
-                                                                              .pushNamed(
-                                                                            'ChatPage',
-                                                                            queryParams:
-                                                                                {
-                                                                              'eventGroupChat': serializeParam(
-                                                                                userList5ChatsRecord,
-                                                                                ParamType.Document,
-                                                                              ),
-                                                                              'chatRef': serializeParam(
-                                                                                userList5ChatsRecord.reference,
-                                                                                ParamType.DocumentReference,
-                                                                              ),
-                                                                            }.withoutNulls,
-                                                                            extra: <String,
-                                                                                dynamic>{
-                                                                              'eventGroupChat': userList5ChatsRecord,
-                                                                            },
-                                                                          );
-
-                                                                          if (_shouldSetState)
-                                                                            setState(() {});
-                                                                          return;
-                                                                        } else {
-                                                                          groupChat3 = await FFChatManager
-                                                                              .instance
-                                                                              .addGroupMembers(
-                                                                            userList5ChatsRecord,
-                                                                            [
-                                                                              currentUserReference!
-                                                                            ],
-                                                                          );
-                                                                          _shouldSetState =
-                                                                              true;
-
-                                                                          final chatMessagesCreateData =
-                                                                              createChatMessagesRecordData(
-                                                                            user:
-                                                                                buttonUsersRecord!.reference,
-                                                                            chat:
-                                                                                userList5ChatsRecord.reference,
-                                                                            text:
-                                                                                'Automatic Message: New user has joined the event:',
-                                                                            timestamp:
-                                                                                getCurrentTimestamp,
-                                                                          );
-                                                                          var chatMessagesRecordReference = ChatMessagesRecord
-                                                                              .collection
-                                                                              .doc();
-                                                                          await chatMessagesRecordReference
-                                                                              .set(chatMessagesCreateData);
-                                                                          lastMessaged = ChatMessagesRecord.getDocumentFromData(
-                                                                              chatMessagesCreateData,
-                                                                              chatMessagesRecordReference);
-                                                                          _shouldSetState =
-                                                                              true;
-
-                                                                          final chatsUpdateData =
+                                                                        context
+                                                                            .pushNamed(
+                                                                          'eventDetails',
+                                                                          params:
                                                                               {
-                                                                            ...createChatsRecordData(
-                                                                              userA: groupChat3!.userA,
-                                                                              userB: groupChat3!.userB,
-                                                                              lastMessage: lastMessaged!.text,
-                                                                              lastMessageTime: lastMessaged!.timestamp,
-                                                                              lastMessageSentBy: lastMessaged!.user,
+                                                                            'event':
+                                                                                serializeParam(
+                                                                              listViewEventsRecord,
+                                                                              ParamType.Document,
                                                                             ),
-                                                                            'users':
-                                                                                FieldValue.arrayUnion([
-                                                                              currentUserReference
-                                                                            ]),
-                                                                            'last_message_seen_by':
-                                                                                groupChat3!.lastMessageSeenBy!.toList(),
-                                                                            'numUsers':
-                                                                                FieldValue.increment(1),
-                                                                          };
-                                                                          await listViewEventsRecord
-                                                                              .groupChatRef!
-                                                                              .update(chatsUpdateData);
-                                                                          await showDialog(
-                                                                            context:
-                                                                                context,
-                                                                            builder:
-                                                                                (alertDialogContext) {
-                                                                              return AlertDialog(
-                                                                                title: Text('You\'re in!'),
-                                                                                content: Text('You\'ve successfully joined the event!'),
-                                                                                actions: [
-                                                                                  TextButton(
-                                                                                    onPressed: () => Navigator.pop(alertDialogContext),
-                                                                                    child: Text('Go to event group chat'),
-                                                                                  ),
-                                                                                ],
-                                                                              );
-                                                                            },
-                                                                          );
-
-                                                                          context
-                                                                              .pushNamed(
-                                                                            'ChatPage',
-                                                                            queryParams:
-                                                                                {
-                                                                              'eventGroupChat': serializeParam(
-                                                                                groupChat3,
-                                                                                ParamType.Document,
-                                                                              ),
-                                                                              'chatRef': serializeParam(
-                                                                                groupChat3!.reference,
-                                                                                ParamType.DocumentReference,
-                                                                              ),
-                                                                            }.withoutNulls,
-                                                                            extra: <String,
-                                                                                dynamic>{
-                                                                              'eventGroupChat': groupChat3,
-                                                                            },
-                                                                          );
-                                                                        }
-
-                                                                        final chatMessagesCreateData =
-                                                                            createChatMessagesRecordData(
-                                                                          user:
-                                                                              buttonUsersRecord!.reference,
-                                                                          chat:
-                                                                              listViewEventsRecord.groupChatRef,
-                                                                          text:
-                                                                              currentUserDisplayName,
-                                                                          timestamp:
-                                                                              getCurrentTimestamp,
+                                                                            'chat':
+                                                                                serializeParam(
+                                                                              userList5ChatsRecord,
+                                                                              ParamType.Document,
+                                                                            ),
+                                                                          }.withoutNulls,
+                                                                          extra: <
+                                                                              String,
+                                                                              dynamic>{
+                                                                            'event':
+                                                                                listViewEventsRecord,
+                                                                            'chat':
+                                                                                userList5ChatsRecord,
+                                                                          },
                                                                         );
-                                                                        var chatMessagesRecordReference = ChatMessagesRecord
-                                                                            .collection
-                                                                            .doc();
-                                                                        await chatMessagesRecordReference
-                                                                            .set(chatMessagesCreateData);
-                                                                        lastmessage2 = ChatMessagesRecord.getDocumentFromData(
-                                                                            chatMessagesCreateData,
-                                                                            chatMessagesRecordReference);
-                                                                        _shouldSetState =
-                                                                            true;
-
-                                                                        final chatsUpdateData =
-                                                                            createChatsRecordData(
-                                                                          lastMessage:
-                                                                              lastmessage2!.text,
-                                                                          lastMessageTime:
-                                                                              lastmessage2!.timestamp,
-                                                                          lastMessageSentBy:
-                                                                              lastmessage2!.user,
-                                                                        );
-                                                                        await listViewEventsRecord
-                                                                            .groupChatRef!
-                                                                            .update(chatsUpdateData);
-                                                                        if (_shouldSetState)
-                                                                          setState(
-                                                                              () {});
                                                                       },
                                                                       text:
                                                                           'Join Event',
@@ -899,7 +769,7 @@ class _CourtDetailsWidgetState extends State<CourtDetailsWidget> {
                                 FFButtonWidget(
                                   onPressed: () async {
                                     await launchURL(functions.getMapUrl(
-                                        courtDetailsCourtsRecord.location));
+                                        courtDetailsCopyCourtsRecord.location));
                                   },
                                   text: 'Open in Maps',
                                   options: FFButtonOptions(
@@ -927,13 +797,13 @@ class _CourtDetailsWidgetState extends State<CourtDetailsWidget> {
                                       'createeventpage',
                                       queryParams: {
                                         'createeventpage': serializeParam(
-                                          courtDetailsCourtsRecord,
+                                          courtDetailsCopyCourtsRecord,
                                           ParamType.Document,
                                         ),
                                       }.withoutNulls,
                                       extra: <String, dynamic>{
                                         'createeventpage':
-                                            courtDetailsCourtsRecord,
+                                            courtDetailsCopyCourtsRecord,
                                       },
                                     );
                                   },
@@ -964,12 +834,12 @@ class _CourtDetailsWidgetState extends State<CourtDetailsWidget> {
                                       'rateCourtPage',
                                       queryParams: {
                                         'court': serializeParam(
-                                          courtDetailsCourtsRecord,
+                                          courtDetailsCopyCourtsRecord,
                                           ParamType.Document,
                                         ),
                                       }.withoutNulls,
                                       extra: <String, dynamic>{
-                                        'court': courtDetailsCourtsRecord,
+                                        'court': courtDetailsCopyCourtsRecord,
                                       },
                                     );
                                   },

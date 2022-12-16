@@ -116,15 +116,15 @@ class _FindCourtWidgetState extends State<FindCourtWidget> {
                                       findCourtCourtsRecord.location!,
                                       () async {
                                         context.pushNamed(
-                                          'courtDetails',
-                                          queryParams: {
-                                            'court': serializeParam(
+                                          'courtDetailsCopy',
+                                          params: {
+                                            'court2': serializeParam(
                                               findCourtCourtsRecord,
                                               ParamType.Document,
                                             ),
                                           }.withoutNulls,
                                           extra: <String, dynamic>{
-                                            'court': findCourtCourtsRecord,
+                                            'court2': findCourtCourtsRecord,
                                           },
                                         );
                                       },

@@ -10,6 +10,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:share_plus/share_plus.dart';
 
 class ChatPageWidget extends StatefulWidget {
   const ChatPageWidget({
@@ -97,6 +98,12 @@ class _ChatPageWidgetState extends State<ChatPageWidget>
                           onTap: () async {
                             context.pushNamed(
                               'peopleprofile',
+                              queryParams: {
+                                'peopleprofileparameter': serializeParam(
+                                  widget.chatUser!.reference,
+                                  ParamType.DocumentReference,
+                                ),
+                              }.withoutNulls,
                               extra: <String, dynamic>{
                                 kTransitionInfoKey: TransitionInfo(
                                   hasTransition: true,
@@ -124,6 +131,9 @@ class _ChatPageWidgetState extends State<ChatPageWidget>
                           valueOrDefault<String>(
                             _chatInfo!.chatRecord.chatEventName,
                             'Group Chat',
+                          ).maybeHandleOverflow(
+                            maxChars: 22,
+                            replacement: '…',
                           ),
                           style:
                               FlutterFlowTheme.of(context).bodyText1.override(
@@ -175,38 +185,92 @@ class _ChatPageWidgetState extends State<ChatPageWidget>
                           ),
                         ),
                       ),
+                    if (isGroupChat() == true)
+                      Align(
+                        alignment: AlignmentDirectional(0.36, -1.83),
+                        child: FlutterFlowIconButton(
+                          borderColor: Colors.transparent,
+                          borderRadius: 30,
+                          borderWidth: 1,
+                          buttonSize: 60,
+                          icon: Icon(
+                            Icons.ios_share,
+                            color: FlutterFlowTheme.of(context).primaryText,
+                            size: 30,
+                          ),
+                          onPressed: () async {
+                            if (isAndroid == true) {
+                              await Share.share(
+                                  'https://play.google.com/store/apps/details?id=com.flutterflow.courts');
+                            } else {
+                              await Share.share(
+                                  'https://apps.apple.com/us/app/quicksports/id1629551608');
+                            }
+                          },
+                        ),
+                      ),
+                    if (isGroupChat() == true)
+                      Align(
+                        alignment: AlignmentDirectional(0.75, -1.83),
+                        child: FlutterFlowIconButton(
+                          borderColor: Colors.transparent,
+                          borderRadius: 30,
+                          borderWidth: 1,
+                          buttonSize: 60,
+                          icon: Icon(
+                            Icons.people_outlined,
+                            color: FlutterFlowTheme.of(context).primaryText,
+                            size: 30,
+                          ),
+                          onPressed: () async {
+                            context.pushNamed(
+                              'groupChatPeopleList',
+                              queryParams: {
+                                'groupChat': serializeParam(
+                                  _chatInfo!.chatRecord,
+                                  ParamType.Document,
+                                ),
+                                'groupChatRef': serializeParam(
+                                  _chatInfo!.chatRecord.reference,
+                                  ParamType.DocumentReference,
+                                ),
+                              }.withoutNulls,
+                              extra: <String, dynamic>{
+                                'groupChat': _chatInfo!.chatRecord,
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                    if (isGroupChat())
+                      Align(
+                        alignment: AlignmentDirectional(0.99, -0.95),
+                        child: InkWell(
+                          onTap: () async {
+                            context.pushNamed(
+                              'creategroupchatNOTNEWCopy',
+                              queryParams: {
+                                'specificChat2': serializeParam(
+                                  _chatInfo!.chatRecord,
+                                  ParamType.Document,
+                                ),
+                              }.withoutNulls,
+                              extra: <String, dynamic>{
+                                'specificChat2': _chatInfo!.chatRecord,
+                              },
+                            );
+                          },
+                          child: Icon(
+                            Icons.person_add,
+                            color: FlutterFlowTheme.of(context).primaryText,
+                            size: 30,
+                          ),
+                        ),
+                      ),
                   ],
                 ),
               ),
-              actions: [
-                Visibility(
-                  visible: isGroupChat(),
-                  child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 20, 0),
-                    child: InkWell(
-                      onTap: () async {
-                        context.pushNamed(
-                          'creategroupchatNOTNEWCopy',
-                          queryParams: {
-                            'specificChat2': serializeParam(
-                              _chatInfo!.chatRecord,
-                              ParamType.Document,
-                            ),
-                          }.withoutNulls,
-                          extra: <String, dynamic>{
-                            'specificChat2': _chatInfo!.chatRecord,
-                          },
-                        );
-                      },
-                      child: Icon(
-                        Icons.person_add,
-                        color: Colors.black,
-                        size: 24,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+              actions: [],
               centerTitle: false,
               toolbarHeight: MediaQuery.of(context).size.height * 1,
               elevation: 2,

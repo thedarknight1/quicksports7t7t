@@ -106,6 +106,34 @@ class _$EventsRecordSerializer implements StructuredSerializer<EventsRecord> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(LatLng)));
     }
+    value = object.zipcode;
+    if (value != null) {
+      result
+        ..add('Zipcode')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.city;
+    if (value != null) {
+      result
+        ..add('City')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.state;
+    if (value != null) {
+      result
+        ..add('State')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.address;
+    if (value != null) {
+      result
+        ..add('Address')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     value = object.ffRef;
     if (value != null) {
       result
@@ -181,6 +209,22 @@ class _$EventsRecordSerializer implements StructuredSerializer<EventsRecord> {
           result.latLngLocation = serializers.deserialize(value,
               specifiedType: const FullType(LatLng)) as LatLng?;
           break;
+        case 'Zipcode':
+          result.zipcode = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'City':
+          result.city = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'State':
+          result.state = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'Address':
+          result.address = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
         case 'Document__Reference__Field':
           result.ffRef = serializers.deserialize(value,
               specifiedType: const FullType(DocumentReference, const [
@@ -220,6 +264,14 @@ class _$EventsRecord extends EventsRecord {
   @override
   final LatLng? latLngLocation;
   @override
+  final String? zipcode;
+  @override
+  final String? city;
+  @override
+  final String? state;
+  @override
+  final String? address;
+  @override
   final DocumentReference<Object?>? ffRef;
 
   factory _$EventsRecord([void Function(EventsRecordBuilder)? updates]) =>
@@ -238,6 +290,10 @@ class _$EventsRecord extends EventsRecord {
       this.groupChatRef,
       this.dateTimeStamp,
       this.latLngLocation,
+      this.zipcode,
+      this.city,
+      this.state,
+      this.address,
       this.ffRef})
       : super._();
 
@@ -264,6 +320,10 @@ class _$EventsRecord extends EventsRecord {
         groupChatRef == other.groupChatRef &&
         dateTimeStamp == other.dateTimeStamp &&
         latLngLocation == other.latLngLocation &&
+        zipcode == other.zipcode &&
+        city == other.city &&
+        state == other.state &&
+        address == other.address &&
         ffRef == other.ffRef;
   }
 
@@ -281,19 +341,29 @@ class _$EventsRecord extends EventsRecord {
                                         $jc(
                                             $jc(
                                                 $jc(
-                                                    $jc(0,
-                                                        description.hashCode),
-                                                    date.hashCode),
-                                                time.hashCode),
-                                            activity.hashCode),
-                                        playerage.hashCode),
-                                    playercount.hashCode),
-                                locationname.hashCode),
-                            eventsportname.hashCode),
-                        courtRef.hashCode),
-                    groupChatRef.hashCode),
-                dateTimeStamp.hashCode),
-            latLngLocation.hashCode),
+                                                    $jc(
+                                                        $jc(
+                                                            $jc(
+                                                                $jc(
+                                                                    $jc(
+                                                                        0,
+                                                                        description
+                                                                            .hashCode),
+                                                                    date.hashCode),
+                                                                time.hashCode),
+                                                            activity.hashCode),
+                                                        playerage.hashCode),
+                                                    playercount.hashCode),
+                                                locationname.hashCode),
+                                            eventsportname.hashCode),
+                                        courtRef.hashCode),
+                                    groupChatRef.hashCode),
+                                dateTimeStamp.hashCode),
+                            latLngLocation.hashCode),
+                        zipcode.hashCode),
+                    city.hashCode),
+                state.hashCode),
+            address.hashCode),
         ffRef.hashCode));
   }
 
@@ -312,6 +382,10 @@ class _$EventsRecord extends EventsRecord {
           ..add('groupChatRef', groupChatRef)
           ..add('dateTimeStamp', dateTimeStamp)
           ..add('latLngLocation', latLngLocation)
+          ..add('zipcode', zipcode)
+          ..add('city', city)
+          ..add('state', state)
+          ..add('address', address)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -374,6 +448,22 @@ class EventsRecordBuilder
   set latLngLocation(LatLng? latLngLocation) =>
       _$this._latLngLocation = latLngLocation;
 
+  String? _zipcode;
+  String? get zipcode => _$this._zipcode;
+  set zipcode(String? zipcode) => _$this._zipcode = zipcode;
+
+  String? _city;
+  String? get city => _$this._city;
+  set city(String? city) => _$this._city = city;
+
+  String? _state;
+  String? get state => _$this._state;
+  set state(String? state) => _$this._state = state;
+
+  String? _address;
+  String? get address => _$this._address;
+  set address(String? address) => _$this._address = address;
+
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
   set ffRef(DocumentReference<Object?>? ffRef) => _$this._ffRef = ffRef;
@@ -397,6 +487,10 @@ class EventsRecordBuilder
       _groupChatRef = $v.groupChatRef;
       _dateTimeStamp = $v.dateTimeStamp;
       _latLngLocation = $v.latLngLocation;
+      _zipcode = $v.zipcode;
+      _city = $v.city;
+      _state = $v.state;
+      _address = $v.address;
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -432,6 +526,10 @@ class EventsRecordBuilder
             groupChatRef: groupChatRef,
             dateTimeStamp: dateTimeStamp,
             latLngLocation: latLngLocation,
+            zipcode: zipcode,
+            city: city,
+            state: state,
+            address: address,
             ffRef: ffRef);
     replace(_$result);
     return _$result;
