@@ -42,6 +42,7 @@ class _CreategroupchatNOTNEWCopyWidgetState
   ChatMessagesRecord? lastChat;
   ChatsRecord? groupChatfromAddGroupPage;
   ChatsRecord? groupChatfromAddGroupPage2;
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -53,6 +54,7 @@ class _CreategroupchatNOTNEWCopyWidgetState
 
   @override
   void dispose() {
+    _unfocusNode.dispose();
     textController?.dispose();
     super.dispose();
   }
@@ -101,7 +103,7 @@ class _CreategroupchatNOTNEWCopyWidgetState
             elevation: 0,
           ),
           body: GestureDetector(
-            onTap: () => FocusScope.of(context).unfocus(),
+            onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
             child: Stack(
               children: [
                 FutureBuilder<List<EventsRecord>>(
@@ -247,10 +249,10 @@ class _CreategroupchatNOTNEWCopyWidgetState
                                   ),
                                 );
                               }
-                              final algoliaResults = algoliaSearchResults!
-                                  .toList()
-                                  .take(20)
-                                  .toList();
+                              final algoliaResults =
+                                  (algoliaSearchResults?.toList() ?? [])
+                                      .take(20)
+                                      .toList();
                               return ListView.builder(
                                 padding: EdgeInsets.zero,
                                 shrinkWrap: true,

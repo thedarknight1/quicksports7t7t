@@ -15,12 +15,11 @@ class RegisterPageWidget extends StatefulWidget {
 
 class _RegisterPageWidgetState extends State<RegisterPageWidget> {
   TextEditingController? confirmPasswordTextController;
-
   late bool passwordVisibility2;
   TextEditingController? inputNormalController;
   TextEditingController? passwordTextController;
-
   late bool passwordVisibility1;
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -36,6 +35,7 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
 
   @override
   void dispose() {
+    _unfocusNode.dispose();
     confirmPasswordTextController?.dispose();
     inputNormalController?.dispose();
     passwordTextController?.dispose();
@@ -52,7 +52,7 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
           backgroundColor: Colors.white,
           body: SafeArea(
             child: GestureDetector(
-              onTap: () => FocusScope.of(context).unfocus(),
+              onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
               child: Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
                 child: Column(

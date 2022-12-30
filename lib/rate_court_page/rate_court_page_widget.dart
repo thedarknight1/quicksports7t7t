@@ -26,6 +26,7 @@ class RateCourtPageWidget extends StatefulWidget {
 class _RateCourtPageWidgetState extends State<RateCourtPageWidget> {
   TextEditingController? textController;
   double? ratingBarValue;
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -37,6 +38,7 @@ class _RateCourtPageWidgetState extends State<RateCourtPageWidget> {
 
   @override
   void dispose() {
+    _unfocusNode.dispose();
     textController?.dispose();
     super.dispose();
   }
@@ -75,7 +77,7 @@ class _RateCourtPageWidgetState extends State<RateCourtPageWidget> {
           ),
           body: SafeArea(
             child: GestureDetector(
-              onTap: () => FocusScope.of(context).unfocus(),
+              onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
               child: Stack(
                 children: [
                   Padding(

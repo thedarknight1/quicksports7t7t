@@ -51,6 +51,7 @@ class _UsersearcherWidgetState extends State<UsersearcherWidget>
   Query? _pagingQuery;
   List<StreamSubscription?> _streamSubscriptions = [];
 
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -71,6 +72,7 @@ class _UsersearcherWidgetState extends State<UsersearcherWidget>
   void dispose() {
     _streamSubscriptions.forEach((s) => s?.cancel());
     textController?.dispose();
+    _unfocusNode.dispose();
     super.dispose();
   }
 
@@ -97,7 +99,7 @@ class _UsersearcherWidgetState extends State<UsersearcherWidget>
             elevation: 0,
           ),
           body: GestureDetector(
-            onTap: () => FocusScope.of(context).unfocus(),
+            onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
             child: Stack(
               children: [
                 SingleChildScrollView(
@@ -215,7 +217,7 @@ class _UsersearcherWidgetState extends State<UsersearcherWidget>
                               );
                             }
                             final algoliaResults =
-                                algoliaSearchResults1!.toList();
+                                algoliaSearchResults1?.toList() ?? [];
                             return ListView.builder(
                               padding: EdgeInsets.zero,
                               shrinkWrap: true,
@@ -426,8 +428,8 @@ class _UsersearcherWidgetState extends State<UsersearcherWidget>
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(0, 12, 0, 44),
                         child: AuthUserStreamWidget(
-                          child: PagedListView<DocumentSnapshot<Object?>?,
-                              UsersRecord>(
+                          builder: (context) => PagedListView<
+                              DocumentSnapshot<Object?>?, UsersRecord>(
                             pagingController: () {
                               final Query<Object?> Function(Query<Object?>)
                                   queryBuilder =
@@ -471,12 +473,12 @@ class _UsersearcherWidgetState extends State<UsersearcherWidget>
                                   );
                                   final streamSubscription =
                                       page.dataStream?.listen((data) {
-                                    final itemIndexes = _pagingController!
-                                        .itemList!
-                                        .asMap()
-                                        .map((k, v) =>
-                                            MapEntry(v.reference.id, k));
                                     data.forEach((item) {
+                                      final itemIndexes = _pagingController!
+                                          .itemList!
+                                          .asMap()
+                                          .map((k, v) =>
+                                              MapEntry(v.reference.id, k));
                                       final index =
                                           itemIndexes[item.reference.id];
                                       final items =
@@ -569,8 +571,8 @@ class _UsersearcherWidgetState extends State<UsersearcherWidget>
                                                         .photoUrl,
                                                     'https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg',
                                                   ),
-                                                  width: 36,
-                                                  height: 36,
+                                                  width: 40,
+                                                  height: 40,
                                                   fit: BoxFit.cover,
                                                 ),
                                               ),

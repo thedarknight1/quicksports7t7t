@@ -26,6 +26,7 @@ class _InterestscreateprofileWidgetState
   TextEditingController? favAthleteController;
   TextEditingController? favSportsTeamController;
   bool? checkboxListTileValue;
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -38,6 +39,7 @@ class _InterestscreateprofileWidgetState
 
   @override
   void dispose() {
+    _unfocusNode.dispose();
     favAthleteController?.dispose();
     favSportsTeamController?.dispose();
     super.dispose();
@@ -114,7 +116,7 @@ class _InterestscreateprofileWidgetState
           ),
           body: SafeArea(
             child: GestureDetector(
-              onTap: () => FocusScope.of(context).unfocus(),
+              onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [

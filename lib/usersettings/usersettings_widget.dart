@@ -68,10 +68,13 @@ class _UsersettingsWidgetState extends State<UsersettingsWidget> {
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         2, 2, 2, 2),
                                     child: AuthUserStreamWidget(
-                                      child: ClipRRect(
+                                      builder: (context) => ClipRRect(
                                         borderRadius: BorderRadius.circular(8),
                                         child: Image.network(
-                                          currentUserPhoto,
+                                          valueOrDefault<String>(
+                                            currentUserPhoto,
+                                            'https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg',
+                                          ),
                                           width: 80,
                                           height: 80,
                                           fit: BoxFit.cover,
@@ -92,7 +95,7 @@ class _UsersettingsWidgetState extends State<UsersettingsWidget> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         AuthUserStreamWidget(
-                                          child: Text(
+                                          builder: (context) => Text(
                                             currentUserDisplayName,
                                             textAlign: TextAlign.start,
                                             style: FlutterFlowTheme.of(context)

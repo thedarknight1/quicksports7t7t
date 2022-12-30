@@ -163,28 +163,31 @@ class _CourtAddedSuccessCopyCopyWidgetState
                     ),
                   ],
                 ),
-                Column(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Expanded(
-                          child: FlutterFlowAdBanner(
-                            width: MediaQuery.of(context).size.width,
-                            height: 50,
-                            showsTestAd: false,
-                            iOSAdUnitID:
-                                'ca-app-pub-4806655917667448/8256623375',
-                            androidAdUnitID:
-                                'ca-app-pub-4806655917667448/1138596979',
+                Align(
+                  alignment: AlignmentDirectional(0, 1),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Expanded(
+                            child: FlutterFlowAdBanner(
+                              width: MediaQuery.of(context).size.width,
+                              height: 50,
+                              showsTestAd: false,
+                              iOSAdUnitID:
+                                  'ca-app-pub-4806655917667448/8256623375',
+                              androidAdUnitID:
+                                  'ca-app-pub-4806655917667448/1138596979',
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

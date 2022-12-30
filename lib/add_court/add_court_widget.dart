@@ -40,6 +40,7 @@ class _AddCourtWidgetState extends State<AddCourtWidget> {
   TextEditingController? textController;
   bool? checkboxListTileValue1;
   bool? checkboxListTileValue2;
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -51,6 +52,7 @@ class _AddCourtWidgetState extends State<AddCourtWidget> {
 
   @override
   void dispose() {
+    _unfocusNode.dispose();
     textController?.dispose();
     super.dispose();
   }
@@ -89,7 +91,7 @@ class _AddCourtWidgetState extends State<AddCourtWidget> {
           ),
           body: SafeArea(
             child: GestureDetector(
-              onTap: () => FocusScope.of(context).unfocus(),
+              onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
               child: Stack(
                 children: [
                   SingleChildScrollView(

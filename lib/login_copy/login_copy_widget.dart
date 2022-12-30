@@ -18,8 +18,8 @@ class LoginCopyWidget extends StatefulWidget {
 class _LoginCopyWidgetState extends State<LoginCopyWidget> {
   TextEditingController? emailAddressController;
   TextEditingController? passwordController;
-
   late bool passwordVisibility;
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -33,6 +33,7 @@ class _LoginCopyWidgetState extends State<LoginCopyWidget> {
 
   @override
   void dispose() {
+    _unfocusNode.dispose();
     emailAddressController?.dispose();
     passwordController?.dispose();
     super.dispose();
@@ -47,7 +48,7 @@ class _LoginCopyWidgetState extends State<LoginCopyWidget> {
           key: scaffoldKey,
           backgroundColor: Colors.white,
           body: GestureDetector(
-            onTap: () => FocusScope.of(context).unfocus(),
+            onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
             child: Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * 1,
@@ -378,9 +379,17 @@ class _LoginCopyWidgetState extends State<LoginCopyWidget> {
                                           if (user == null) {
                                             return;
                                           }
-
-                                          context.goNamedAuth(
-                                              'findCourt', mounted);
+                                          if (valueOrDefault<bool>(
+                                                  currentUserDocument
+                                                      ?.agreedToTerms,
+                                                  false) !=
+                                              null) {
+                                            context.goNamedAuth(
+                                                'findCourt', mounted);
+                                          } else {
+                                            context.pushNamedAuth(
+                                                'createprofilefirst', mounted);
+                                          }
                                         },
                                         text: 'Sign in with Apple',
                                         icon: FaIcon(
@@ -426,11 +435,14 @@ class _LoginCopyWidgetState extends State<LoginCopyWidget> {
                                             if (user == null) {
                                               return;
                                             }
-                                            if (!(valueOrDefault<bool>(
+                                            if (valueOrDefault<bool>(
                                                     currentUserDocument
                                                         ?.agreedToTerms,
                                                     false) !=
-                                                null)) {
+                                                null) {
+                                              context.pushNamedAuth(
+                                                  'findCourt', mounted);
+                                            } else {
                                               context.pushNamedAuth(
                                                   'createprofilefirst',
                                                   mounted);

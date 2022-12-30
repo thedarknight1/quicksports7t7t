@@ -59,6 +59,8 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
 
   DateTime? get birthday;
 
+  String? get bio;
+
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
   DocumentReference get reference => ffRef!;
@@ -81,7 +83,8 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
     ..address = ''
     ..country = ''
     ..agreedToTerms = false
-    ..age = 0;
+    ..age = 0
+    ..bio = '';
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('users');
@@ -122,6 +125,7 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
           ..age = snapshot.data['age']?.round()
           ..birthday = safeGet(() =>
               DateTime.fromMillisecondsSinceEpoch(snapshot.data['birthday']))
+          ..bio = snapshot.data['bio']
           ..ffRef = UsersRecord.collection.doc(snapshot.objectID),
       );
 
@@ -172,6 +176,7 @@ Map<String, dynamic> createUsersRecordData({
   bool? agreedToTerms,
   int? age,
   DateTime? birthday,
+  String? bio,
 }) {
   final firestoreData = serializers.toFirestore(
     UsersRecord.serializer,
@@ -197,7 +202,8 @@ Map<String, dynamic> createUsersRecordData({
         ..country = country
         ..agreedToTerms = agreedToTerms
         ..age = age
-        ..birthday = birthday,
+        ..birthday = birthday
+        ..bio = bio,
     ),
   );
 

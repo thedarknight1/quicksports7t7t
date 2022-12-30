@@ -185,7 +185,10 @@ class _LocationprofileWidgetState extends State<LocationprofileWidget> {
                         );
                       }
                     },
-                    text: 'Set Birthday',
+                    text: valueOrDefault<String>(
+                      datePicked != null ? 'Confirmed' : 'Set Birthday',
+                      'Set Birthday',
+                    ),
                     icon: FaIcon(
                       FontAwesomeIcons.birthdayCake,
                     ),

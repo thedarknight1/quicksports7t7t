@@ -22,6 +22,7 @@ class _EventsNearYouWidgetState extends State<EventsNearYouWidget> {
   ChatsRecord? groupChat3;
   ChatMessagesRecord? lastmessage2;
   LatLng? currentUserLocationValue;
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -30,6 +31,12 @@ class _EventsNearYouWidgetState extends State<EventsNearYouWidget> {
     getCurrentUserLocation(defaultLocation: LatLng(0.0, 0.0), cached: true)
         .then((loc) => setState(() => currentUserLocationValue = loc));
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+  }
+
+  @override
+  void dispose() {
+    _unfocusNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -93,7 +100,7 @@ class _EventsNearYouWidgetState extends State<EventsNearYouWidget> {
                 elevation: 0,
               ),
               body: GestureDetector(
-                onTap: () => FocusScope.of(context).unfocus(),
+                onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisSize: MainAxisSize.max,

@@ -165,6 +165,13 @@ class _$UsersRecordSerializer implements StructuredSerializer<UsersRecord> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(DateTime)));
     }
+    value = object.bio;
+    if (value != null) {
+      result
+        ..add('bio')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     value = object.ffRef;
     if (value != null) {
       result
@@ -271,6 +278,10 @@ class _$UsersRecordSerializer implements StructuredSerializer<UsersRecord> {
           result.birthday = serializers.deserialize(value,
               specifiedType: const FullType(DateTime)) as DateTime?;
           break;
+        case 'bio':
+          result.bio = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
         case 'Document__Reference__Field':
           result.ffRef = serializers.deserialize(value,
               specifiedType: const FullType(DocumentReference, const [
@@ -328,6 +339,8 @@ class _$UsersRecord extends UsersRecord {
   @override
   final DateTime? birthday;
   @override
+  final String? bio;
+  @override
   final DocumentReference<Object?>? ffRef;
 
   factory _$UsersRecord([void Function(UsersRecordBuilder)? updates]) =>
@@ -355,6 +368,7 @@ class _$UsersRecord extends UsersRecord {
       this.agreedToTerms,
       this.age,
       this.birthday,
+      this.bio,
       this.ffRef})
       : super._();
 
@@ -390,6 +404,7 @@ class _$UsersRecord extends UsersRecord {
         agreedToTerms == other.agreedToTerms &&
         age == other.age &&
         birthday == other.birthday &&
+        bio == other.bio &&
         ffRef == other.ffRef;
   }
 
@@ -413,25 +428,25 @@ class _$UsersRecord extends UsersRecord {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc($jc($jc(0, email.hashCode), displayName.hashCode), photoUrl.hashCode),
-                                                                                uid.hashCode),
-                                                                            createdTime.hashCode),
-                                                                        phoneNumber.hashCode),
-                                                                    username.hashCode),
-                                                                favsport.hashCode),
-                                                            favteam.hashCode),
-                                                        favplayer.hashCode),
-                                                    favsport2.hashCode),
-                                                favsport3.hashCode),
-                                            city.hashCode),
-                                        zips.hashCode),
-                                    stateName.hashCode),
-                                latLngLocation.hashCode),
-                            address.hashCode),
-                        country.hashCode),
-                    agreedToTerms.hashCode),
-                age.hashCode),
-            birthday.hashCode),
+                                                                            $jc($jc($jc($jc($jc(0, email.hashCode), displayName.hashCode), photoUrl.hashCode), uid.hashCode),
+                                                                                createdTime.hashCode),
+                                                                            phoneNumber.hashCode),
+                                                                        username.hashCode),
+                                                                    favsport.hashCode),
+                                                                favteam.hashCode),
+                                                            favplayer.hashCode),
+                                                        favsport2.hashCode),
+                                                    favsport3.hashCode),
+                                                city.hashCode),
+                                            zips.hashCode),
+                                        stateName.hashCode),
+                                    latLngLocation.hashCode),
+                                address.hashCode),
+                            country.hashCode),
+                        agreedToTerms.hashCode),
+                    age.hashCode),
+                birthday.hashCode),
+            bio.hashCode),
         ffRef.hashCode));
   }
 
@@ -459,6 +474,7 @@ class _$UsersRecord extends UsersRecord {
           ..add('agreedToTerms', agreedToTerms)
           ..add('age', age)
           ..add('birthday', birthday)
+          ..add('bio', bio)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -553,6 +569,10 @@ class UsersRecordBuilder implements Builder<UsersRecord, UsersRecordBuilder> {
   DateTime? get birthday => _$this._birthday;
   set birthday(DateTime? birthday) => _$this._birthday = birthday;
 
+  String? _bio;
+  String? get bio => _$this._bio;
+  set bio(String? bio) => _$this._bio = bio;
+
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
   set ffRef(DocumentReference<Object?>? ffRef) => _$this._ffRef = ffRef;
@@ -585,6 +605,7 @@ class UsersRecordBuilder implements Builder<UsersRecord, UsersRecordBuilder> {
       _agreedToTerms = $v.agreedToTerms;
       _age = $v.age;
       _birthday = $v.birthday;
+      _bio = $v.bio;
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -629,6 +650,7 @@ class UsersRecordBuilder implements Builder<UsersRecord, UsersRecordBuilder> {
             agreedToTerms: agreedToTerms,
             age: age,
             birthday: birthday,
+            bio: bio,
             ffRef: ffRef);
     replace(_$result);
     return _$result;

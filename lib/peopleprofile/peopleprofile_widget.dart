@@ -22,6 +22,7 @@ class PeopleprofileWidget extends StatefulWidget {
 }
 
 class _PeopleprofileWidgetState extends State<PeopleprofileWidget> {
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -29,6 +30,12 @@ class _PeopleprofileWidgetState extends State<PeopleprofileWidget> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+  }
+
+  @override
+  void dispose() {
+    _unfocusNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -57,7 +64,7 @@ class _PeopleprofileWidgetState extends State<PeopleprofileWidget> {
               key: scaffoldKey,
               backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
               body: GestureDetector(
-                onTap: () => FocusScope.of(context).unfocus(),
+                onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
                 child: Stack(
                   children: [
                     SingleChildScrollView(

@@ -25,6 +25,7 @@ class _DonateWidgetState extends State<DonateWidget> {
   CreditCardModel creditCardInfo = emptyCreditCard();
   double? sliderValue;
   bool? checkboxListTileValue2;
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -36,6 +37,7 @@ class _DonateWidgetState extends State<DonateWidget> {
 
   @override
   void dispose() {
+    _unfocusNode.dispose();
     textController?.dispose();
     super.dispose();
   }
@@ -79,7 +81,7 @@ class _DonateWidgetState extends State<DonateWidget> {
           ),
           body: SafeArea(
             child: GestureDetector(
-              onTap: () => FocusScope.of(context).unfocus(),
+              onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [

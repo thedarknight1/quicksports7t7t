@@ -15,6 +15,7 @@ class VerifyPhoneWidget extends StatefulWidget {
 
 class _VerifyPhoneWidgetState extends State<VerifyPhoneWidget> {
   TextEditingController? smsCodeTextFieldController;
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -26,6 +27,7 @@ class _VerifyPhoneWidgetState extends State<VerifyPhoneWidget> {
 
   @override
   void dispose() {
+    _unfocusNode.dispose();
     smsCodeTextFieldController?.dispose();
     super.dispose();
   }
@@ -49,7 +51,7 @@ class _VerifyPhoneWidgetState extends State<VerifyPhoneWidget> {
           ),
           body: SafeArea(
             child: GestureDetector(
-              onTap: () => FocusScope.of(context).unfocus(),
+              onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [

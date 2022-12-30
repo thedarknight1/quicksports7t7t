@@ -17,12 +17,11 @@ class CreateAccountWidget extends StatefulWidget {
 
 class _CreateAccountWidgetState extends State<CreateAccountWidget> {
   TextEditingController? confirmPasswordTextController;
-
   late bool passwordVisibility2;
   TextEditingController? inputNormalController;
   TextEditingController? passwordTextController;
-
   late bool passwordVisibility1;
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -38,6 +37,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
 
   @override
   void dispose() {
+    _unfocusNode.dispose();
     confirmPasswordTextController?.dispose();
     inputNormalController?.dispose();
     passwordTextController?.dispose();
@@ -53,7 +53,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
           key: scaffoldKey,
           backgroundColor: Color(0xFF262D34),
           body: GestureDetector(
-            onTap: () => FocusScope.of(context).unfocus(),
+            onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
             child: Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * 1,
@@ -558,11 +558,16 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                                                   if (user == null) {
                                                     return;
                                                   }
-                                                  if (valueOrDefault<bool>(
-                                                          currentUserDocument
-                                                              ?.agreedToTerms,
-                                                          false) !=
-                                                      null) {
+                                                  if (valueOrDefault(
+                                                              currentUserDocument
+                                                                  ?.country,
+                                                              '') !=
+                                                          null &&
+                                                      valueOrDefault(
+                                                              currentUserDocument
+                                                                  ?.country,
+                                                              '') !=
+                                                          '') {
                                                     context.goNamedAuth(
                                                         'findCourt', mounted);
                                                   } else {

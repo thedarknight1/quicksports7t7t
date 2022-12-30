@@ -37,6 +37,7 @@ class _CreategroupchatNOTNEWWidgetState
   List<UsersRecord>? algoliaSearchResults = [];
   TextEditingController? textController;
   ChatsRecord? groupChatfromCreateGroupPage;
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -48,6 +49,7 @@ class _CreategroupchatNOTNEWWidgetState
 
   @override
   void dispose() {
+    _unfocusNode.dispose();
     textController?.dispose();
     super.dispose();
   }
@@ -105,7 +107,7 @@ class _CreategroupchatNOTNEWWidgetState
             elevation: 0,
           ),
           body: GestureDetector(
-            onTap: () => FocusScope.of(context).unfocus(),
+            onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
             child: Align(
               alignment: AlignmentDirectional(0, 0),
               child: Stack(
@@ -224,10 +226,10 @@ class _CreategroupchatNOTNEWWidgetState
                                 ),
                               );
                             }
-                            final algolResults = algoliaSearchResults!
-                                .toList()
-                                .take(20)
-                                .toList();
+                            final algolResults =
+                                (algoliaSearchResults?.toList() ?? [])
+                                    .take(20)
+                                    .toList();
                             return ListView.builder(
                               padding: EdgeInsets.zero,
                               shrinkWrap: true,

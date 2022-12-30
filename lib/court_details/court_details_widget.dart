@@ -123,7 +123,7 @@ class _CourtDetailsWidgetState extends State<CourtDetailsWidget> {
                                                 size: 20,
                                               ),
                                               onPressed: () async {
-                                                context.pushNamed('findCourt');
+                                                context.goNamed('findCourt');
                                               },
                                             ),
                                           ),

@@ -26,19 +26,21 @@ class _CreateprofilefirstWidgetState extends State<CreateprofilefirstWidget> {
   TextEditingController? yourNameController;
   TextEditingController? userNameController;
   TextEditingController? myBioController;
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
     myBioController = TextEditingController();
-    userNameController = TextEditingController(text: '@');
+    userNameController = TextEditingController();
     yourNameController = TextEditingController();
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
   void dispose() {
+    _unfocusNode.dispose();
     myBioController?.dispose();
     userNameController?.dispose();
     yourNameController?.dispose();
@@ -116,7 +118,7 @@ class _CreateprofilefirstWidgetState extends State<CreateprofilefirstWidget> {
           ),
           body: SafeArea(
             child: GestureDetector(
-              onTap: () => FocusScope.of(context).unfocus(),
+              onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
@@ -138,7 +140,7 @@ class _CreateprofilefirstWidgetState extends State<CreateprofilefirstWidget> {
                               padding:
                                   EdgeInsetsDirectional.fromSTEB(2, 2, 2, 2),
                               child: AuthUserStreamWidget(
-                                child: Container(
+                                builder: (context) => Container(
                                   width: 90,
                                   height: 90,
                                   clipBehavior: Clip.antiAlias,
@@ -353,7 +355,7 @@ class _CreateprofilefirstWidgetState extends State<CreateprofilefirstWidget> {
                           obscureText: false,
                           decoration: InputDecoration(
                             labelStyle: FlutterFlowTheme.of(context).bodyText2,
-                            hintText: 'Bio...',
+                            hintText: 'Bio(optional)...',
                             hintStyle: FlutterFlowTheme.of(context).bodyText2,
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
@@ -400,95 +402,71 @@ class _CreateprofilefirstWidgetState extends State<CreateprofilefirstWidget> {
                         alignment: AlignmentDirectional(0, 0.05),
                         child: Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 0),
-                          child: StreamBuilder<List<UsersRecord>>(
-                            stream: queryUsersRecord(),
-                            builder: (context, snapshot) {
-                              // Customize what your widget looks like when it's loading.
-                              if (!snapshot.hasData) {
-                                return Center(
-                                  child: SizedBox(
-                                    width: 50,
-                                    height: 50,
-                                    child: SpinKitRotatingCircle(
-                                      color: Color(0xFFF25454),
-                                      size: 50,
+                          child: FFButtonWidget(
+                            onPressed: () async {
+                              if ((yourNameController!.text != null &&
+                                      yourNameController!.text != '') &&
+                                  (userNameController!.text != null &&
+                                      userNameController!.text != '')) {
+                                final usersUpdateData = createUsersRecordData(
+                                  username: '@${userNameController!.text}',
+                                  displayName: yourNameController!.text,
+                                  bio: myBioController!.text,
+                                );
+                                await currentUserReference!
+                                    .update(usersUpdateData);
+
+                                context.pushNamed(
+                                  'Locationprofile',
+                                  extra: <String, dynamic>{
+                                    kTransitionInfoKey: TransitionInfo(
+                                      hasTransition: true,
+                                      transitionType:
+                                          PageTransitionType.rightToLeft,
                                     ),
-                                  ),
+                                  },
+                                );
+                              } else {
+                                await showDialog(
+                                  context: context,
+                                  builder: (alertDialogContext) {
+                                    return AlertDialog(
+                                      title: Text(
+                                          'Please fill in a display name and username'),
+                                      content: Text(
+                                          'Please fill in a display name and username'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(alertDialogContext),
+                                          child: Text('Ok'),
+                                        ),
+                                      ],
+                                    );
+                                  },
                                 );
                               }
-                              List<UsersRecord> buttonUsersRecordList = snapshot
-                                  .data!
-                                  .where((u) => u.uid != currentUserUid)
-                                  .toList();
-                              return FFButtonWidget(
-                                onPressed: () async {
-                                  if ((yourNameController!.text != null &&
-                                          yourNameController!.text != '') &&
-                                      (userNameController!.text != null &&
-                                          userNameController!.text != '')) {
-                                    final usersUpdateData =
-                                        createUsersRecordData(
-                                      displayName: yourNameController!.text,
-                                      username: userNameController!.text,
-                                      email: '',
-                                    );
-                                    await currentUserReference!
-                                        .update(usersUpdateData);
-
-                                    context.pushNamed(
-                                      'Locationprofile',
-                                      extra: <String, dynamic>{
-                                        kTransitionInfoKey: TransitionInfo(
-                                          hasTransition: true,
-                                          transitionType:
-                                              PageTransitionType.rightToLeft,
-                                        ),
-                                      },
-                                    );
-                                  } else {
-                                    await showDialog(
-                                      context: context,
-                                      builder: (alertDialogContext) {
-                                        return AlertDialog(
-                                          title: Text(
-                                              'Please fill in a display name and username'),
-                                          content: Text(
-                                              'Please fill in a display name and username'),
-                                          actions: [
-                                            TextButton(
-                                              onPressed: () => Navigator.pop(
-                                                  alertDialogContext),
-                                              child: Text('Ok'),
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    );
-                                  }
-                                },
-                                text: 'Continue',
-                                options: FFButtonOptions(
-                                  width: 200,
-                                  height: 60,
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryColor,
-                                  textStyle: FlutterFlowTheme.of(context)
-                                      .subtitle2
-                                      .override(
-                                        fontFamily: 'Lexend Deca',
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.normal,
-                                      ),
-                                  elevation: 2,
-                                  borderSide: BorderSide(
-                                    color: Colors.transparent,
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(50),
-                                ),
-                              );
                             },
+                            text: 'Continue',
+                            options: FFButtonOptions(
+                              width: 200,
+                              height: 60,
+                              color: FlutterFlowTheme.of(context).primaryColor,
+                              textStyle: FlutterFlowTheme.of(context)
+                                  .subtitle2
+                                  .override(
+                                    fontFamily: 'Lexend Deca',
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                              elevation: 2,
+                              borderSide: BorderSide(
+                                color: Colors.transparent,
+                                width: 1,
+                              ),
+                              borderRadius: BorderRadius.circular(50),
+                            ),
                           ),
                         ),
                       ),

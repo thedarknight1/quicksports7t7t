@@ -16,6 +16,7 @@ class ChangePasswordWidget extends StatefulWidget {
 
 class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
   TextEditingController? emailAddressController;
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -27,6 +28,7 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
 
   @override
   void dispose() {
+    _unfocusNode.dispose();
     emailAddressController?.dispose();
     super.dispose();
   }
@@ -84,7 +86,8 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
               ),
               body: SafeArea(
                 child: GestureDetector(
-                  onTap: () => FocusScope.of(context).unfocus(),
+                  onTap: () =>
+                      FocusScope.of(context).requestFocus(_unfocusNode),
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     children: [

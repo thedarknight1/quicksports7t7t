@@ -24,6 +24,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
 
   TextEditingController? textController1;
   TextEditingController? textController2;
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -37,6 +38,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
 
   @override
   void dispose() {
+    _unfocusNode.dispose();
     textController1?.dispose();
     textController2?.dispose();
     super.dispose();
@@ -78,7 +80,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
           ),
           body: SafeArea(
             child: GestureDetector(
-              onTap: () => FocusScope.of(context).unfocus(),
+              onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
               child: Stack(
                 children: [
                   Column(
@@ -99,7 +101,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                               padding:
                                   EdgeInsetsDirectional.fromSTEB(2, 2, 2, 2),
                               child: AuthUserStreamWidget(
-                                child: Container(
+                                builder: (context) => Container(
                                   width: 90,
                                   height: 90,
                                   clipBehavior: Clip.antiAlias,
@@ -205,7 +207,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 16),
                         child: AuthUserStreamWidget(
-                          child: TextFormField(
+                          builder: (context) => TextFormField(
                             controller: textController1,
                             obscureText: false,
                             decoration: InputDecoration(
@@ -272,7 +274,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 16),
                         child: AuthUserStreamWidget(
-                          child: TextFormField(
+                          builder: (context) => TextFormField(
                             controller: textController2,
                             obscureText: false,
                             decoration: InputDecoration(
@@ -344,10 +346,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                             onPressed: () async {
                               final usersUpdateData = createUsersRecordData(
                                 displayName: textController1!.text,
-                                photoUrl: valueOrDefault<String>(
-                                  uploadedFileUrl,
-                                  'https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg',
-                                ),
+                                photoUrl: currentUserPhoto,
                                 username: textController2!.text,
                               );
                               await currentUserReference!

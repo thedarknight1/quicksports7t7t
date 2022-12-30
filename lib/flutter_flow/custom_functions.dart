@@ -114,3 +114,20 @@ List<EventsRecord> getPlacesMaximumDistanceCopy2(
   }
   return placesList;
 }
+
+String stringLengthRestrict(
+  String? input,
+  int? cutoffLength,
+) {
+  // Add your function code here!
+  return (input!.length <= cutoffLength!)
+      ? input
+      : '${input.substring(0, cutoffLength)}...';
+}
+
+String? newCustomFunction(String? userName) {
+  String human;
+  String at = "@";
+  human = at + userName!;
+  return human;
+}

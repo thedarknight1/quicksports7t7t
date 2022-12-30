@@ -241,7 +241,7 @@ class _FindCourtWidgetState extends State<FindCourtWidget> {
                                           alignment:
                                               AlignmentDirectional(0.63, -0.75),
                                           child: AuthUserStreamWidget(
-                                            child: Text(
+                                            builder: (context) => Text(
                                               currentUserDisplayName
                                                   .maybeHandleOverflow(
                                                 maxChars: 13,

@@ -15,6 +15,7 @@ class PhoneSignInWidget extends StatefulWidget {
 
 class _PhoneSignInWidgetState extends State<PhoneSignInWidget> {
   TextEditingController? inputNormalController;
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -26,6 +27,7 @@ class _PhoneSignInWidgetState extends State<PhoneSignInWidget> {
 
   @override
   void dispose() {
+    _unfocusNode.dispose();
     inputNormalController?.dispose();
     super.dispose();
   }
@@ -49,7 +51,7 @@ class _PhoneSignInWidgetState extends State<PhoneSignInWidget> {
           ),
           body: SafeArea(
             child: GestureDetector(
-              onTap: () => FocusScope.of(context).unfocus(),
+              onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
@@ -184,7 +186,11 @@ class _PhoneSignInWidgetState extends State<PhoneSignInWidget> {
                               context: context,
                               phoneNumber: phoneNumberVal,
                               onCodeSent: () async {
-                                context.goNamedAuth('verifyPhone', mounted);
+                                context.goNamedAuth(
+                                  'verifyPhone',
+                                  mounted,
+                                  ignoreRedirect: true,
+                                );
                               },
                             );
                           },

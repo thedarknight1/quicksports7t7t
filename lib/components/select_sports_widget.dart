@@ -142,7 +142,8 @@ class _SelectSportsWidgetState extends State<SelectSportsWidget> {
                     Navigator.pop(
                         context,
                         checkboxListTileCheckedItems
-                            .map((e) => e.sportName!)
+                            .map((e) => e.sportName)
+                            .withoutNulls
                             .toList());
                   } else {
                     await showDialog(

@@ -35,6 +35,7 @@ class _CreateeventpageWidgetState extends State<CreateeventpageWidget> {
   String? dropDownValue2;
   String? dropDownValue3;
   TextEditingController? textController;
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -46,6 +47,7 @@ class _CreateeventpageWidgetState extends State<CreateeventpageWidget> {
 
   @override
   void dispose() {
+    _unfocusNode.dispose();
     textController?.dispose();
     super.dispose();
   }
@@ -106,7 +108,8 @@ class _CreateeventpageWidgetState extends State<CreateeventpageWidget> {
               ),
               body: SafeArea(
                 child: GestureDetector(
-                  onTap: () => FocusScope.of(context).unfocus(),
+                  onTap: () =>
+                      FocusScope.of(context).requestFocus(_unfocusNode),
                   child: Stack(
                     children: [
                       SingleChildScrollView(

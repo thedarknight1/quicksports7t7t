@@ -41,6 +41,7 @@ class _ChatPageWidgetState extends State<ChatPageWidget>
     return _chatInfo?.isGroupChat ?? false;
   }
 
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -58,6 +59,12 @@ class _ChatPageWidgetState extends State<ChatPageWidget>
     });
 
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+  }
+
+  @override
+  void dispose() {
+    _unfocusNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -278,7 +285,7 @@ class _ChatPageWidgetState extends State<ChatPageWidget>
           ),
           body: SafeArea(
             child: GestureDetector(
-              onTap: () => FocusScope.of(context).unfocus(),
+              onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
               child: StreamBuilder<FFChatInfo>(
                 stream: FFChatManager.instance.getChatInfo(
                   otherUserRecord: widget.chatUser,
