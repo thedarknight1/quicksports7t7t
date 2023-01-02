@@ -131,3 +131,32 @@ String? newCustomFunction(String? userName) {
   human = at + userName!;
   return human;
 }
+
+String createRandomStringHash(
+  int numOfChars,
+  bool? onlyNumbers,
+  bool? onlyLetters,
+  String? specialChars,
+) {
+  // null safety - default values
+  int number = numOfChars;
+  onlyNumbers = onlyNumbers ?? false;
+  onlyLetters = onlyLetters ?? false;
+  specialChars = specialChars ?? '';
+
+  var chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+  if (onlyNumbers) {
+    chars = '1234567890';
+  } else if (onlyLetters) {
+    chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz';
+  }
+
+  if (specialChars.isNotEmpty) {
+    chars = chars + specialChars;
+  }
+
+  var rnd = math.Random();
+
+  return String.fromCharCodes(Iterable.generate(
+      number, (_) => chars.codeUnitAt(rnd.nextInt(chars.length))));
+}

@@ -125,15 +125,15 @@ class _CourtAddedSuccessCopyCopyWidgetState
                       child: FFButtonWidget(
                         onPressed: () async {
                           context.pushNamed(
-                            'courtDetails',
+                            'courtDetailsCopy',
                             params: {
-                              'court': serializeParam(
+                              'court2': serializeParam(
                                 widget.courtDoc,
                                 ParamType.Document,
                               ),
                             }.withoutNulls,
                             extra: <String, dynamic>{
-                              'court': widget.courtDoc,
+                              'court2': widget.courtDoc,
                               kTransitionInfoKey: TransitionInfo(
                                 hasTransition: true,
                                 transitionType: PageTransitionType.rightToLeft,

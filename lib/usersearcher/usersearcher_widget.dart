@@ -522,7 +522,7 @@ class _UsersearcherWidgetState extends State<UsersearcherWidget>
                                     _pagingController!.itemList![listViewIndex];
                                 return Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
-                                      16, 4, 16, 8),
+                                      16, 2, 16, 8),
                                   child: InkWell(
                                     onTap: () async {
                                       context.pushNamed(
@@ -538,7 +538,7 @@ class _UsersearcherWidgetState extends State<UsersearcherWidget>
                                     },
                                     child: Container(
                                       width: double.infinity,
-                                      height: 75,
+                                      height: 84,
                                       decoration: BoxDecoration(
                                         color: FlutterFlowTheme.of(context)
                                             .secondaryBackground,
@@ -553,9 +553,9 @@ class _UsersearcherWidgetState extends State<UsersearcherWidget>
                                       ),
                                       child: Padding(
                                         padding: EdgeInsetsDirectional.fromSTEB(
-                                            8, 0, 8, 0),
+                                            8, 0, 8, 1),
                                         child: Row(
-                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisSize: MainAxisSize.min,
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
@@ -571,8 +571,8 @@ class _UsersearcherWidgetState extends State<UsersearcherWidget>
                                                         .photoUrl,
                                                     'https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg',
                                                   ),
-                                                  width: 40,
-                                                  height: 40,
+                                                  width: 50,
+                                                  height: 50,
                                                   fit: BoxFit.cover,
                                                 ),
                                               ),
@@ -580,7 +580,7 @@ class _UsersearcherWidgetState extends State<UsersearcherWidget>
                                             Expanded(
                                               child: Padding(
                                                 padding: EdgeInsetsDirectional
-                                                    .fromSTEB(12, 0, 0, 0),
+                                                    .fromSTEB(12, 5, 0, 0),
                                                 child: Column(
                                                   mainAxisSize:
                                                       MainAxisSize.max,

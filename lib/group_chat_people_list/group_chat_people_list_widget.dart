@@ -74,7 +74,7 @@ class _GroupChatPeopleListWidgetState extends State<GroupChatPeopleListWidget> {
     return StreamBuilder<List<UsersRecord>>(
       stream: queryUsersRecord(
         queryBuilder: (usersRecord) =>
-            usersRecord.where('uid', isEqualTo: '5I4iJAQ4y9euHvn7kS4nOJlhHdf2'),
+            usersRecord.where('uid', isEqualTo: 'zkS1GAwXqGWsDamWUJmAhGLJwvn1'),
         singleRecord: true,
       ),
       builder: (context, snapshot) {
@@ -163,7 +163,11 @@ class _GroupChatPeopleListWidgetState extends State<GroupChatPeopleListWidget> {
                             builder: (context) {
                               final usersInGroupChat = widget.groupChat!.users!
                                   .toList()
-                                  .where((e) => e != currentUserReference)
+                                  .where((e) =>
+                                      (e != currentUserReference) &&
+                                      (e !=
+                                          groupChatPeopleListUsersRecord!
+                                              .reference))
                                   .toList();
                               return ListView.builder(
                                 padding: EdgeInsets.zero,

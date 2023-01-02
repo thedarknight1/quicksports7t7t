@@ -22,25 +22,21 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
   bool isMediaUploading = false;
   String uploadedFileUrl = '';
 
-  TextEditingController? textController1;
-  TextEditingController? textController2;
+  TextEditingController? textController;
   final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    textController1 = TextEditingController(text: currentUserDisplayName);
-    textController2 = TextEditingController(
-        text: valueOrDefault(currentUserDocument?.username, ''));
+    textController = TextEditingController(text: currentUserDisplayName);
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
   void dispose() {
     _unfocusNode.dispose();
-    textController1?.dispose();
-    textController2?.dispose();
+    textController?.dispose();
     super.dispose();
   }
 
@@ -208,7 +204,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                         padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 16),
                         child: AuthUserStreamWidget(
                           builder: (context) => TextFormField(
-                            controller: textController1,
+                            controller: textController,
                             obscureText: false,
                             decoration: InputDecoration(
                               labelStyle: FlutterFlowTheme.of(context)
@@ -271,73 +267,6 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 16),
-                        child: AuthUserStreamWidget(
-                          builder: (context) => TextFormField(
-                            controller: textController2,
-                            obscureText: false,
-                            decoration: InputDecoration(
-                              labelStyle: FlutterFlowTheme.of(context)
-                                  .bodyText1
-                                  .override(
-                                    fontFamily: 'Lexend Deca',
-                                    color: Color(0xFF95A1AC),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                              hintText: 'Username...',
-                              hintStyle: FlutterFlowTheme.of(context)
-                                  .bodyText1
-                                  .override(
-                                    fontFamily: 'Lexend Deca',
-                                    color: Color(0xFF95A1AC),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0xFFDBE2E7),
-                                  width: 2,
-                                ),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0xFFDBE2E7),
-                                  width: 2,
-                                ),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              errorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0x00000000),
-                                  width: 2,
-                                ),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              focusedErrorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0x00000000),
-                                  width: 2,
-                                ),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              filled: true,
-                              fillColor: Colors.white,
-                              contentPadding:
-                                  EdgeInsetsDirectional.fromSTEB(20, 24, 0, 24),
-                            ),
-                            style:
-                                FlutterFlowTheme.of(context).bodyText1.override(
-                                      fontFamily: 'Lexend Deca',
-                                      color: Color(0xFF14181B),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.normal,
-                                    ),
-                          ),
-                        ),
-                      ),
                       Align(
                         alignment: AlignmentDirectional(0, 0.05),
                         child: Padding(
@@ -345,9 +274,8 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                           child: FFButtonWidget(
                             onPressed: () async {
                               final usersUpdateData = createUsersRecordData(
-                                displayName: textController1!.text,
+                                displayName: textController!.text,
                                 photoUrl: currentUserPhoto,
-                                username: textController2!.text,
                               );
                               await currentUserReference!
                                   .update(usersUpdateData);

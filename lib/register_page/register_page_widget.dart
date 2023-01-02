@@ -357,7 +357,7 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                           return;
                         }
 
-                        context.goNamedAuth('findCourt', mounted);
+                        context.goNamedAuth('eventsNearYou', mounted);
                       },
                       text: 'Create Account',
                       options: FFButtonOptions(

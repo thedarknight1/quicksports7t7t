@@ -424,7 +424,7 @@ class _UsersettingsWidgetState extends State<UsersettingsWidget> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 40),
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 10),
                       child: FFButtonWidget(
                         onPressed: () async {
                           GoRouter.of(context).prepareAuthEvent();
@@ -434,7 +434,35 @@ class _UsersettingsWidgetState extends State<UsersettingsWidget> {
                         },
                         text: 'Log Out',
                         options: FFButtonOptions(
-                          width: 110,
+                          width: 150,
+                          height: 50,
+                          color: FlutterFlowTheme.of(context).primaryColor,
+                          textStyle:
+                              FlutterFlowTheme.of(context).subtitle2.override(
+                                    fontFamily: 'Overpass',
+                                    color: FlutterFlowTheme.of(context).white,
+                                  ),
+                          elevation: 3,
+                          borderSide: BorderSide(
+                            color: FlutterFlowTheme.of(context)
+                                .secondaryBackground,
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 40),
+                      child: FFButtonWidget(
+                        onPressed: () async {
+                          await deleteUser(context);
+
+                          context.goNamedAuth('eventsNearYou', mounted);
+                        },
+                        text: 'Delete Account',
+                        options: FFButtonOptions(
+                          width: 150,
                           height: 50,
                           color:
                               FlutterFlowTheme.of(context).secondaryBackground,

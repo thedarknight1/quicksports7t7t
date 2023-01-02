@@ -59,7 +59,7 @@ class _CourtAddedSuccessWidgetState extends State<CourtAddedSuccessWidget> {
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
                   child: Row(
-                    mainAxisSize: MainAxisSize.max,
+                    mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
@@ -67,6 +67,7 @@ class _CourtAddedSuccessWidgetState extends State<CourtAddedSuccessWidget> {
                         style: FlutterFlowTheme.of(context).title2.override(
                               fontFamily: 'Overpass',
                               color: FlutterFlowTheme.of(context).white,
+                              fontSize: 22,
                             ),
                       ),
                     ],
@@ -130,15 +131,15 @@ class _CourtAddedSuccessWidgetState extends State<CourtAddedSuccessWidget> {
                   child: FFButtonWidget(
                     onPressed: () async {
                       context.pushNamed(
-                        'courtDetails',
+                        'courtDetailsCopy',
                         params: {
-                          'court': serializeParam(
+                          'court2': serializeParam(
                             widget.newlyCreatedCourt,
                             ParamType.Document,
                           ),
                         }.withoutNulls,
                         extra: <String, dynamic>{
-                          'court': widget.newlyCreatedCourt,
+                          'court2': widget.newlyCreatedCourt,
                           kTransitionInfoKey: TransitionInfo(
                             hasTransition: true,
                             transitionType: PageTransitionType.fade,

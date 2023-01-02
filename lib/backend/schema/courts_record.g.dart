@@ -161,6 +161,20 @@ class _$CourtsRecordSerializer implements StructuredSerializer<CourtsRecord> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.isPaid;
+    if (value != null) {
+      result
+        ..add('is_paid')
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(bool)));
+    }
+    value = object.website;
+    if (value != null) {
+      result
+        ..add('website')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     value = object.ffRef;
     if (value != null) {
       result
@@ -268,6 +282,14 @@ class _$CourtsRecordSerializer implements StructuredSerializer<CourtsRecord> {
           result.country = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
+        case 'is_paid':
+          result.isPaid = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool?;
+          break;
+        case 'website':
+          result.website = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
         case 'Document__Reference__Field':
           result.ffRef = serializers.deserialize(value,
               specifiedType: const FullType(DocumentReference, const [
@@ -323,6 +345,10 @@ class _$CourtsRecord extends CourtsRecord {
   @override
   final String? country;
   @override
+  final bool? isPaid;
+  @override
+  final String? website;
+  @override
   final DocumentReference<Object?>? ffRef;
 
   factory _$CourtsRecord([void Function(CourtsRecordBuilder)? updates]) =>
@@ -349,6 +375,8 @@ class _$CourtsRecord extends CourtsRecord {
       this.state,
       this.zipcode,
       this.country,
+      this.isPaid,
+      this.website,
       this.ffRef})
       : super._();
 
@@ -383,6 +411,8 @@ class _$CourtsRecord extends CourtsRecord {
         state == other.state &&
         zipcode == other.zipcode &&
         country == other.country &&
+        isPaid == other.isPaid &&
+        website == other.website &&
         ffRef == other.ffRef;
   }
 
@@ -406,25 +436,25 @@ class _$CourtsRecord extends CourtsRecord {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc($jc(0, name.hashCode), location.hashCode),
-                                                                                createdAt.hashCode),
-                                                                            user.hashCode),
-                                                                        description.hashCode),
-                                                                    likes.hashCode),
-                                                                value.hashCode),
-                                                            imageUrl.hashCode),
-                                                        isIndoor.hashCode),
-                                                    videoUrl.hashCode),
-                                                sportname.hashCode),
-                                            bio.hashCode),
-                                        sportList.hashCode),
-                                    sport2name.hashCode),
-                                sport3name.hashCode),
-                            address.hashCode),
-                        city.hashCode),
-                    state.hashCode),
-                zipcode.hashCode),
-            country.hashCode),
+                                                                            $jc($jc($jc($jc($jc(0, name.hashCode), location.hashCode), createdAt.hashCode), user.hashCode),
+                                                                                description.hashCode),
+                                                                            likes.hashCode),
+                                                                        value.hashCode),
+                                                                    imageUrl.hashCode),
+                                                                isIndoor.hashCode),
+                                                            videoUrl.hashCode),
+                                                        sportname.hashCode),
+                                                    bio.hashCode),
+                                                sportList.hashCode),
+                                            sport2name.hashCode),
+                                        sport3name.hashCode),
+                                    address.hashCode),
+                                city.hashCode),
+                            state.hashCode),
+                        zipcode.hashCode),
+                    country.hashCode),
+                isPaid.hashCode),
+            website.hashCode),
         ffRef.hashCode));
   }
 
@@ -451,6 +481,8 @@ class _$CourtsRecord extends CourtsRecord {
           ..add('state', state)
           ..add('zipcode', zipcode)
           ..add('country', country)
+          ..add('isPaid', isPaid)
+          ..add('website', website)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -542,6 +574,14 @@ class CourtsRecordBuilder
   String? get country => _$this._country;
   set country(String? country) => _$this._country = country;
 
+  bool? _isPaid;
+  bool? get isPaid => _$this._isPaid;
+  set isPaid(bool? isPaid) => _$this._isPaid = isPaid;
+
+  String? _website;
+  String? get website => _$this._website;
+  set website(String? website) => _$this._website = website;
+
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
   set ffRef(DocumentReference<Object?>? ffRef) => _$this._ffRef = ffRef;
@@ -573,6 +613,8 @@ class CourtsRecordBuilder
       _state = $v.state;
       _zipcode = $v.zipcode;
       _country = $v.country;
+      _isPaid = $v.isPaid;
+      _website = $v.website;
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -618,6 +660,8 @@ class CourtsRecordBuilder
               state: state,
               zipcode: zipcode,
               country: country,
+              isPaid: isPaid,
+              website: website,
               ffRef: ffRef);
     } catch (_) {
       late String _$failedField;

@@ -338,7 +338,7 @@ class _LoginCopyWidgetState extends State<LoginCopyWidget> {
                                         }
 
                                         context.goNamedAuth(
-                                            'findCourt', mounted);
+                                            'eventsNearYou', mounted);
                                       },
                                       text: 'Login',
                                       options: FFButtonOptions(
@@ -365,62 +365,10 @@ class _LoginCopyWidgetState extends State<LoginCopyWidget> {
                                   ],
                                 ),
                               ),
-                              isAndroid
-                                  ? Container()
-                                  : Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0, 0, 0, 7),
-                                      child: FFButtonWidget(
-                                        onPressed: () async {
-                                          GoRouter.of(context)
-                                              .prepareAuthEvent();
-                                          final user =
-                                              await signInWithApple(context);
-                                          if (user == null) {
-                                            return;
-                                          }
-                                          if (valueOrDefault<bool>(
-                                                  currentUserDocument
-                                                      ?.agreedToTerms,
-                                                  false) !=
-                                              null) {
-                                            context.goNamedAuth(
-                                                'findCourt', mounted);
-                                          } else {
-                                            context.pushNamedAuth(
-                                                'createprofilefirst', mounted);
-                                          }
-                                        },
-                                        text: 'Sign in with Apple',
-                                        icon: FaIcon(
-                                          FontAwesomeIcons.apple,
-                                          size: 20,
-                                        ),
-                                        options: FFButtonOptions(
-                                          width: 230,
-                                          height: 44,
-                                          color: FlutterFlowTheme.of(context)
-                                              .secondaryColor,
-                                          textStyle: GoogleFonts.getFont(
-                                            'Overpass',
-                                            color: Colors.white,
-                                            fontSize: 17,
-                                          ),
-                                          elevation: 4,
-                                          borderSide: BorderSide(
-                                            color: FlutterFlowTheme.of(context)
-                                                .background,
-                                            width: 0,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(50),
-                                        ),
-                                      ),
-                                    ),
                               Align(
                                 alignment: AlignmentDirectional(0, 0),
                                 child: Container(
-                                  width: 230,
+                                  width: 281.2,
                                   height: 44,
                                   child: Stack(
                                     children: [
@@ -455,7 +403,7 @@ class _LoginCopyWidgetState extends State<LoginCopyWidget> {
                                             size: 20,
                                           ),
                                           options: FFButtonOptions(
-                                            width: 230,
+                                            width: 260,
                                             height: 44,
                                             color: FlutterFlowTheme.of(context)
                                                 .secondaryColor,
@@ -478,7 +426,7 @@ class _LoginCopyWidgetState extends State<LoginCopyWidget> {
                                       ),
                                       Align(
                                         alignment:
-                                            AlignmentDirectional(-0.75, -0.09),
+                                            AlignmentDirectional(-0.62, -0.09),
                                         child: Container(
                                           width: 22,
                                           height: 22,
@@ -496,6 +444,65 @@ class _LoginCopyWidgetState extends State<LoginCopyWidget> {
                                   ),
                                 ),
                               ),
+                              isAndroid
+                                  ? Container()
+                                  : Align(
+                                      alignment: AlignmentDirectional(0, 0),
+                                      child: Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            0, 5, 0, 0),
+                                        child: FFButtonWidget(
+                                          onPressed: () async {
+                                            GoRouter.of(context)
+                                                .prepareAuthEvent();
+                                            final user =
+                                                await signInWithApple(context);
+                                            if (user == null) {
+                                              return;
+                                            }
+                                            if (valueOrDefault<bool>(
+                                                    currentUserDocument
+                                                        ?.agreedToTerms,
+                                                    false) ==
+                                                true) {
+                                              context.pushNamedAuth(
+                                                  'findCourt', mounted);
+                                            } else {
+                                              context.pushNamedAuth(
+                                                  'createprofilefirst',
+                                                  mounted);
+                                            }
+                                          },
+                                          text: 'Sign in with Apple',
+                                          icon: FaIcon(
+                                            FontAwesomeIcons.apple,
+                                            color: FlutterFlowTheme.of(context)
+                                                .white,
+                                            size: 20,
+                                          ),
+                                          options: FFButtonOptions(
+                                            width: 260,
+                                            height: 44,
+                                            color: FlutterFlowTheme.of(context)
+                                                .secondaryColor,
+                                            textStyle: GoogleFonts.getFont(
+                                              'Overpass',
+                                              color: Colors.white,
+                                              fontSize: 17,
+                                            ),
+                                            elevation: 4,
+                                            borderSide: BorderSide(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .background,
+                                              width: 0,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(50),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                               Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     0, 12, 0, 12),

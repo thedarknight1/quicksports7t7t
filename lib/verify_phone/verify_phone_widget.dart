@@ -188,7 +188,7 @@ class _VerifyPhoneWidgetState extends State<VerifyPhoneWidget> {
                               return;
                             }
 
-                            context.goNamedAuth('findCourt', mounted);
+                            context.goNamedAuth('eventsNearYou', mounted);
                           },
                           text: 'Verify',
                           options: FFButtonOptions(

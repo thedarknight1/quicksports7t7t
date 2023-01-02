@@ -61,6 +61,11 @@ abstract class CourtsRecord
   @BuiltValueField(wireName: 'Country')
   String? get country;
 
+  @BuiltValueField(wireName: 'is_paid')
+  bool? get isPaid;
+
+  String? get website;
+
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
   DocumentReference get reference => ffRef!;
@@ -82,7 +87,9 @@ abstract class CourtsRecord
     ..city = ''
     ..state = ''
     ..zipcode = ''
-    ..country = '';
+    ..country = ''
+    ..isPaid = false
+    ..website = '';
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('courts');
@@ -122,6 +129,8 @@ abstract class CourtsRecord
           ..state = snapshot.data['State']
           ..zipcode = snapshot.data['Zipcode']
           ..country = snapshot.data['Country']
+          ..isPaid = snapshot.data['is_paid']
+          ..website = snapshot.data['website']
           ..ffRef = CourtsRecord.collection.doc(snapshot.objectID),
       );
 
@@ -170,6 +179,8 @@ Map<String, dynamic> createCourtsRecordData({
   String? state,
   String? zipcode,
   String? country,
+  bool? isPaid,
+  String? website,
 }) {
   final firestoreData = serializers.toFirestore(
     CourtsRecord.serializer,
@@ -194,7 +205,9 @@ Map<String, dynamic> createCourtsRecordData({
         ..city = city
         ..state = state
         ..zipcode = zipcode
-        ..country = country,
+        ..country = country
+        ..isPaid = isPaid
+        ..website = website,
     ),
   );
 

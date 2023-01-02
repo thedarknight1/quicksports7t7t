@@ -6,6 +6,7 @@ import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../flutter_flow/upload_media.dart';
+import '../custom_code/actions/index.dart' as actions;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -24,8 +25,8 @@ class _CreateprofilefirstWidgetState extends State<CreateprofilefirstWidget> {
   String uploadedFileUrl = '';
 
   TextEditingController? yourNameController;
-  TextEditingController? userNameController;
   TextEditingController? myBioController;
+  String? username;
   final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -33,8 +34,7 @@ class _CreateprofilefirstWidgetState extends State<CreateprofilefirstWidget> {
   void initState() {
     super.initState();
     myBioController = TextEditingController();
-    userNameController = TextEditingController();
-    yourNameController = TextEditingController();
+    yourNameController = TextEditingController(text: currentUserDisplayName);
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
@@ -42,7 +42,6 @@ class _CreateprofilefirstWidgetState extends State<CreateprofilefirstWidget> {
   void dispose() {
     _unfocusNode.dispose();
     myBioController?.dispose();
-    userNameController?.dispose();
     yourNameController?.dispose();
     super.dispose();
   }
@@ -249,103 +248,58 @@ class _CreateprofilefirstWidgetState extends State<CreateprofilefirstWidget> {
                       ),
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 16),
-                        child: TextFormField(
-                          controller: yourNameController,
-                          obscureText: false,
-                          decoration: InputDecoration(
-                            labelStyle: FlutterFlowTheme.of(context).bodyText2,
-                            hintText: 'Display name...',
-                            hintStyle: FlutterFlowTheme.of(context).bodyText2,
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: FlutterFlowTheme.of(context)
-                                    .primaryBackground,
-                                width: 2,
+                        child: AuthUserStreamWidget(
+                          builder: (context) => TextFormField(
+                            controller: yourNameController,
+                            obscureText: false,
+                            decoration: InputDecoration(
+                              labelStyle:
+                                  FlutterFlowTheme.of(context).bodyText2,
+                              hintText: 'Display name...',
+                              hintStyle: FlutterFlowTheme.of(context).bodyText2,
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: FlutterFlowTheme.of(context)
+                                      .primaryBackground,
+                                  width: 2,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
                               ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: FlutterFlowTheme.of(context)
-                                    .primaryBackground,
-                                width: 2,
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: FlutterFlowTheme.of(context)
+                                      .primaryBackground,
+                                  width: 2,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
                               ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            errorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Color(0x00000000),
-                                width: 2,
+                              errorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color(0x00000000),
+                                  width: 2,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
                               ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            focusedErrorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Color(0x00000000),
-                                width: 2,
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color(0x00000000),
+                                  width: 2,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
                               ),
-                              borderRadius: BorderRadius.circular(8),
+                              filled: true,
+                              fillColor: FlutterFlowTheme.of(context)
+                                  .secondaryBackground,
+                              contentPadding:
+                                  EdgeInsetsDirectional.fromSTEB(20, 24, 0, 24),
                             ),
-                            filled: true,
-                            fillColor: FlutterFlowTheme.of(context)
-                                .secondaryBackground,
-                            contentPadding:
-                                EdgeInsetsDirectional.fromSTEB(20, 24, 0, 24),
+                            style: FlutterFlowTheme.of(context)
+                                .bodyText1
+                                .override(
+                                  fontFamily: 'Overpass',
+                                  color: FlutterFlowTheme.of(context).grayDark,
+                                ),
                           ),
-                          style: FlutterFlowTheme.of(context)
-                              .bodyText1
-                              .override(
-                                fontFamily: 'Overpass',
-                                color: FlutterFlowTheme.of(context).grayDark,
-                              ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 12),
-                        child: TextFormField(
-                          controller: userNameController,
-                          obscureText: false,
-                          decoration: InputDecoration(
-                            labelStyle: FlutterFlowTheme.of(context).bodyText2,
-                            hintText: 'Username...',
-                            hintStyle: FlutterFlowTheme.of(context).bodyText2,
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: FlutterFlowTheme.of(context)
-                                    .primaryBackground,
-                                width: 2,
-                              ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: FlutterFlowTheme.of(context)
-                                    .primaryBackground,
-                                width: 2,
-                              ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            errorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Color(0x00000000),
-                                width: 2,
-                              ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            focusedErrorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Color(0x00000000),
-                                width: 2,
-                              ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            filled: true,
-                            fillColor: FlutterFlowTheme.of(context)
-                                .secondaryBackground,
-                            contentPadding:
-                                EdgeInsetsDirectional.fromSTEB(20, 24, 0, 24),
-                          ),
-                          style: FlutterFlowTheme.of(context).bodyText1,
                         ),
                       ),
                       Padding(
@@ -404,12 +358,18 @@ class _CreateprofilefirstWidgetState extends State<CreateprofilefirstWidget> {
                           padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 0),
                           child: FFButtonWidget(
                             onPressed: () async {
-                              if ((yourNameController!.text != null &&
-                                      yourNameController!.text != '') &&
-                                  (userNameController!.text != null &&
-                                      userNameController!.text != '')) {
+                              if (yourNameController!.text != null &&
+                                  yourNameController!.text != '') {
+                                username =
+                                    await actions.createRandomStringHash2(
+                                  6,
+                                  false,
+                                  false,
+                                  '!',
+                                );
+
                                 final usersUpdateData = createUsersRecordData(
-                                  username: '@${userNameController!.text}',
+                                  username: '@${username}',
                                   displayName: yourNameController!.text,
                                   bio: myBioController!.text,
                                 );
@@ -431,10 +391,10 @@ class _CreateprofilefirstWidgetState extends State<CreateprofilefirstWidget> {
                                   context: context,
                                   builder: (alertDialogContext) {
                                     return AlertDialog(
-                                      title: Text(
-                                          'Please fill in a display name and username'),
+                                      title:
+                                          Text('Please fill in a display name'),
                                       content: Text(
-                                          'Please fill in a display name and username'),
+                                          'Fill your display name to continue'),
                                       actions: [
                                         TextButton(
                                           onPressed: () =>
@@ -446,6 +406,8 @@ class _CreateprofilefirstWidgetState extends State<CreateprofilefirstWidget> {
                                   },
                                 );
                               }
+
+                              setState(() {});
                             },
                             text: 'Continue',
                             options: FFButtonOptions(

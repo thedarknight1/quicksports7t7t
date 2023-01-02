@@ -72,15 +72,15 @@ class _CourtAddedSuccessCopyWidgetState
                             ),
                             onPressed: () async {
                               context.pushNamed(
-                                'courtDetails',
+                                'courtDetailsCopy',
                                 params: {
-                                  'court': serializeParam(
+                                  'court2': serializeParam(
                                     widget.courtDoc,
                                     ParamType.Document,
                                   ),
                                 }.withoutNulls,
                                 extra: <String, dynamic>{
-                                  'court': widget.courtDoc,
+                                  'court2': widget.courtDoc,
                                 },
                               );
                             },
@@ -103,7 +103,7 @@ class _CourtAddedSuccessCopyWidgetState
                     Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
                       child: Row(
-                        mainAxisSize: MainAxisSize.max,
+                        mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
@@ -111,6 +111,7 @@ class _CourtAddedSuccessCopyWidgetState
                             style: FlutterFlowTheme.of(context).title2.override(
                                   fontFamily: 'Overpass',
                                   color: FlutterFlowTheme.of(context).white,
+                                  fontSize: 22,
                                 ),
                           ),
                         ],
@@ -152,7 +153,7 @@ class _CourtAddedSuccessCopyWidgetState
                         },
                         text: 'Share QuickSports ',
                         options: FFButtonOptions(
-                          width: 230,
+                          width: 250,
                           height: 50,
                           color: FlutterFlowTheme.of(context).secondaryColor,
                           textStyle:
@@ -197,7 +198,7 @@ class _CourtAddedSuccessCopyWidgetState
                         },
                         text: 'Okay, Go to Group Chat',
                         options: FFButtonOptions(
-                          width: 230,
+                          width: 250,
                           height: 50,
                           color: FlutterFlowTheme.of(context).primaryColor,
                           textStyle:

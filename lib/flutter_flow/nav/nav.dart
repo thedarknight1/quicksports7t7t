@@ -126,11 +126,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               builder: (context, params) => CreateprofilefirstWidget(),
             ),
             FFRoute(
-              name: 'interestscreateprofile',
-              path: 'interestscreateprofile',
-              builder: (context, params) => InterestscreateprofileWidget(),
-            ),
-            FFRoute(
               name: 'eventsNearYou',
               path: 'eventsNearYou',
               builder: (context, params) => params.isEmpty
@@ -150,6 +145,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                 specificChat:
                     params.getParam('specificChat', ParamType.Document),
               ),
+            ),
+            FFRoute(
+              name: 'interestscreateprofile',
+              path: 'interestscreateprofile',
+              builder: (context, params) => InterestscreateprofileWidget(),
             ),
             FFRoute(
               name: 'profilePage',
@@ -225,11 +225,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               ),
             ),
             FFRoute(
-              name: 'verifyPhone',
-              path: 'verifyPhone',
-              builder: (context, params) => VerifyPhoneWidget(),
-            ),
-            FFRoute(
               name: 'peopleprofile',
               path: 'peopleprofile',
               builder: (context, params) => PeopleprofileWidget(
@@ -239,6 +234,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                     false,
                     ['users']),
               ),
+            ),
+            FFRoute(
+              name: 'verifyPhone',
+              path: 'verifyPhone',
+              builder: (context, params) => VerifyPhoneWidget(),
             ),
             FFRoute(
               name: 'AllChats',
@@ -281,17 +281,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                 courtRef: params.getParam(
                     'courtRef', ParamType.DocumentReference, false, ['courts']),
                 courtDoc: params.getParam('courtDoc', ParamType.Document),
-              ),
-            ),
-            FFRoute(
-              name: 'courtDetails',
-              path: 'courtDetails/:court',
-              requireAuth: true,
-              asyncParams: {
-                'court': getDoc(['courts'], CourtsRecord.serializer),
-              },
-              builder: (context, params) => CourtDetailsWidget(
-                court: params.getParam('court', ParamType.Document),
               ),
             ),
             FFRoute(

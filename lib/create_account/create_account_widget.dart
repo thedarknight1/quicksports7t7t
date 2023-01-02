@@ -520,9 +520,9 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                                   alignment: AlignmentDirectional(0, 0),
                                   child: Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
-                                        0, 10, 0, 0),
+                                        0, 0, 0, 5),
                                     child: Container(
-                                      width: 230,
+                                      width: 260,
                                       height: 44,
                                       child: Stack(
                                         children: [
@@ -547,7 +547,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                                                 AlignmentDirectional(0, 0),
                                             child: Padding(
                                               padding: EdgeInsetsDirectional
-                                                  .fromSTEB(0, 1, 0, 1),
+                                                  .fromSTEB(0, 1, 0, 0),
                                               child: FFButtonWidget(
                                                 onPressed: () async {
                                                   GoRouter.of(context)
@@ -579,7 +579,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                                                 text:
                                                     '         Continue with Google',
                                                 options: FFButtonOptions(
-                                                  width: 230,
+                                                  width: 260,
                                                   height: 44,
                                                   color: FlutterFlowTheme.of(
                                                           context)
@@ -626,56 +626,64 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                                 ),
                                 isAndroid
                                     ? Container()
-                                    : Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0, 7, 0, 15),
-                                        child: FFButtonWidget(
-                                          onPressed: () async {
-                                            GoRouter.of(context)
-                                                .prepareAuthEvent();
-                                            final user =
-                                                await signInWithApple(context);
-                                            if (user == null) {
-                                              return;
-                                            }
-                                            if (valueOrDefault<bool>(
-                                                    currentUserDocument
-                                                        ?.agreedToTerms,
-                                                    false) !=
-                                                null) {
-                                              context.goNamedAuth(
-                                                  'findCourt', mounted);
-                                            } else {
-                                              context.pushNamedAuth(
-                                                  'createprofilefirst',
-                                                  mounted);
-                                            }
-                                          },
-                                          text: 'Continue with Apple',
-                                          icon: FaIcon(
-                                            FontAwesomeIcons.apple,
-                                            color: Colors.white,
-                                            size: 20,
-                                          ),
-                                          options: FFButtonOptions(
-                                            width: 230,
-                                            height: 44,
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryColor,
-                                            textStyle: GoogleFonts.getFont(
-                                              'Roboto',
-                                              color: Colors.white,
-                                              fontSize: 17,
+                                    : Align(
+                                        alignment: AlignmentDirectional(0, 0),
+                                        child: Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0, 0, 0, 10),
+                                          child: FFButtonWidget(
+                                            onPressed: () async {
+                                              GoRouter.of(context)
+                                                  .prepareAuthEvent();
+                                              final user =
+                                                  await signInWithApple(
+                                                      context);
+                                              if (user == null) {
+                                                return;
+                                              }
+                                              if (valueOrDefault<bool>(
+                                                      currentUserDocument
+                                                          ?.agreedToTerms,
+                                                      false) ==
+                                                  true) {
+                                                context.pushNamedAuth(
+                                                    'findCourt', mounted);
+                                              } else {
+                                                context.pushNamedAuth(
+                                                    'createprofilefirst',
+                                                    mounted);
+                                              }
+                                            },
+                                            text: 'Continue with Apple',
+                                            icon: FaIcon(
+                                              FontAwesomeIcons.apple,
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .white,
+                                              size: 20,
                                             ),
-                                            elevation: 4,
-                                            borderSide: BorderSide(
+                                            options: FFButtonOptions(
+                                              width: 260,
+                                              height: 44,
                                               color:
                                                   FlutterFlowTheme.of(context)
                                                       .secondaryColor,
-                                              width: 0,
+                                              textStyle: GoogleFonts.getFont(
+                                                'Overpass',
+                                                color: Colors.white,
+                                                fontSize: 17,
+                                              ),
+                                              elevation: 4,
+                                              borderSide: BorderSide(
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .background,
+                                                width: 0,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
                                             ),
-                                            borderRadius:
-                                                BorderRadius.circular(50),
                                           ),
                                         ),
                                       ),

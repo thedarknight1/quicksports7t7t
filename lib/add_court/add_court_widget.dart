@@ -425,7 +425,7 @@ class _AddCourtWidgetState extends State<AddCourtWidget> {
                               ),
                               Padding(
                                 padding:
-                                    EdgeInsetsDirectional.fromSTEB(0, 0, 0, 20),
+                                    EdgeInsetsDirectional.fromSTEB(0, 0, 0, 40),
                                 child: FFButtonWidget(
                                   onPressed: () async {
                                     if ((selectedSportsList!.length >= 1) &&
