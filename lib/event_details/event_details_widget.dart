@@ -645,7 +645,7 @@ class _EventDetailsWidgetState extends State<EventDetailsWidget> {
                                 child: FlutterFlowAdBanner(
                                   width: MediaQuery.of(context).size.width,
                                   height: 50,
-                                  showsTestAd: false,
+                                  showsTestAd: true,
                                   iOSAdUnitID:
                                       'ca-app-pub-4806655917667448~1151987537',
                                   androidAdUnitID:

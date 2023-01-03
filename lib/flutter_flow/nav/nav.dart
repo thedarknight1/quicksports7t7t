@@ -333,14 +333,14 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               ),
             ),
             FFRoute(
-              name: 'donate',
-              path: 'donate',
-              builder: (context, params) => DonateWidget(),
-            ),
-            FFRoute(
               name: 'donateCominhSoon',
               path: 'donateCominhSoon',
               builder: (context, params) => DonateCominhSoonWidget(),
+            ),
+            FFRoute(
+              name: 'donate',
+              path: 'donate',
+              builder: (context, params) => DonateWidget(),
             ),
             FFRoute(
               name: 'courtDetailsCopy',

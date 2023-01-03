@@ -791,7 +791,7 @@ class _UsersearcherWidgetState extends State<UsersearcherWidget>
                               child: FlutterFlowAdBanner(
                                 width: MediaQuery.of(context).size.width,
                                 height: 50,
-                                showsTestAd: false,
+                                showsTestAd: true,
                                 iOSAdUnitID:
                                     'ca-app-pub-4806655917667448/1871248230',
                                 androidAdUnitID:

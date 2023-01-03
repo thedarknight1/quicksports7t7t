@@ -38,9 +38,9 @@ export 'termsandconditions/termsandconditions_widget.dart'
 export 'usersettings/usersettings_widget.dart' show UsersettingsWidget;
 export 'court_added_success_copy_copy_copy/court_added_success_copy_copy_copy_widget.dart'
     show CourtAddedSuccessCopyCopyCopyWidget;
-export 'donate/donate_widget.dart' show DonateWidget;
 export 'donate_cominh_soon/donate_cominh_soon_widget.dart'
     show DonateCominhSoonWidget;
+export 'donate/donate_widget.dart' show DonateWidget;
 export 'court_details_copy/court_details_copy_widget.dart'
     show CourtDetailsCopyWidget;
 export 'creategroupchat_n_o_t_n_e_w_copy/creategroupchat_n_o_t_n_e_w_copy_widget.dart'

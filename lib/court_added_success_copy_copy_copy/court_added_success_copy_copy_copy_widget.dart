@@ -71,7 +71,7 @@ class _CourtAddedSuccessCopyCopyCopyWidgetState
                     children: [
                       Expanded(
                         child: Text(
-                          'You\'re awesome for donatiing, thanks for supporting the next generation of sports!',
+                          'You\'re awesome for donating, thanks for supporting the next generation of sports!',
                           textAlign: TextAlign.center,
                           style: FlutterFlowTheme.of(context)
                               .bodyText1
