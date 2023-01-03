@@ -118,10 +118,7 @@ class _NavBarPageState extends State<NavBarPage> {
   @override
   Widget build(BuildContext context) {
     final tabs = {
-      'eventsNearYou': EventsNearYouWidget(),
-      'AllChats': AllChatsWidget(),
       'findCourt': FindCourtWidget(),
-      'usersearcher': UsersearcherWidget(),
       'profilePage': ProfilePageWidget(),
     };
     final currentIndex = tabs.keys.toList().indexOf(_currentPageName);

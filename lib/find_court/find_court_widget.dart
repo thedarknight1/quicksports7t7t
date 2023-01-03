@@ -312,7 +312,7 @@ class _FindCourtWidgetState extends State<FindCourtWidget> {
                                         width:
                                             MediaQuery.of(context).size.width,
                                         height: 50,
-                                        showsTestAd: false,
+                                        showsTestAd: true,
                                         iOSAdUnitID:
                                             'ca-app-pub-4806655917667448/9288549735',
                                         androidAdUnitID:

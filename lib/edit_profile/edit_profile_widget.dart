@@ -322,7 +322,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                                 child: FlutterFlowAdBanner(
                                   width: MediaQuery.of(context).size.width,
                                   height: 50,
-                                  showsTestAd: false,
+                                  showsTestAd: true,
                                   iOSAdUnitID:
                                       'ca-app-pub-4806655917667448/2695221225',
                                   androidAdUnitID:
