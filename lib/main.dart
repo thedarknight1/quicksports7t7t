@@ -138,40 +138,8 @@ class _NavBarPageState extends State<NavBarPage> {
         type: BottomNavigationBarType.fixed,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(
-              Icons.event,
-              size: 24,
-            ),
-            activeIcon: Icon(
-              Icons.event,
-              size: 24,
-            ),
-            label: '',
-            tooltip: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.chat_bubble_rounded,
-              size: 24,
-            ),
-            activeIcon: Icon(
-              Icons.chat_bubble_rounded,
-              size: 24,
-            ),
-            label: '',
-            tooltip: '',
-          ),
-          BottomNavigationBarItem(
             icon: FaIcon(
               FontAwesomeIcons.mapMarkerAlt,
-              size: 24,
-            ),
-            label: 'Home',
-            tooltip: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.people,
               size: 24,
             ),
             label: 'Home',
