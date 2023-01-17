@@ -377,7 +377,7 @@ class _CreateprofilefirstWidgetState extends State<CreateprofilefirstWidget> {
                                     .update(usersUpdateData);
 
                                 context.pushNamed(
-                                  'Locationprofile',
+                                  'Interestscreateprofile',
                                   extra: <String, dynamic>{
                                     kTransitionInfoKey: TransitionInfo(
                                       hasTransition: true,
